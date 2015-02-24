@@ -2,13 +2,17 @@ mdserver(mac版)
 =================
 
 ### 文件说明
-- host(修改host命令)
+- host(修改hosts命令)
 - mdserver(主功能)
 - ss(root启动[未使用])
 - Screenshot(截图)
 
 
 
+
+###相关链接
+- 安装文件:[mdserver(百度盘)](http://pan.baidu.com/s/1bnfcs4B)
+- 使用教程:
 
 
 ###截图
