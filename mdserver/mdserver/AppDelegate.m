@@ -179,10 +179,10 @@
 {
     //NSLog(@"file:%@", file);
     //虽然要被分离,但是我觉得最好用。
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored"-Wunused-variable"
+//#pragma clang diagnostic push
+//#pragma clang diagnostic ignored"-Wunused-variable"
     OSStatus  status_exe = AuthorizationExecuteWithPrivileges(self->_authRef, (void *)[file cStringUsingEncoding:NSASCIIStringEncoding], kAuthorizationFlagDefaults, nil, nil);
-#pragma clang diagnostic pop
+//#pragma clang diagnostic pop
     //NSLog(@"%d", status_exe);
     if (status_exe != errAuthorizationSuccess)
     {
@@ -715,6 +715,9 @@
 #pragma mark 程序加载时执行
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     // Insert code here to initialize your application
+    
+    NSLog(@"%@", NSHomeDirectory());
+    
     
     [self checkWebStatus];
     [self setUI];

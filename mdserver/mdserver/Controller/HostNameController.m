@@ -67,9 +67,14 @@
 -(NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
     HostNameModel *hnm = [_list objectAtIndex:row];
+    
+    NSLog(@"%@", hnm);
+    NSLog(@"%@", tableColumn.identifier);
+    NSLog(@"%@", [hnm valueForKey:tableColumn.identifier]);
+    
     NSTableCellView *cell = [tableView makeViewWithIdentifier:tableColumn.identifier owner:self];
     [cell.textField setStringValue:[hnm valueForKey:tableColumn.identifier]];
-    [cell.textField setEditable:NO];
+    //[cell.textField setEditable:NO];
     [cell.textField setDrawsBackground:NO];
     
     return cell;
@@ -86,7 +91,6 @@
 #pragma mark 点击选择框
 - (void)tableViewSelectionDidChange:(NSNotification *)notification
 {
-    //NSLog(@"lo");
     NSInteger row = [_tableView selectedRow];
     if (row > -1) {
         NSMutableDictionary *serverinfo = [_list objectAtIndex:row];
