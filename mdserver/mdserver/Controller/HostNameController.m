@@ -17,7 +17,6 @@
 
 - (id)init
 {
-    //NSLog(@"init");
     if (self = [super init]) {
         [_tableView setGridColor:[NSColor blackColor]];
         [_tableView setRowSizeStyle:NSTableViewRowSizeStyleLarge];
@@ -30,12 +29,9 @@
         
         _tableView.delegate = self;
         _tableView.dataSource = self;
-        
+
         //plist操作
         [self relaodListData];
-        
-        
-        //[_serverPort ];
     }
     return  self;
 }
@@ -43,8 +39,6 @@
 
 -(void)awakeFromNib
 {
-    //NSLog(@"HostNameController");
-    
     //默认路径为空
     //[_serverPath setURL:[NSURL URLWithString:@"file://"]];
     
@@ -66,6 +60,7 @@
 
 -(NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
+    NSLog(@"pp");
     HostNameModel *hnm = [_list objectAtIndex:row];
     
     NSLog(@"%@", hnm);
@@ -74,7 +69,7 @@
     
     NSTableCellView *cell = [tableView makeViewWithIdentifier:tableColumn.identifier owner:self];
     [cell.textField setStringValue:[hnm valueForKey:tableColumn.identifier]];
-    //[cell.textField setEditable:NO];
+    [cell.textField setEditable:NO];
     [cell.textField setDrawsBackground:NO];
     
     return cell;
@@ -149,13 +144,13 @@
 -(IBAction)remove:(id)sender
 {
     NSInteger row = [_tableView selectedRow];
-    
     if (row!=-1) {
         
         NSMutableDictionary *serverinfo = [_list objectAtIndex:row];
         
         
         if ([[serverinfo objectForKey:@"hostname"] isEqual:@"localhost"]) {
+            [NSCommon alert:@"不允许删除!!!"];
             return;
         }
         
@@ -174,16 +169,14 @@
             }
         }
         
-        //[_tableView removeRowsAtIndexes:[NSIndexSet indexSetWithIndex:row] withAnimation:NSTableViewAnimationEffectFade];
+        
         [_list removeObjectAtIndex:row];
-        
-        
         [_tableView reloadData];
         [_tableView deselectAll:sender];
         [_tableView selectRowIndexes:[[NSIndexSet alloc] initWithIndex:[_list count] - 1] byExtendingSelection:YES];
         
     }else{
-        NSLog(@"没有选择!!!");
+        [NSCommon alert:@"没有选择!!!"];
         [_tableView selectRowIndexes:[[NSIndexSet alloc] initWithIndex:[_list count] - 1] byExtendingSelection:YES];
     }
 }
