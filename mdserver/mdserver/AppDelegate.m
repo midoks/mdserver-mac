@@ -55,7 +55,6 @@
         [[NSUserNotificationCenter defaultUserNotificationCenter] removeScheduledNotification:notify];
     }
     
-    
     NSUserNotification *notification = [[NSUserNotification alloc] init];
     notification.title = @"通知中心";
     notification.informativeText = content;
@@ -191,86 +190,6 @@
         return;
     }
 }
-
-//-(void)AuthorizeFile:(NSString *)file
-//{
-//    NSString *testFile = file;
-//    AuthorizationItem authItem = { kAuthorizationRightExecute, [testFile length], (void *)[testFile cStringUsingEncoding:NSASCIIStringEncoding], 0};
-//    AuthorizationRights authRights = {1, &authItem};
-//    AuthorizationFlags flags  = kAuthorizationFlagDefaults              |
-//                                kAuthorizationFlagInteractionAllowed    |
-//                                kAuthorizationFlagPreAuthorize          |
-//                                kAuthorizationFlagExtendRights;
-//    
-//    if (self->_authRef) {
-//        NSLog(@"ok");
-//    }else{
-//        OSStatus status = AuthorizationCreate(&authRights, kAuthorizationEmptyEnvironment, flags, &self->_authRef);
-//        if(status != errAuthorizationSuccess)
-//        {
-//            NSLog(@"AuthorizationCreate failed!");
-//            return;
-//        }else{
-//            NSLog(@"AuthorizationCreate ok!");
-//        }
-//    }
-//    OSStatus  status_exe = AuthorizationExecuteWithPrivileges(self->_authRef, authItem.value, kAuthorizationFlagDefaults, nil, nil);
-//    if (status_exe != errAuthorizationSuccess)
-//    {
-//        NSLog(@"AuthorizationExecuteWithPrivileges failed!");
-//        return;
-//    }else{
-//        NSLog(@"运行成功");
-//    }
-//}
-
-//-(void)AuthorizeFile2:(NSString *)file
-//{
-//    
-//    BOOL result = NO;
-//    NSError * error = nil;
-//    
-//    OSStatus status = AuthorizationCreate(NULL, kAuthorizationEmptyEnvironment, kAuthorizationFlagDefaults, &self->_authRef);
-//    
-//    NSLog(@"%d", status);
-//    if (status != errAuthorizationSuccess) {
-//        /* AuthorizationCreate really shouldn't fail. */
-//        NSLog(@"获取权限失败!!");
-//        assert(NO);
-//        self->_authRef = NULL;
-//    }
-//    
-//    AuthorizationItem authItem		= { kSMRightModifySystemDaemons, 0, NULL, 0 };
-//    AuthorizationRights authRights	= { 1, &authItem };
-//    AuthorizationFlags flags		=	kAuthorizationFlagDefaults              |
-//    kAuthorizationFlagInteractionAllowed    |
-//    kAuthorizationFlagPreAuthorize          |
-//    kAuthorizationFlagExtendRights;
-//    OSStatus statusR = AuthorizationCopyRights(self->_authRef, &authRights, kAuthorizationEmptyEnvironment, flags, NULL);
-//    
-//    if (statusR != errAuthorizationSuccess) {
-//        NSLog(@"获取权限失败!!!");
-//        error = [NSError errorWithDomain:NSOSStatusErrorDomain code:status userInfo:nil];
-//    } else {
-//        NSLog(@"获取权限成功");
-//        CFErrorRef  cfError;
-//        
-//        /* This does all the work of verifying the helper tool against the application
-//         * and vice-versa. Once verification has passed, the embedded launchd.plist
-//         * is extracted and placed in /Library/LaunchDaemons and then loaded. The
-//         * executable is placed in /Library/PrivilegedHelperTools.
-//         */
-//        result = (BOOL) SMJobBless(kSMDomainUserLaunchd, (CFStringRef)@"test", self->_authRef, &cfError);
-//        if (!result){
-//            error = CFBridgingRelease(cfError);
-//        }
-//        
-//        if ( ! result) {
-//            assert(error != nil);
-//            NSLog(@"%@", error);
-//        }
-//    }
-//}
 
 #pragma mark 获取进程
 -(void)getProcess
