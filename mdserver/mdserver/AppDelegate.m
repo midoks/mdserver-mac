@@ -180,7 +180,10 @@
 {
     //NSLog(@"file:%@", file);
     //虽然要被分离,但是我觉得最好用。
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored"-Wunused-variable"
     OSStatus  status_exe = AuthorizationExecuteWithPrivileges(self->_authRef, (void *)[file cStringUsingEncoding:NSASCIIStringEncoding], kAuthorizationFlagDefaults, nil, nil);
+#pragma clang diagnostic pop
     //NSLog(@"%d", status_exe);
     if (status_exe != errAuthorizationSuccess)
     {

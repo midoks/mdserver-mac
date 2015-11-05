@@ -29,7 +29,7 @@
 
 -(void)awakeFromNib
 {
-    NSLog(@"MySQLController");
+    //NSLog(@"MySQLController");
     
     NSString *str           = [NSCommon getRootDir];
     str = [NSString stringWithFormat:@"file://%@bin/mysql/data/localhost.log", str];

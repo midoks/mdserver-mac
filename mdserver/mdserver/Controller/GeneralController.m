@@ -13,7 +13,7 @@
 
 -(id)init
 {
-    NSLog(@"GeneralController");
+    //NSLog(@"GeneralController");
     if(self == [super init]){
     }
     return self;

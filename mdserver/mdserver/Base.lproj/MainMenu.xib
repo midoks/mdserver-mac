@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="6254"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="7706"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="NSApplication">
@@ -195,7 +195,7 @@
                     </connections>
                 </menuItem>
             </items>
-            <point key="canvasLocation" x="373.5" y="179.5"/>
+            <point key="canvasLocation" x="618.5" y="131.5"/>
         </menu>
         <window title="mdserver" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" animationBehavior="default" id="QvC-M9-y7g">
             <windowStyleMask key="styleMask" titled="YES" closable="YES"/>
@@ -428,7 +428,7 @@
                                 </view>
                             </tabViewItem>
                             <tabViewItem label="HOSTS" identifier="1" image="NSAddTemplate" id="PY9-Tm-pe5">
-                                <view key="view" id="L1w-M1-XQt">
+                                <view key="view" identifier="host_view" id="L1w-M1-XQt">
                                     <rect key="frame" x="10" y="33" width="554" height="347"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
@@ -528,7 +528,7 @@
                                                 <action selector="changeServerPort:" target="A2B-NI-gKD" id="SpR-yq-j5x"/>
                                             </connections>
                                         </textField>
-                                        <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" scrollerKnobStyle="light" id="UWK-bH-meB">
+                                        <scrollView identifier="hostname_cell" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" scrollerKnobStyle="light" id="UWK-bH-meB">
                                             <rect key="frame" x="7" y="35" width="240" height="297"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <clipView key="contentView" copiesOnScroll="NO" id="0RZ-5f-Xjz">
@@ -536,9 +536,10 @@
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="B9H-aO-DLa" viewBased="YES" id="tNs-DA-7w6">
+                                                        <rect key="frame" x="0.0" y="0.0" width="238" height="0.0"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <size key="intercellSpacing" width="3" height="2"/>
-                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                        <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                                         <tableColumns>
                                                             <tableColumn identifier="hostname" width="171.34765625" minWidth="40" maxWidth="1000" id="i8U-Cb-htP">
@@ -554,7 +555,7 @@
                                                                 </textFieldCell>
                                                                 <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                 <prototypeCellViews>
-                                                                    <tableCellView id="z4R-pW-Rsb">
+                                                                    <tableCellView identifier="hostname_value" id="z4R-pW-Rsb">
                                                                         <rect key="frame" x="1" y="1" width="171" height="17"/>
                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                         <subviews>
@@ -683,17 +684,6 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <imageCell key="cell" refusesFirstResponder="YES" alignment="left" animates="YES" imageScaling="proportionallyDown" image="NSInvalidDataFreestandingTemplate" id="Rjr-7Z-cqC"/>
                                         </imageView>
-                                        <button id="Iw9-ep-fIi">
-                                            <rect key="frame" x="529" y="309" width="21" height="21"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <buttonCell key="cell" type="bevel" bezelStyle="rounded" image="info" imagePosition="overlaps" alignment="center" imageScaling="proportionallyDown" inset="2" id="Fjy-5F-QYr">
-                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                <font key="font" metaFont="system"/>
-                                            </buttonCell>
-                                            <connections>
-                                                <action selector="goWebInfo:" target="A2B-NI-gKD" id="LeX-WS-ggu"/>
-                                            </connections>
-                                        </button>
                                         <button id="pVa-71-yAg">
                                             <rect key="frame" x="507" y="309" width="18" height="21"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -714,6 +704,17 @@
                                             </buttonCell>
                                             <connections>
                                                 <action selector="save:" target="A2B-NI-gKD" id="4U2-aj-qfo"/>
+                                            </connections>
+                                        </button>
+                                        <button identifier="host_view_table" id="Iw9-ep-fIi">
+                                            <rect key="frame" x="529" y="309" width="21" height="21"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <buttonCell key="cell" type="bevel" bezelStyle="rounded" image="info" imagePosition="overlaps" alignment="center" identifier="info" imageScaling="proportionallyDown" sound="Basso" inset="2" id="Fjy-5F-QYr">
+                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <action selector="goWebInfo:" target="A2B-NI-gKD" id="LeX-WS-ggu"/>
                                             </connections>
                                         </button>
                                     </subviews>
@@ -1010,5 +1011,6 @@
         <image name="pma" width="48" height="48"/>
         <image name="start" width="32" height="32"/>
         <image name="webstart" width="28" height="31"/>
+        <sound name="Basso"/>
     </resources>
 </document>

@@ -43,7 +43,7 @@
 
 -(void)awakeFromNib
 {
-    NSLog(@"HostNameController");
+    //NSLog(@"HostNameController");
     
     //默认路径为空
     //[_serverPath setURL:[NSURL URLWithString:@"file://"]];

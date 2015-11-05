@@ -18,6 +18,7 @@
 		8263CC5B1A9A14B0007E791A /* MainAlipay.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8263CC5A1A9A14B0007E791A /* MainAlipay.xib */; };
 		8263CC5D1A9A14E9007E791A /* MainWeibo.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8263CC5C1A9A14E9007E791A /* MainWeibo.xib */; };
 		8279E0AD1A73646700CD79C9 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 8279E0AB1A73646700CD79C9 /* Credits.rtf */; };
+		827D91E01BB41DCD00A684C3 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 827D91DF1BB41DCD00A684C3 /* Security.framework */; };
 		8285780F1A9CA8C900526446 /* Icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 8285780E1A9CA8C900526446 /* Icon.icns */; };
 		828B75821A7F7CCF0040DA32 /* HostNameController.m in Sources */ = {isa = PBXBuildFile; fileRef = 828B75811A7F7CCF0040DA32 /* HostNameController.m */; };
 		828B75861A81F9180040DA32 /* HostNameModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 828B75851A81F9180040DA32 /* HostNameModel.m */; };
@@ -78,6 +79,7 @@
 		8263CC5A1A9A14B0007E791A /* MainAlipay.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainAlipay.xib; sourceTree = "<group>"; };
 		8263CC5C1A9A14E9007E791A /* MainWeibo.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainWeibo.xib; sourceTree = "<group>"; };
 		8279E0AC1A73646700CD79C9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = Base; path = Base.lproj/Credits.rtf; sourceTree = "<group>"; };
+		827D91DF1BB41DCD00A684C3 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		8285780E1A9CA8C900526446 /* Icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Icon.icns; sourceTree = "<group>"; };
 		828B75801A7F7CCF0040DA32 /* HostNameController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HostNameController.h; sourceTree = "<group>"; };
 		828B75811A7F7CCF0040DA32 /* HostNameController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HostNameController.m; sourceTree = "<group>"; };
@@ -129,6 +131,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				827D91E01BB41DCD00A684C3 /* Security.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -189,6 +192,7 @@
 		82F8CFE91A70E5FC00B9FD25 = {
 			isa = PBXGroup;
 			children = (
+				827D91DF1BB41DCD00A684C3 /* Security.framework */,
 				82F8CFF41A70E5FC00B9FD25 /* mdserver */,
 				82F8D0081A70E5FC00B9FD25 /* mdserverTests */,
 				82F8CFF31A70E5FC00B9FD25 /* Products */,
@@ -312,11 +316,12 @@
 		82F8CFEA1A70E5FC00B9FD25 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0610;
+				LastUpgradeCheck = 0710;
 				ORGANIZATIONNAME = midoks.cachecha.com;
 				TargetAttributes = {
 					82F8CFF11A70E5FC00B9FD25 = {
 						CreatedOnToolsVersion = 6.1.1;
+						DevelopmentTeam = 462EP6445M;
 					};
 					82F8D0041A70E5FC00B9FD25 = {
 						CreatedOnToolsVersion = 6.1.1;
@@ -471,6 +476,7 @@
 				CODE_SIGN_IDENTITY = "-";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -535,6 +541,7 @@
 				INFOPLIST_FILE = mdserver/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.midoks.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -548,6 +555,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.midoks.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -567,6 +575,7 @@
 				);
 				INFOPLIST_FILE = mdserverTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.midoks.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/mdserver.app/Contents/MacOS/mdserver";
 			};
@@ -583,6 +592,7 @@
 				);
 				INFOPLIST_FILE = mdserverTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.midoks.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/mdserver.app/Contents/MacOS/mdserver";
 			};
