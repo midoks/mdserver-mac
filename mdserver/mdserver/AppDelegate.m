@@ -228,6 +228,7 @@
     [self.window makeKeyAndOrderFront:sender];
 }
 
+#pragma mark - 打开支付宝和微信的捐助窗口 -
 - (IBAction)showDonateAlipay:(id)sender{
     NSWindowController *alipay =[[NSWindowController alloc] initWithWindowNibName:@"MainAlipay"];
     [alipay loadWindow];
@@ -239,6 +240,8 @@
     [alipay.window center];
 }
 
+
+#pragma mark - 打开微博窗口 -
 - (IBAction)showWeibo:(id)sender{
     NSWindowController *weibo =[[NSWindowController alloc] initWithWindowNibName:@"MainWeibo"];
     
@@ -248,6 +251,7 @@
     [weibo.window center];
 }
 
+#pragma mark - 打开nginx日志文件 -
 - (IBAction)showNginxLog:(id)sender {
     NSString *root = [NSCommon getRootDir];
     NSString *nginx_access_log = [NSString stringWithFormat:@"%@/bin/nginx/logs/access.log", root];
@@ -259,6 +263,7 @@
     }
 }
 
+#pragma mark - 打开php-fpm日志文件 -
 - (IBAction)showPhpFpmLog:(id)sender {
     NSString *root = [NSCommon getRootDir];
     NSString *php_fpm_log = [NSString stringWithFormat:@"%@/bin/php/var/log/php-fpm.log", root];
@@ -270,6 +275,7 @@
     }
 }
 
+#pragma mark - 打开mysql日志文件 -
 - (IBAction)showMysqlLog:(id)sender {
     NSString *root = [NSCommon getRootDir];
     NSString *mysql_error_log = [NSString stringWithFormat:@"%@/bin/mysql/data/localhost.log", root];
@@ -366,6 +372,7 @@
     }
 }
 
+#pragma mark - 运行调试Bash -
 - (IBAction)SelfDebug:(id)sender {
     
     NSAlert *alert = [[NSAlert alloc] init];
