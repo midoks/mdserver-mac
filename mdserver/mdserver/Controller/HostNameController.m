@@ -60,12 +60,7 @@
 
 -(NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
-    NSLog(@"pp");
     HostNameModel *hnm = [_list objectAtIndex:row];
-    
-    NSLog(@"%@", hnm);
-    NSLog(@"%@", tableColumn.identifier);
-    NSLog(@"%@", [hnm valueForKey:tableColumn.identifier]);
     
     NSTableCellView *cell = [tableView makeViewWithIdentifier:tableColumn.identifier owner:self];
     [cell.textField setStringValue:[hnm valueForKey:tableColumn.identifier]];
@@ -222,7 +217,6 @@
     NSString *pathplist = [[NSBundle mainBundle] pathForResource:@"server" ofType:@"plist"];
     NSMutableDictionary *dictplist  = [[NSMutableDictionary alloc] init];
     NSUInteger c = 0;
-    //NSLog(@"_list:%@", _list);
     for (NSDictionary *i in _list)
     {
         NSMutableDictionary *serverinfo = [[NSMutableDictionary alloc] init];
@@ -232,7 +226,6 @@
         [dictplist setObject:serverinfo forKey:[NSString stringWithFormat:@"%ld", c]];
         ++c;
     }
-    //NSLog(@"%@", dictplist);
     [dictplist writeToFile:pathplist atomically:YES];
     //[NSCommon saveNginxConfig];
 }

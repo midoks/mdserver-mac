@@ -739,6 +739,7 @@
                                                             </tableColumn>
                                                         </tableColumns>
                                                         <connections>
+                                                            <outlet property="dataSource" destination="A2B-NI-gKD" id="Okr-Zr-MjX"/>
                                                             <outlet property="delegate" destination="A2B-NI-gKD" id="T9Q-r3-3fM"/>
                                                         </connections>
                                                     </tableView>
@@ -971,7 +972,7 @@
                             </tabViewItem>
                         </tabViewItems>
                         <connections>
-                            <outlet property="delegate" destination="A2B-NI-gKD" id="wYH-BY-N9P"/>
+                            <outlet property="delegate" destination="A2B-NI-gKD" id="o5s-dZ-kmy"/>
                         </connections>
                     </tabView>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="3TR-JN-S1b">
