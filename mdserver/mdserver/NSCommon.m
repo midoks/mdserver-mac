@@ -184,6 +184,7 @@
     content = [content stringByReplacingOccurrencesOfString:@"{SERVERNAME}" withString:serverName];
     content = [content stringByReplacingOccurrencesOfString:@"{PORT}" withString:port];
     content = [content stringByReplacingOccurrencesOfString:@"{PATH}" withString:path];
+    content = [content stringByReplacingOccurrencesOfString:@"MD:/" withString:str];
     return [content writeToFile:nginx_vhost atomically:YES encoding:NSUTF8StringEncoding error:nil];
 }
 

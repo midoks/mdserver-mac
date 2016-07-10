@@ -51,6 +51,11 @@
 
 #pragma mark - General通用设置 -
 
+#pragma mark - redis和mongodb相关 -
+-(IBAction)redisStart:(id)sender;
+-(IBAction)goRedisWeb:(id)sender;
+-(IBAction)mongoStart:(id)sender;
+-(IBAction)goMongoWeb:(id)sender;
 
 @end
 

@@ -299,8 +299,8 @@
         
         NSInteger port = [_serverPort integerValue];
         //默认0-1023是系统默认的端口,需要root权限才能开启。
-        if (port <1024) {
-            port = 1024;
+        if (port <80) {
+            port = 80;
         }
         NSString *portstr = [NSString stringWithFormat:@"%ld", port];
         [[_list objectAtIndex:row] setObject:portstr forKey:@"port"];

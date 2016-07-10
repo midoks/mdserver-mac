@@ -16,6 +16,11 @@
 @property IBOutlet NSWindow *window;
 @property (nonatomic, strong) NSString *StartServerStatus;
 
+@property (nonatomic, strong) IBOutlet NSButton *mMongoTool;
+@property (nonatomic, strong) IBOutlet NSButton *mRedisTool;
+@property (nonatomic, strong) IBOutlet NSButton *mMongoButton;
+@property (nonatomic, strong) IBOutlet NSButton *mRedisButton;
+
 @end
 
 @implementation AppDelegate
@@ -136,11 +141,20 @@
 -(void)AuthorizeCreate
 {
     
-    NSString *_str = [NSCommon getAppDir];
-    NSString *addhost = [NSString stringWithFormat:@"%@Contents/Resources/addhost", _str];
-    NSString *removehost = [NSString stringWithFormat:@"%@Contents/Resources/removehost", _str];
-    NSString *ss = [NSString stringWithFormat:@"%@Contents/Resources/ss", _str];
-    NSArray *list = [[NSArray alloc] initWithObjects:addhost, removehost, ss,nil];
+    NSString *app_dir = [NSCommon getAppDir];
+    NSString *addhost = [NSString stringWithFormat:@"%@Contents/Resources/addhost", app_dir];
+    NSString *removehost = [NSString stringWithFormat:@"%@Contents/Resources/removehost", app_dir];
+    NSString *ss = [NSString stringWithFormat:@"%@Contents/Resources/ss", app_dir];
+    
+    
+    
+    NSString *root_dir = [NSCommon getRootDir];
+    NSString *redis = [NSString stringWithFormat:@"%@bin/redis.sh", root_dir];
+    
+    
+    NSArray *list = [[NSArray alloc] initWithObjects:addhost, removehost, ss, redis, nil];
+    
+
     
     
     if (self->_authRef) {
@@ -567,13 +581,14 @@
         [self startConfReplaceString];
         [NSCommon saveNginxConfig];
         
-        //NSString *start = [NSString stringWithFormat:@"%@Contents/Resources/ss", _str];
-        //sleep(2);
-        //[self AuthorizeExeCmd:start];
+        NSString *nginx = [NSString stringWithFormat:@"%@bin/startNginx.sh", str];
+        [self AuthorizeExeCmd:nginx];
         
-        str = [NSString stringWithFormat:@"%@bin/start.sh", str];
-        //[self AuthorizeCmd:str];
-        [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", str, nil]] waitUntilExit];
+        NSString *php = [NSString stringWithFormat:@"%@bin/start.sh php", str];
+        [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", php, nil]] waitUntilExit];
+        
+        NSString *mysql = [NSString stringWithFormat:@"%@bin/start.sh mysql", str];
+        [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", mysql, nil]] waitUntilExit];
     }
 }
 
@@ -585,11 +600,15 @@
     NSString *title = pStartTitle.stringValue;
     
     if([title isEqual:@"stop"]){
-        //NSString *start = [NSString stringWithFormat:@"%@Contents/Resources/st", _str];
-        //[self AuthorizeExeCmd:start];
-        str = [NSString stringWithFormat:@"%@bin/stop.sh", str];
-        //[self AuthorizeCmd:str];
-        [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", str, nil]] waitUntilExit];
+        
+        NSString *nginx_php = [NSString stringWithFormat:@"%@bin/stopNginx.sh", str];
+        [self AuthorizeExeCmd:nginx_php];
+        
+        NSString *php = [NSString stringWithFormat:@"%@bin/stop.sh php", str];
+        [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", php, nil]] waitUntilExit];
+        
+         NSString *mysql = [NSString stringWithFormat:@"%@bin/stop.sh mysql", str];
+        [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", mysql, nil]] waitUntilExit];
         
         sleep(2);
 
@@ -691,6 +710,100 @@
     }
 }
 
+#pragma mark - redis和mongodb相关功能 -
+
+-(IBAction)goRedisWeb:(id)sender
+{
+    NSString *title = [pStartTitle stringValue];
+    if ([title isEqual:@"stop"]) {
+        [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://localhost:8888/phpRedisAdmin/"]];
+    }else{
+        [self alert:@"web服务未启动"];
+    }
+    
+}
+
+-(IBAction)goMongoWeb:(id)sender
+{
+    NSString *title = [pStartTitle stringValue];
+    if ([title isEqual:@"stop"]) {
+        [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://localhost:8888/rockmongo/"]];
+    }else{
+        [self alert:@"web服务未启动"];
+    }
+    
+}
+
+
+-(IBAction)redisStart:(id)sender
+{
+    
+    NSString *str   = [NSCommon getRootDir];
+    
+    //NSLog(@"%@",str);
+    str = @"/Applications/mdserver/";
+    if( _mRedisButton.state == 1 ){
+        str = [NSString stringWithFormat:@"%@bin/redis.sh start", str];
+        [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", str, nil]] waitUntilExit];
+    } else {
+        str = [NSString stringWithFormat:@"%@bin/redis.sh stop", str];
+        [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", str, nil]] waitUntilExit];
+    }
+    [self checkRedisStatus];
+}
+
+
+-(IBAction)mongoStart:(id)sender
+{
+    NSString *str   = [NSCommon getRootDir];
+    
+    //NSLog(@"%@",str);
+    //str = @"/Applications/mdserver/";
+    //NSLog(@"%ld", (long)_mMongoButton.state);
+    if( _mMongoButton.state == 1 ){
+        str = [NSString stringWithFormat:@"%@bin/mongodb.sh start", str];
+        [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", str, nil]] waitUntilExit];
+    } else {
+        str = [NSString stringWithFormat:@"%@bin/mongodb.sh stop", str];
+        [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", str, nil]] waitUntilExit];
+    }
+    [self checkMongoStatus];
+}
+
+-(BOOL)checkRedisStatus
+{
+    NSString *path = [NSCommon getRootDir];
+    NSFileManager *fm = [NSFileManager defaultManager];
+    path = [NSString stringWithFormat:@"%@bin/redis/data/redis.pid", path];
+    BOOL isStart = [fm fileExistsAtPath:path];
+    
+    if(isStart){
+        _mRedisTool.enabled = TRUE;
+        _mRedisButton.state = 1;
+    } else {
+        _mRedisTool.enabled = FALSE;
+        _mRedisButton.state = 0;
+    }
+    return isStart;
+}
+
+-(BOOL)checkMongoStatus
+{
+    NSString *path = [NSCommon getRootDir];
+    NSFileManager *fm = [NSFileManager defaultManager];
+    path = [NSString stringWithFormat:@"%@bin/mongodb/logs/mongodb.pid", path];
+    BOOL isStart = [fm fileExistsAtPath:path];
+    
+    if(isStart){
+        _mMongoTool.enabled = TRUE;
+        _mMongoButton.state = 1;
+    } else {
+        _mMongoTool.enabled = FALSE;
+        _mMongoButton.state = 0;
+    }
+    return isStart;
+}
+
 #pragma mark - 程序入口 -
 #pragma mark 检查PHP-FPM是否启动
 -(BOOL)checkWebPHP
@@ -788,6 +901,10 @@
     // Insert code here to initialize your application
     
     [self checkWebStatus];
+    
+    [self checkRedisStatus];
+    [self checkMongoStatus];
+    
     [self setUI];
     
     

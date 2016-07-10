@@ -40,6 +40,7 @@
 		828B760F1A860DEF0040DA32 /* stop.png in Resources */ = {isa = PBXBuildFile; fileRef = 828B760D1A860DEF0040DA32 /* stop.png */; };
 		828B76101A860DEF0040DA32 /* stop@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 828B760E1A860DEF0040DA32 /* stop@2x.png */; };
 		828B76671A874C2D0040DA32 /* MySQLController.m in Sources */ = {isa = PBXBuildFile; fileRef = 828B76661A874C2D0040DA32 /* MySQLController.m */; };
+		82C366621D313DE80044B58C /* tool.png in Resources */ = {isa = PBXBuildFile; fileRef = 82C366611D313DE80044B58C /* tool.png */; };
 		82D9208E1A9C4D0800AFF5B1 /* weibo.png in Resources */ = {isa = PBXBuildFile; fileRef = 82D9208D1A9C4D0800AFF5B1 /* weibo.png */; };
 		82DDD0EE1A88B2A5002FFD4D /* common.plist in Resources */ = {isa = PBXBuildFile; fileRef = 82DDD0ED1A88B2A5002FFD4D /* common.plist */; };
 		82DDD0F01A88D974002FFD4D /* pma.ico in Resources */ = {isa = PBXBuildFile; fileRef = 82DDD0EF1A88D974002FFD4D /* pma.ico */; };
@@ -104,6 +105,7 @@
 		828B760E1A860DEF0040DA32 /* stop@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "stop@2x.png"; sourceTree = "<group>"; };
 		828B76651A874C2D0040DA32 /* MySQLController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MySQLController.h; sourceTree = "<group>"; };
 		828B76661A874C2D0040DA32 /* MySQLController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MySQLController.m; sourceTree = "<group>"; };
+		82C366611D313DE80044B58C /* tool.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tool.png; sourceTree = "<group>"; };
 		82D9208D1A9C4D0800AFF5B1 /* weibo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = weibo.png; sourceTree = "<group>"; };
 		82DDD0ED1A88B2A5002FFD4D /* common.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = common.plist; sourceTree = "<group>"; };
 		82DDD0EF1A88D974002FFD4D /* pma.ico */ = {isa = PBXFileReference; lastKnownFileType = image.ico; path = pma.ico; sourceTree = "<group>"; };
@@ -158,6 +160,7 @@
 				828B760E1A860DEF0040DA32 /* stop@2x.png */,
 				828B76091A8603660040DA32 /* Sequel Pro.icns */,
 				82DDD0EF1A88D974002FFD4D /* pma.ico */,
+				82C366611D313DE80044B58C /* tool.png */,
 				828B75971A823AE10040DA32 /* header_back_left.tif */,
 				828B75981A823AE10040DA32 /* start.png */,
 				828B75991A823AE10040DA32 /* start@2x.png */,
@@ -312,7 +315,7 @@
 		82F8CFEA1A70E5FC00B9FD25 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0610;
+				LastUpgradeCheck = 0730;
 				ORGANIZATIONNAME = midoks.cachecha.com;
 				TargetAttributes = {
 					82F8CFF11A70E5FC00B9FD25 = {
@@ -357,6 +360,7 @@
 				8263CC5D1A9A14E9007E791A /* MainWeibo.xib in Resources */,
 				828B75A21A835CC40040DA32 /* server.plist in Resources */,
 				828B75961A8239780040DA32 /* info@2x.png in Resources */,
+				82C366621D313DE80044B58C /* tool.png in Resources */,
 				820F1EAD1A8C823800CBC093 /* ss in Resources */,
 				828B759D1A823AE10040DA32 /* start.png in Resources */,
 				8279E0AD1A73646700CD79C9 /* Credits.rtf in Resources */,
@@ -471,6 +475,7 @@
 				CODE_SIGN_IDENTITY = "-";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -535,6 +540,7 @@
 				INFOPLIST_FILE = mdserver/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.midoks.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -548,6 +554,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.midoks.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -567,6 +574,7 @@
 				);
 				INFOPLIST_FILE = mdserverTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.midoks.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/mdserver.app/Contents/MacOS/mdserver";
 			};
@@ -583,6 +591,7 @@
 				);
 				INFOPLIST_FILE = mdserverTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.midoks.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/mdserver.app/Contents/MacOS/mdserver";
 			};
