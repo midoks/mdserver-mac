@@ -21,7 +21,7 @@ mac上高度可定制的PHP开发环境,集成必要的扩展,方便使用。
 
 
 ###截图
-[![Screenshot-1.png](/Screenshot/Screenshot-1.png)](/Screenshot/Screenshot-1.png)
+[![Screenshot.png](/Screenshot/Screenshot.png)](/Screenshot/Screenshot.png)
 
 
 ### 联系我
