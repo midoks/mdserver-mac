@@ -18,8 +18,11 @@
 
 @property (nonatomic, strong) IBOutlet NSButton *mMongoTool;
 @property (nonatomic, strong) IBOutlet NSButton *mRedisTool;
+@property (nonatomic, strong) IBOutlet NSButton *mMemcachedTool;
+
 @property (nonatomic, strong) IBOutlet NSButton *mMongoButton;
 @property (nonatomic, strong) IBOutlet NSButton *mRedisButton;
+@property (nonatomic, strong) IBOutlet NSButton *mMemcachedButton;
 
 @end
 
@@ -710,7 +713,7 @@
     }
 }
 
-#pragma mark - redis和mongodb相关功能 -
+#pragma mark - redis和mongodb相关功能 && Memcached -
 
 -(IBAction)goRedisWeb:(id)sender
 {
@@ -734,6 +737,17 @@
     
 }
 
+-(IBAction)goMemcached:(id)sender
+{
+    NSString *title = [pStartTitle stringValue];
+    if ([title isEqual:@"stop"]) {
+        [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://localhost:8888/memadmin/"]];
+    }else{
+        [self alert:@"web服务未启动"];
+    }
+    
+}
+
 
 -(IBAction)redisStart:(id)sender
 {
@@ -741,7 +755,7 @@
     NSString *str   = [NSCommon getRootDir];
     
     //NSLog(@"%@",str);
-    str = @"/Applications/mdserver/";
+    //str = @"/Applications/mdserver/";
     if( _mRedisButton.state == 1 ){
         str = [NSString stringWithFormat:@"%@bin/redis.sh start", str];
         [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", str, nil]] waitUntilExit];
@@ -756,10 +770,6 @@
 -(IBAction)mongoStart:(id)sender
 {
     NSString *str   = [NSCommon getRootDir];
-    
-    //NSLog(@"%@",str);
-    //str = @"/Applications/mdserver/";
-    //NSLog(@"%ld", (long)_mMongoButton.state);
     if( _mMongoButton.state == 1 ){
         str = [NSString stringWithFormat:@"%@bin/mongodb.sh start", str];
         [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", str, nil]] waitUntilExit];
@@ -768,6 +778,22 @@
         [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", str, nil]] waitUntilExit];
     }
     [self checkMongoStatus];
+}
+
+-(IBAction)memcachedStart:(id)sender
+{
+    NSString *str   = [NSCommon getRootDir];
+    
+    //str = @"/Applications/mdserver/";
+    if( _mMemcachedButton.state == 1 ){
+        str = [NSString stringWithFormat:@"%@bin/memcached.sh start", str];
+        [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", str, nil]] waitUntilExit];
+    } else {
+        str = [NSString stringWithFormat:@"%@bin/memcached.sh stop", str];
+        [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", str, nil]] waitUntilExit];
+    }
+    [self checkMemcachedStatus];
+    
 }
 
 -(BOOL)checkRedisStatus
@@ -800,6 +826,24 @@
     } else {
         _mMongoTool.enabled = FALSE;
         _mMongoButton.state = 0;
+    }
+    return isStart;
+}
+
+-(BOOL)checkMemcachedStatus
+{
+    NSString *path = [NSCommon getRootDir];
+    NSFileManager *fm = [NSFileManager defaultManager];
+    path = [NSString stringWithFormat:@"%@bin/memcached/mem.pid", path];
+    BOOL isStart = [fm fileExistsAtPath:path];
+    
+    NSLog(@"isStart:%hhd", isStart);
+    if(isStart){
+        _mMemcachedTool.enabled = TRUE;
+        _mMemcachedButton.state = 1;
+    } else {
+        _mMemcachedTool.enabled = FALSE;
+        _mMemcachedButton.state = 0;
     }
     return isStart;
 }
@@ -904,6 +948,7 @@
     
     [self checkRedisStatus];
     [self checkMongoStatus];
+    [self checkMemcachedStatus];
     
     [self setUI];
     

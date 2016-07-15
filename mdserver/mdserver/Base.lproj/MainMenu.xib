@@ -13,6 +13,8 @@
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customObject id="Voe-Tx-rLC" customClass="AppDelegate">
             <connections>
+                <outlet property="mMemcachedButton" destination="pcK-yB-8NY" id="yJ0-VU-5aq"/>
+                <outlet property="mMemcachedTool" destination="gAm-U8-CgO" id="5jB-fA-AD8"/>
                 <outlet property="mMongoButton" destination="5rd-h7-S8p" id="Zah-Dk-90V"/>
                 <outlet property="mMongoTool" destination="lry-lY-Knx" id="y25-n4-wOb"/>
                 <outlet property="mRedisButton" destination="RKy-kT-jP0" id="0Ev-QT-zY3"/>
@@ -219,8 +221,8 @@
                         <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <font key="titleFont" metaFont="system"/>
                     </box>
-                    <progressIndicator hidden="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" maxValue="100" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" id="XYp-dI-Cdf">
-                        <rect key="frame" x="465" y="456" width="16" height="16"/>
+                    <progressIndicator hidden="YES" wantsLayer="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" maxValue="100" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" id="XYp-dI-Cdf">
+                        <rect key="frame" x="471" y="456" width="16" height="16"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     </progressIndicator>
                     <button id="iCn-DW-pu3">
@@ -907,7 +909,7 @@
                         </tabViewItems>
                     </tabView>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="3TR-JN-S1b">
-                        <rect key="frame" x="325" y="439" width="61" height="17"/>
+                        <rect key="frame" x="360" y="439" width="61" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="WebStart" id="kOu-68-MUD">
                             <font key="font" metaFont="system" size="10"/>
@@ -916,7 +918,7 @@
                         </textFieldCell>
                     </textField>
                     <button verticalHuggingPriority="750" id="hng-0Q-ltZ">
-                        <rect key="frame" x="327" y="458" width="54" height="32"/>
+                        <rect key="frame" x="362" y="458" width="54" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="webstart" imagePosition="overlaps" alignment="center" imageScaling="proportionallyDown" inset="2" id="OAy-nV-9y7">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -927,7 +929,7 @@
                         </connections>
                     </button>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="TMl-iR-kF8">
-                        <rect key="frame" x="412" y="442" width="32" height="17"/>
+                        <rect key="frame" x="429" y="442" width="32" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="start" id="Xl8-Cv-kMZ">
                             <font key="font" metaFont="cellTitle"/>
@@ -936,7 +938,7 @@
                         </textFieldCell>
                     </textField>
                     <button verticalHuggingPriority="750" id="ynu-WP-Afh">
-                        <rect key="frame" x="406" y="454" width="39" height="40"/>
+                        <rect key="frame" x="423" y="454" width="39" height="40"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="start" imagePosition="overlaps" alignment="center" imageScaling="proportionallyDown" inset="2" id="Uyi-Hb-Eax">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -947,17 +949,17 @@
                         </connections>
                     </button>
                     <imageView id="U3g-cC-7v7">
-                        <rect key="frame" x="33" y="451" width="32" height="32"/>
+                        <rect key="frame" x="21" y="451" width="32" height="32"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" animates="YES" imageScaling="proportionallyDown" image="NSEveryone" id="ilv-EQ-EdG"/>
                     </imageView>
                     <imageView id="n1b-G6-2Nq">
-                        <rect key="frame" x="77" y="437" width="60" height="60"/>
+                        <rect key="frame" x="65" y="438" width="60" height="60"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" animates="YES" imageScaling="proportionallyDown" image="Icon" id="3R7-M2-lqa"/>
                     </imageView>
                     <button verticalHuggingPriority="750" id="RKy-kT-jP0">
-                        <rect key="frame" x="162" y="468" width="68" height="24"/>
+                        <rect key="frame" x="138" y="468" width="68" height="24"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="redis" bezelStyle="regularSquare" imagePosition="right" alignment="right" inset="2" id="vKL-Fh-s22">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -968,7 +970,7 @@
                         </connections>
                     </button>
                     <button verticalHuggingPriority="750" id="5rd-h7-S8p">
-                        <rect key="frame" x="162" y="443" width="68" height="24"/>
+                        <rect key="frame" x="138" y="443" width="68" height="24"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="mongo" bezelStyle="regularSquare" imagePosition="right" alignment="right" inset="2" id="Qrf-zj-VfF">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -979,7 +981,7 @@
                         </connections>
                     </button>
                     <button verticalHuggingPriority="750" id="FW6-8l-zZa">
-                        <rect key="frame" x="239" y="472" width="20" height="20"/>
+                        <rect key="frame" x="207" y="472" width="20" height="20"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="tool" imagePosition="overlaps" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="d6O-3a-BKL">
                             <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
@@ -990,7 +992,7 @@
                         </connections>
                     </button>
                     <button verticalHuggingPriority="750" id="lry-lY-Knx">
-                        <rect key="frame" x="239" y="445" width="20" height="20"/>
+                        <rect key="frame" x="207" y="445" width="20" height="20"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="tool" imagePosition="overlaps" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="nyb-1C-Wbz">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -998,6 +1000,28 @@
                         </buttonCell>
                         <connections>
                             <action selector="goMongoWeb:" target="Voe-Tx-rLC" id="TjO-px-rpw"/>
+                        </connections>
+                    </button>
+                    <button verticalHuggingPriority="750" id="pcK-yB-8NY">
+                        <rect key="frame" x="232" y="468" width="99" height="25"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="check" title="memcached" bezelStyle="regularSquare" imagePosition="right" alignment="right" inset="2" id="Hom-CO-tAv">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="memcachedStart:" target="Voe-Tx-rLC" id="MuN-ep-tbO"/>
+                        </connections>
+                    </button>
+                    <button verticalHuggingPriority="750" id="gAm-U8-CgO">
+                        <rect key="frame" x="333" y="472" width="20" height="20"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="tool" imagePosition="overlaps" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="fdQ-kE-wEZ">
+                            <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="goMemcached:" target="Voe-Tx-rLC" id="HUu-mH-blk"/>
                         </connections>
                     </button>
                 </subviews>
