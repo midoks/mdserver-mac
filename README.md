@@ -2,7 +2,7 @@
 mac上高度可定制的PHP开发环境,集成必要的扩展,方便使用。
 (pkg安装方式),安装方便,是你Mac上的PHP开发利器。
 - 1.加入redis,mongo
-- 2.集成phalcon框架
+- 2.集成phalcon,yaf,swoole框架
 - 3.支持80端口
 - 4.加入memcached支持。
 
