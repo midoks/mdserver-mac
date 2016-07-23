@@ -143,11 +143,26 @@
         [list addObject:[listContent objectForKey:k]];
     }
     
+    NSString *rootDir = [NSCommon getRootDir];
+    NSString *vhost = [NSString stringWithFormat:@"%@bin/nginx/conf/vhost", rootDir];
+    NSFileManager *fm = [NSFileManager defaultManager];
+    
+    
     for (NSMutableDictionary *i in list) {
         if ([[i objectForKey:@"path"] isNotEqualTo:@""] && [[i objectForKey:@"hostname"] isNotEqualTo:@"localhost"]) {
-            [NSCommon setConfigWithServerName:[i objectForKey:@"hostname"]
-                                         port:[i objectForKey:@"port"]
-                                         path:[i objectForKey:@"path"]];
+            
+            //Check if there is a custom configuration
+            NSString *serverName = [[i objectForKey:@"hostname"] stringByReplacingOccurrencesOfString:@"." withString:@"_"];
+            NSString *own_host = [NSString stringWithFormat:@"%@%@", @"own_", serverName];
+            NSString *own_conf = [NSString stringWithFormat:@"%@/%@.conf", vhost, own_host];
+            
+            //NSLog(@"%@",own_conf);
+            if (![fm fileExistsAtPath:own_conf]){
+                [NSCommon setConfigWithServerName:[i objectForKey:@"hostname"]
+                                             port:[i objectForKey:@"port"]
+                                             path:[i objectForKey:@"path"]];
+            }
+        
         }
     }
     return YES;

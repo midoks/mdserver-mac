@@ -483,7 +483,7 @@
     }
 }
 
-#pragma mark - 启动按钮 -
+
 -(NSString *)stringReplace:(NSString *)c yes:(BOOL)yes
 {
     NSString *str = [NSCommon getRootDir];
@@ -510,6 +510,9 @@
     NSString *str = [NSCommon getRootDir];
     NSString *php_ini = [NSString stringWithFormat:@"%@bin/php/etc/php.ini", str];
     [self replaceConfig:php_ini yes:yes];
+    
+    NSString *php_fpm = [NSString stringWithFormat:@"%@bin/php/etc/php-fpm.conf", str];
+    [self replaceConfig:php_fpm yes:yes];
 }
 
 -(void)replaceNginx:(BOOL)yes
@@ -570,7 +573,7 @@
     NSString *str   = [NSCommon getRootDir];
     NSString *title = pStartTitle.stringValue;
     
-    NSLog(@"start:开始启动");
+    //NSLog(@"start:开始启动");
     if ([title isEqual:@"start"]) {
         
         NSString *isflog = [NSCommon getCommonConfig:@"isStartAfterFlushLog"];
@@ -597,7 +600,7 @@
 
 - (void)stopWebService
 {
-    NSLog(@"start:开始停止");
+    //NSLog(@"start:开始停止");
     NSString *str = [NSCommon getRootDir];
     NSString *_str = [NSCommon getAppDir];
     NSString *title = pStartTitle.stringValue;
@@ -697,7 +700,7 @@
     }];
 }
 
-#pragma mark 按钮启动
+#pragma mark - 按钮启动 -
 - (IBAction)start:(id)sender {
     [self AuthorizeCreate];    
     [self selfStart];
@@ -837,7 +840,7 @@
     path = [NSString stringWithFormat:@"%@bin/memcached/mem.pid", path];
     BOOL isStart = [fm fileExistsAtPath:path];
     
-    NSLog(@"isStart:%hhd", isStart);
+    //NSLog(@"isStart:%hhd", isStart);
     if(isStart){
         _mMemcachedTool.enabled = TRUE;
         _mMemcachedButton.state = 1;
