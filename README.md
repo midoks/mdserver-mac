@@ -1,4 +1,4 @@
-### mdserver(mac版) 2.1.0
+### mdserver(mac版) 2.1.2
 mac上高度可定制的PHP开发环境,集成必要的扩展,方便使用。
 (pkg安装方式),安装方便,是你Mac上的PHP开发利器。
 - 1.加入redis,mongo
