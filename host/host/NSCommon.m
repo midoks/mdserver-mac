@@ -52,7 +52,7 @@
     NSString *ret = @"";
     for (NSMutableDictionary *i in list) {
         if ([[i objectForKey:@"path"] isNotEqualTo:@""] && [[i objectForKey:@"hostname"] isNotEqualTo:@"localhost"]) {
-            ret = [NSString stringWithFormat:@"\r\n%@\r\n127.0.0.1\t\t%@\t%@",
+            ret = [NSString stringWithFormat:@"\n%@\n127.0.0.1\t\t%@\t%@",
                    ret,
                    [i objectForKey:@"hostname"],
                    @"#MDserver Hosts Don`t Remove and Change"];
@@ -64,6 +64,7 @@
     return ret;
 }
 
+#pragma mark - 删除 -
 +(NSString *)setHostFileNotNeedContent:(NSString *)content
 {
     NSString *regexString = @".*#MDserver Hosts Don`t Remove and Change";

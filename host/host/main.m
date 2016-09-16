@@ -17,13 +17,13 @@ int main(int argc, const char * argv[]) {
         //NSLog(@"Hello, World!");
         
         //#1 写入需要的内容
-//        NSString *content = [NSCommon getHostFileNeedContent];
-//        return [content writeToFile:@"/etc/hosts" atomically:YES encoding:NSUTF8StringEncoding error:nil];
+        NSString *content = [NSCommon getHostFileNeedContent];
+        return [content writeToFile:@"/etc/hosts" atomically:YES encoding:NSUTF8StringEncoding error:nil];
         
         //#2 删除不需要的内容
-        NSString *content = [NSString stringWithContentsOfFile:@"/etc/hosts" encoding:NSUTF8StringEncoding error:nil];
-        content = [NSCommon setHostFileNotNeedContent:content];
-        return [content writeToFile:@"/etc/hosts" atomically:YES encoding:NSUTF8StringEncoding error:nil];
+//        NSString *content = [NSString stringWithContentsOfFile:@"/etc/hosts" encoding:NSUTF8StringEncoding error:nil];
+//        content = [NSCommon setHostFileNotNeedContent:content];
+//        return [content writeToFile:@"/etc/hosts" atomically:YES encoding:NSUTF8StringEncoding error:nil];
     }
     return 0;
 }
