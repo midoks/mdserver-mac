@@ -21,8 +21,8 @@ mac上高度可定制的PHP开发环境,集成必要的扩展,方便使用。
 - 2.1.2pkg安装地址:[2.1.2](https://pan.baidu.com/s/1boCUDVx)
 - 2.1.0pkg安装地址:[2.1.0](http://pan.baidu.com/s/1o7YmzTC)
 - 2.0pkg安装地址:[2.0.0](http://pan.baidu.com/s/1kV52okB)
-- 使用教程:[mdserver](http://midoks.cachecha.com/2015/02/24/mdserver-mac.html)
 - pkg安装地址:[1.0.0](http://pan.baidu.com/s/1eSHgmAI)
+- 使用教程:[mdserver](http://midoks.cachecha.com/2015/02/24/mdserver-mac.html)
 
 ### 截图
 [![Screenshot.png](/Screenshot/Screenshot.png)](/Screenshot/Screenshot.png)
