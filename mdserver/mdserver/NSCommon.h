@@ -14,6 +14,7 @@
 
 #pragma mark - 弹出提示 -
 +(void)alert:(NSString *)content;
++(void)alert:(NSString *)content delayedClose:(float)t;
 
 #pragma mark 延迟回调
 +(void)delayedRun:(float)t callback:(void(^)()) callback;

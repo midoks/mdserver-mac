@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="10117"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11201"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="NSApplication">
@@ -17,14 +17,16 @@
                 <outlet property="mMemcachedTool" destination="gAm-U8-CgO" id="5jB-fA-AD8"/>
                 <outlet property="mMongoButton" destination="5rd-h7-S8p" id="Zah-Dk-90V"/>
                 <outlet property="mMongoTool" destination="lry-lY-Knx" id="y25-n4-wOb"/>
+                <outlet property="mMySQLButton" destination="rFw-SI-Kgp" id="rpP-hb-9fD"/>
+                <outlet property="mMySQLTool" destination="JJV-kP-Bb3" id="PCg-ZL-yHB"/>
                 <outlet property="mRedisButton" destination="RKy-kT-jP0" id="0Ev-QT-zY3"/>
                 <outlet property="mRedisTool" destination="FW6-8l-zZa" id="aKJ-vo-M7k"/>
-                <outlet property="pMySQLStatus" destination="KP1-7r-Q0A" id="mmg-Qd-4TI"/>
                 <outlet property="pNginxStatus" destination="iCn-DW-pu3" id="Snf-r4-mQN"/>
                 <outlet property="pPHPFPMStatus" destination="yWR-eF-vFG" id="kMK-59-jSy"/>
                 <outlet property="pProgress" destination="XYp-dI-Cdf" id="XsF-0U-mPu"/>
                 <outlet property="pStart" destination="ynu-WP-Afh" id="2dP-Me-3oN"/>
                 <outlet property="pStartTitle" destination="TMl-iR-kF8" id="iEx-i9-s5c"/>
+                <outlet property="phpSwitch" destination="U5T-o3-HhE" id="Nbi-Sg-p0r"/>
                 <outlet property="statusBarItemMenu" destination="2J9-UB-8Ud" id="5x7-db-8qk"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="gIp-Ho-8D9"/>
             </connections>
@@ -120,6 +122,11 @@
                                     <action selector="SelfCompileNginx:" target="Voe-Tx-rLC" id="kSc-Y1-r7W"/>
                                 </connections>
                             </menuItem>
+                            <menuItem title="ReloadSVC" keyEquivalent="r" id="IYD-zU-rhY">
+                                <connections>
+                                    <action selector="reloadSVC:" target="Voe-Tx-rLC" id="f9M-KN-LPo"/>
+                                </connections>
+                            </menuItem>
                             <menuItem title="MySQL初始化" id="cyS-Ve-s5G" userLabel="MySQL编译">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
@@ -135,6 +142,10 @@
                         </items>
                     </menu>
                 </menuItem>
+                <menuItem title="PHP Switch" id="U5T-o3-HhE">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <menu key="submenu" title="PHP Switch" id="Qbf-RL-G3C"/>
+                </menuItem>
                 <menuItem title="Help" id="wpr-3q-Mcd">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <menu key="submenu" title="Help" systemMenu="help" id="F2S-fz-NVQ">
@@ -148,6 +159,7 @@
                     </menu>
                 </menuItem>
             </items>
+            <point key="canvasLocation" x="237" y="48"/>
         </menu>
         <menu id="2J9-UB-8Ud" userLabel="Menu Icon">
             <items>
@@ -201,7 +213,7 @@
                     </connections>
                 </menuItem>
             </items>
-            <point key="canvasLocation" x="373.5" y="179.5"/>
+            <point key="canvasLocation" x="799" y="57"/>
         </menu>
         <window title="mdserver" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" animationBehavior="default" id="QvC-M9-y7g">
             <windowStyleMask key="styleMask" titled="YES" closable="YES"/>
@@ -214,37 +226,18 @@
                 <rect key="frame" x="0.0" y="0.0" width="600" height="500"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <box verticalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" id="mTe-Hw-6DS">
+                    <box verticalHuggingPriority="750" boxType="separator" id="mTe-Hw-6DS">
                         <rect key="frame" x="0.0" y="431" width="600" height="5"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
-                        <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                        <font key="titleFont" metaFont="system"/>
                     </box>
                     <progressIndicator hidden="YES" wantsLayer="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" maxValue="100" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" id="XYp-dI-Cdf">
                         <rect key="frame" x="471" y="456" width="16" height="16"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     </progressIndicator>
-                    <button id="iCn-DW-pu3">
-                        <rect key="frame" x="498" y="475" width="84" height="18"/>
+                    <button misplaced="YES" id="iCn-DW-pu3">
+                        <rect key="frame" x="493" y="469" width="84" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="Nginx" bezelStyle="regularSquare" imagePosition="right" enabled="NO" inset="2" id="WfW-fj-oN6">
-                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                    </button>
-                    <button id="yWR-eF-vFG">
-                        <rect key="frame" x="498" y="458" width="84" height="18"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="check" title="PHP-FPM" bezelStyle="regularSquare" imagePosition="right" enabled="NO" inset="2" id="iAj-gs-ao2">
-                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                    </button>
-                    <button id="KP1-7r-Q0A">
-                        <rect key="frame" x="498" y="441" width="84" height="18"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="check" title="MySQL" bezelStyle="regularSquare" imagePosition="right" enabled="NO" inset="2" id="wBP-gg-153">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
@@ -335,12 +328,9 @@
                                                 <action selector="setSpecialPort:" target="yKg-vm-BmC" id="PVe-we-cGr"/>
                                             </connections>
                                         </button>
-                                        <box verticalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" id="OG7-BH-SDe">
+                                        <box verticalHuggingPriority="750" boxType="separator" id="OG7-BH-SDe">
                                             <rect key="frame" x="-9" y="197" width="566" height="5"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
-                                            <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                            <font key="titleFont" metaFont="system"/>
                                         </box>
                                         <button id="icI-BH-qEf">
                                             <rect key="frame" x="227" y="64" width="139" height="18"/>
@@ -386,12 +376,9 @@
                                                 <action selector="isOpenAfterStart:" target="yKg-vm-BmC" id="0Ju-Ha-7IV"/>
                                             </connections>
                                         </button>
-                                        <box verticalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" id="3Fz-JW-pvN">
+                                        <box verticalHuggingPriority="750" boxType="separator" id="3Fz-JW-pvN">
                                             <rect key="frame" x="-3" y="44" width="588" height="5"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
-                                            <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                            <font key="titleFont" metaFont="system"/>
                                         </box>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="NUZ-q1-7LV">
                                             <rect key="frame" x="116" y="17" width="101" height="17"/>
@@ -468,12 +455,9 @@
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
                                         </button>
-                                        <box horizontalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" id="s8J-UD-u5V">
+                                        <box horizontalHuggingPriority="750" boxType="separator" id="s8J-UD-u5V">
                                             <rect key="frame" x="275" y="-10" width="5" height="362"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
-                                            <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                            <font key="titleFont" metaFont="system"/>
                                         </box>
                                         <textField autoresizesSubviews="NO" horizontalHuggingPriority="251" verticalHuggingPriority="750" id="ivw-nI-5cQ">
                                             <rect key="frame" x="284" y="313" width="88" height="17"/>
@@ -493,12 +477,9 @@
                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
                                         </textField>
-                                        <box verticalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" id="XSr-aR-0jX">
+                                        <box verticalHuggingPriority="750" boxType="separator" id="XSr-aR-0jX">
                                             <rect key="frame" x="277" y="260" width="280" height="5"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
-                                            <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                            <font key="titleFont" metaFont="system"/>
                                         </box>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="ffK-h8-Oef">
                                             <rect key="frame" x="285" y="217" width="105" height="17"/>
@@ -538,7 +519,7 @@
                                             <rect key="frame" x="7" y="35" width="240" height="297"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <clipView key="contentView" copiesOnScroll="NO" id="0RZ-5f-Xjz">
-                                                <rect key="frame" x="1" y="0.0" width="238" height="134"/>
+                                                <rect key="frame" x="1" y="0.0" width="238" height="296"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="20" rowSizeStyle="automatic" headerView="B9H-aO-DLa" viewBased="YES" id="tNs-DA-7w6">
@@ -595,11 +576,11 @@
                                                                 <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                 <prototypeCellViews>
                                                                     <tableCellView identifier="port" id="fIa-93-cdc">
-                                                                        <rect key="frame" x="168" y="1" width="63" height="20"/>
+                                                                        <rect key="frame" x="168" y="1" width="68" height="20"/>
                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                         <subviews>
                                                                             <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" id="u1M-08-mKh">
-                                                                                <rect key="frame" x="0.0" y="3" width="63" height="17"/>
+                                                                                <rect key="frame" x="0.0" y="3" width="68" height="17"/>
                                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                                                 <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="cell" id="Opr-ZN-LMY">
                                                                                     <font key="font" metaFont="system"/>
@@ -747,12 +728,9 @@
                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
                                         </textField>
-                                        <box verticalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" id="fib-q6-yap">
+                                        <box verticalHuggingPriority="750" boxType="separator" id="fib-q6-yap">
                                             <rect key="frame" x="-3" y="259" width="560" height="5"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
-                                            <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                            <font key="titleFont" metaFont="system"/>
                                         </box>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" setsMaxLayoutWidthAtFirstLayout="YES" id="4Z5-b8-oNC">
                                             <rect key="frame" x="265" y="270" width="227" height="30"/>
@@ -763,19 +741,13 @@
                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
                                         </textField>
-                                        <box verticalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" id="EPA-6n-o1V">
+                                        <box verticalHuggingPriority="750" boxType="separator" id="EPA-6n-o1V">
                                             <rect key="frame" x="-3" y="156" width="560" height="5"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
-                                            <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                            <font key="titleFont" metaFont="system"/>
                                         </box>
-                                        <box verticalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" id="FPL-GO-aGi">
+                                        <box verticalHuggingPriority="750" boxType="separator" id="FPL-GO-aGi">
                                             <rect key="frame" x="-3" y="103" width="560" height="5"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
-                                            <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                            <font key="titleFont" metaFont="system"/>
                                         </box>
                                         <button id="dcL-To-cao">
                                             <rect key="frame" x="247" y="240" width="133" height="18"/>
@@ -1024,9 +996,39 @@
                             <action selector="goMemcached:" target="Voe-Tx-rLC" id="HUu-mH-blk"/>
                         </connections>
                     </button>
+                    <button verticalHuggingPriority="750" misplaced="YES" id="rFw-SI-Kgp">
+                        <rect key="frame" x="233" y="443" width="99" height="25"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="check" title="MySQL" bezelStyle="regularSquare" imagePosition="right" alignment="right" inset="2" id="8Uz-W8-loK">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="MySQLStart:" target="Voe-Tx-rLC" id="Nfi-hB-mHh"/>
+                        </connections>
+                    </button>
+                    <button verticalHuggingPriority="750" misplaced="YES" id="JJV-kP-Bb3">
+                        <rect key="frame" x="333" y="445" width="20" height="20"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="tool" imagePosition="overlaps" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="TSm-ej-a2R">
+                            <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="goMySQL:" target="Voe-Tx-rLC" id="QuS-Eh-VYW"/>
+                        </connections>
+                    </button>
+                    <button misplaced="YES" id="yWR-eF-vFG">
+                        <rect key="frame" x="493" y="446" width="84" height="18"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="check" title="PHP-FPM" bezelStyle="regularSquare" imagePosition="right" enabled="NO" inset="2" id="iAj-gs-ao2">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                    </button>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="516" y="498"/>
+            <point key="canvasLocation" x="384" y="567"/>
         </window>
         <userDefaultsController representsSharedInstance="YES" id="FzA-Zp-fHT"/>
         <customObject id="A2B-NI-gKD" customClass="HostNameController">

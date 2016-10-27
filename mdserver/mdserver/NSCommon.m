@@ -24,6 +24,21 @@
     [alert runModal];
 }
 
++(void)alert:(NSString *)content delayedClose:(float)t
+{
+    NSAlert *alert = [[NSAlert alloc] init];
+    [alert setMessageText:@"提示"];
+    [alert setInformativeText:content];
+    [alert setAlertStyle:NSInformationalAlertStyle];
+    [alert runModal];
+    
+    //[alert cl];
+    
+    [self delayedRun:t callback:^{
+        [alert.window close];
+    }];
+}
+
 #pragma mark 延迟执行
 +(void)delayedRun:(float)t callback:(void(^)()) callback
 {
@@ -144,7 +159,7 @@
     }
     
     NSString *rootDir = [NSCommon getRootDir];
-    NSString *vhost = [NSString stringWithFormat:@"%@bin/nginx/conf/vhost", rootDir];
+    NSString *vhost = [NSString stringWithFormat:@"%@bin/openresty/nginx/conf/vhost", rootDir];
     NSFileManager *fm = [NSFileManager defaultManager];
     
     
@@ -171,7 +186,7 @@
 +(BOOL)setRemoveAllConfig
 {
     NSString *str = [NSCommon getRootDir];
-    NSString *vhost = [NSString stringWithFormat:@"%@bin/nginx/conf/vhost", str];
+    NSString *vhost = [NSString stringWithFormat:@"%@bin/openresty/nginx/conf/vhost", str];
     
     NSFileManager *fm = [NSFileManager defaultManager];
     NSArray *list = [fm contentsOfDirectoryAtPath:vhost error:nil];
@@ -191,7 +206,7 @@
 +(BOOL)setConfigWithServerName:(NSString *)serverName port:(NSString *)port path:(NSString *)path{
     NSString *str = [NSCommon getRootDir];
     //vhost下配置
-    NSString *vhost = [NSString stringWithFormat:@"%@bin/nginx/conf/vhost", str];
+    NSString *vhost = [NSString stringWithFormat:@"%@bin/openresty/nginx/conf/vhost", str];
     NSString *rserverName = [serverName stringByReplacingOccurrencesOfString:@"." withString:@"_"];
     NSString *nginx_vhost = [NSString stringWithFormat:@"%@/tmp_%@.conf" , vhost, rserverName];
     NSString *template = [NSString stringWithFormat:@"%@/conf.template", vhost];

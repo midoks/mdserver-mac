@@ -11,6 +11,8 @@
 #import <Security/Authorization.h>
 #include <mach-o/dyld.h>
 
+#define PHP_C_VER_KEY @"php_version"
+
 @interface AppDelegate () <NSUserNotificationCenterDelegate>
 
 @property IBOutlet NSWindow *window;
@@ -19,10 +21,14 @@
 @property (nonatomic, strong) IBOutlet NSButton *mMongoTool;
 @property (nonatomic, strong) IBOutlet NSButton *mRedisTool;
 @property (nonatomic, strong) IBOutlet NSButton *mMemcachedTool;
+@property (nonatomic, strong) IBOutlet NSButton *mMySQLTool;
 
 @property (nonatomic, strong) IBOutlet NSButton *mMongoButton;
 @property (nonatomic, strong) IBOutlet NSButton *mRedisButton;
 @property (nonatomic, strong) IBOutlet NSButton *mMemcachedButton;
+@property (nonatomic, strong) IBOutlet NSButton *mMySQLButton;
+
+//@property (nonatomic, strong) IBOutlet NSSubmenuWindowLevel *phpSwitch;
 
 @end
 
@@ -40,15 +46,15 @@
 }
 
 #pragma mark 用户通知中心
-- (void)userNotificationCenter:(NSUserNotificationCenter *)center didDeliverNotification:(NSUserNotification *)notification
-{
-    //NSLog(@"通知已经递交！");
-}
-
-- (void)userNotificationCenter:(NSUserNotificationCenter *)center didActivateNotification:(NSUserNotification *)notification
-{
-    //NSLog(@"用户点击了通知！");
-}
+//- (void)userNotificationCenter:(NSUserNotificationCenter *)center didDeliverNotification:(NSUserNotification *)notification
+//{
+//    //NSLog(@"通知已经递交！");
+//}
+//
+//- (void)userNotificationCenter:(NSUserNotificationCenter *)center didActivateNotification:(NSUserNotification *)notification
+//{
+//    //NSLog(@"用户点击了通知！");
+//}
 
 - (BOOL)userNotificationCenter:(NSUserNotificationCenter *)center shouldPresentNotification:(NSUserNotification *)notification
 {
@@ -116,49 +122,17 @@
 
 #pragma mark 获取cmd执行特权
 #define ADMIN_PRIVILEGE     "system.privilege.admin"
-//-(OSStatus)AcquireRight:(const char *)rightName
-//// This routine calls Authorization Services to acquire
-//// the specified right.
-//{
-//    OSStatus                         err;
-//    static const AuthorizationFlags  kFlags =
-//    kAuthorizationFlagInteractionAllowed
-//    | kAuthorizationFlagExtendRights;
-//    AuthorizationItem   kActionRight = { rightName, 0, 0, 0 };
-//    AuthorizationRights kRights      = { 1, &kActionRight };
-//    
-//    assert(self->_authRef != NULL);
-//    
-//    // Request the application-specific right.
-//    err = AuthorizationCopyRights(
-//                                  self->_authRef,         // authorization
-//                                  &kRights,               // rights
-//                                  NULL,                   // environment
-//                                  kFlags,                 // flags
-//                                  NULL                    // authorizedRights
-//                                  );
-//    
-//    return err;
-//}
 #pragma mark 给执行文件授权
 -(void)AuthorizeCreate
 {
-    
     NSString *app_dir = [NSCommon getAppDir];
     NSString *addhost = [NSString stringWithFormat:@"%@Contents/Resources/addhost", app_dir];
     NSString *removehost = [NSString stringWithFormat:@"%@Contents/Resources/removehost", app_dir];
     NSString *ss = [NSString stringWithFormat:@"%@Contents/Resources/ss", app_dir];
-    
-    
-    
     NSString *root_dir = [NSCommon getRootDir];
+    
     NSString *redis = [NSString stringWithFormat:@"%@bin/redis.sh", root_dir];
-    
-    
     NSArray *list = [[NSArray alloc] initWithObjects:addhost, removehost, ss, redis, nil];
-    
-
-    
     
     if (self->_authRef) {
         //NSLog(@"ok");
@@ -168,9 +142,9 @@
         AuthorizationItem authItem[count];
         AuthorizationRights authRights;
         AuthorizationFlags flags  = kAuthorizationFlagDefaults              |
-                                    kAuthorizationFlagInteractionAllowed    |
-                                    kAuthorizationFlagPreAuthorize          |
-                                    kAuthorizationFlagExtendRights;
+        kAuthorizationFlagInteractionAllowed    |
+        kAuthorizationFlagPreAuthorize          |
+        kAuthorizationFlagExtendRights;
         
         authRights.count = (UInt32)count;
         //NSLog(@"count:%d", count);
@@ -193,12 +167,13 @@
     }
 }
 
+
+
+
 -(void)AuthorizeExeCmd:(NSString *)file
 {
-    //NSLog(@"file:%@", file);
     //虽然要被分离,但是我觉得最好用。
     OSStatus  status_exe = AuthorizationExecuteWithPrivileges(self->_authRef, (void *)[file cStringUsingEncoding:NSASCIIStringEncoding], kAuthorizationFlagDefaults, nil, nil);
-    //NSLog(@"%d", status_exe);
     if (status_exe != errAuthorizationSuccess)
     {
         NSLog(@"AuthorizationExecuteWithPrivileges failed!:%d", status_exe);
@@ -215,7 +190,7 @@
 //                                kAuthorizationFlagInteractionAllowed    |
 //                                kAuthorizationFlagPreAuthorize          |
 //                                kAuthorizationFlagExtendRights;
-//    
+//
 //    if (self->_authRef) {
 //        NSLog(@"ok");
 //    }else{
@@ -240,12 +215,12 @@
 
 //-(void)AuthorizeFile2:(NSString *)file
 //{
-//    
+//
 //    BOOL result = NO;
 //    NSError * error = nil;
-//    
+//
 //    OSStatus status = AuthorizationCreate(NULL, kAuthorizationEmptyEnvironment, kAuthorizationFlagDefaults, &self->_authRef);
-//    
+//
 //    NSLog(@"%d", status);
 //    if (status != errAuthorizationSuccess) {
 //        /* AuthorizationCreate really shouldn't fail. */
@@ -253,7 +228,7 @@
 //        assert(NO);
 //        self->_authRef = NULL;
 //    }
-//    
+//
 //    AuthorizationItem authItem		= { kSMRightModifySystemDaemons, 0, NULL, 0 };
 //    AuthorizationRights authRights	= { 1, &authItem };
 //    AuthorizationFlags flags		=	kAuthorizationFlagDefaults              |
@@ -261,14 +236,14 @@
 //    kAuthorizationFlagPreAuthorize          |
 //    kAuthorizationFlagExtendRights;
 //    OSStatus statusR = AuthorizationCopyRights(self->_authRef, &authRights, kAuthorizationEmptyEnvironment, flags, NULL);
-//    
+//
 //    if (statusR != errAuthorizationSuccess) {
 //        NSLog(@"获取权限失败!!!");
 //        error = [NSError errorWithDomain:NSOSStatusErrorDomain code:status userInfo:nil];
 //    } else {
 //        NSLog(@"获取权限成功");
 //        CFErrorRef  cfError;
-//        
+//
 //        /* This does all the work of verifying the helper tool against the application
 //         * and vice-versa. Once verification has passed, the embedded launchd.plist
 //         * is extracted and placed in /Library/LaunchDaemons and then loaded. The
@@ -278,7 +253,7 @@
 //        if (!result){
 //            error = CFBridgingRelease(cfError);
 //        }
-//        
+//
 //        if ( ! result) {
 //            assert(error != nil);
 //            NSLog(@"%@", error);
@@ -345,7 +320,7 @@
 
 - (IBAction)showNginxLog:(id)sender {
     NSString *root = [NSCommon getRootDir];
-    NSString *nginx_access_log = [NSString stringWithFormat:@"%@/bin/nginx/logs/access.log", root];
+    NSString *nginx_access_log = [NSString stringWithFormat:@"%@/bin/openresty/nginx/logs/access.log", root];
     
     if ([NSCommon fileIsExists:nginx_access_log]) {
         [self openFile:nginx_access_log];
@@ -356,7 +331,8 @@
 
 - (IBAction)showPhpFpmLog:(id)sender {
     NSString *root = [NSCommon getRootDir];
-    NSString *php_fpm_log = [NSString stringWithFormat:@"%@/bin/php/var/log/php-fpm.log", root];
+    NSString *php_version = [NSCommon getCommonConfig:PHP_C_VER_KEY];
+    NSString *php_fpm_log = [NSString stringWithFormat:@"%@/bin/php/%@/var/log/php-fpm.log", root, php_version];
     
     if ([NSCommon fileIsExists:php_fpm_log]){
         [self openFile:php_fpm_log];
@@ -367,8 +343,8 @@
 
 - (IBAction)showMysqlLog:(id)sender {
     NSString *root = [NSCommon getRootDir];
-    NSString *mysql_error_log = [NSString stringWithFormat:@"%@/bin/mysql/data/localhost.log", root];
-
+    NSString *mysql_error_log = [NSString stringWithFormat:@"%@/bin/mysql/data/mysql.log", root];
+    
     if ([NSCommon fileIsExists:mysql_error_log]){
         [self openFile:mysql_error_log];
     }else{
@@ -385,18 +361,16 @@
     [alert addButtonWithTitle:@"确定编译"];
     [alert addButtonWithTitle:@"取消编译"];
     NSModalResponse r = [alert runModal];
-
+    
     if (r == 1000) {
-         NSString *str = [NSCommon getRootDir];
+        NSString *str = [NSCommon getRootDir];
         
         NSString *php_log = [NSString stringWithFormat:@"%@bin/logs/php.log", str];
         [self openFile:php_log];
         
-       
+        
         str = [NSString stringWithFormat:@"%@bin/reinstall/php.sh", str];
         [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", str, nil]] waitUntilExit];
-        
-        
     }
 }
 
@@ -455,7 +429,7 @@
         [NSCommon delayedRun:1.0 callback:^{
             [self openFile:yaf_log];
         }];
-
+        
         str = [NSString stringWithFormat:@"%@bin/reinstall/yaf.sh", str];
         [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", str, nil]] waitUntilExit];
     }
@@ -507,27 +481,32 @@
 
 -(void)replacePHP:(BOOL)yes
 {
-    NSString *str = [NSCommon getRootDir];
-    NSString *php_ini = [NSString stringWithFormat:@"%@bin/php/etc/php.ini", str];
+    NSString *php_version = [NSCommon getCommonConfig:PHP_C_VER_KEY];
+    
+    NSString *rootDir = [NSCommon getRootDir];
+    NSString *php_ini = [NSString stringWithFormat:@"%@bin/php/%@/etc/php.ini", rootDir, php_version];
     [self replaceConfig:php_ini yes:yes];
     
-    NSString *php_fpm = [NSString stringWithFormat:@"%@bin/php/etc/php-fpm.conf", str];
+    NSString *php_fpm = [NSString stringWithFormat:@"%@bin/php/%@/etc/php-fpm.conf", rootDir, php_version];
     [self replaceConfig:php_fpm yes:yes];
 }
 
--(void)replaceNginx:(BOOL)yes
+-(void)replaceOpenresty:(BOOL)yes
 {
-    NSString *str           = [NSCommon getRootDir];
-    NSString *nginx_conf    = [NSString stringWithFormat:@"%@bin/nginx/conf/nginx.conf", str];
+    NSString *rootDir           = [NSCommon getRootDir];
+    NSString *nginx_conf    = [NSString stringWithFormat:@"%@bin/openresty/nginx/conf/nginx.conf", rootDir];
     [self replaceConfig:nginx_conf yes:yes];
     
+    NSString *nginx_conf_tpl    = [NSString stringWithFormat:@"%@bin/openresty/nginx/conf/nginx.tpl.conf", rootDir];
+    [self replaceConfig:nginx_conf_tpl yes:yes];
+    
     //vhost下配置
-    NSString *nginx_vhost = [NSString stringWithFormat:@"%@bin/nginx/conf/vhost", str];
+    NSString *resty_vhost = [NSString stringWithFormat:@"%@bin/openresty/nginx/conf/vhost", rootDir];
     NSFileManager *fm = [NSFileManager  defaultManager];
-    NSArray *dirList = [fm contentsOfDirectoryAtPath:nginx_vhost error:nil];
+    NSArray *dirList = [fm contentsOfDirectoryAtPath:resty_vhost error:nil];
     for (NSString *f in dirList) {
         if([f hasSuffix:@"conf"]){
-            NSString *conf = [NSString stringWithFormat:@"%@/%@", nginx_vhost, f];
+            NSString *conf = [NSString stringWithFormat:@"%@/%@", resty_vhost, f];
             [self replaceConfig:conf yes:yes];
         }
     }
@@ -539,7 +518,7 @@
 {
     NSString *str           = [NSCommon getRootDir];
     NSString *my_rcnf        = [NSString stringWithFormat:@"%@bin/tmp/my.cnf", str];
-
+    
     NSString *my_cnf        = [[NSBundle mainBundle] pathForResource:@"my" ofType:@"cnf"];;
     NSString *my_content = [NSString stringWithContentsOfFile:my_cnf encoding:NSUTF8StringEncoding error:nil];
     
@@ -556,24 +535,29 @@
 -(void)startConfReplaceString
 {
     [self replacePHP:YES];//php.ini替换
-    [self replaceNginx:YES];//nginx.conf替换
+    [self replaceOpenresty:YES];//openresty替换
     [self startCnfReplaceString];
+    
+    [NSCommon saveNginxConfig];
 }
 
 //停止配置文件替换
 -(void)stopConfReplaceString
 {
     [self replacePHP:NO];//php.ini替换
-    [self replaceNginx:NO];//nginx.conf替换
+    [self replaceOpenresty:NO];//openresty替换
+    
+    [NSCommon setRemoveAllConfig];
 }
 
+
+#pragma mark - 启动服务 -
 - (void)startWebService
 {
-    NSString *_str  = [NSCommon getAppDir];
-    NSString *str   = [NSCommon getRootDir];
+    NSString *appDir  = [NSCommon getAppDir];
+    NSString *rootDir   = [NSCommon getRootDir];
     NSString *title = pStartTitle.stringValue;
     
-    //NSLog(@"start:开始启动");
     if ([title isEqual:@"start"]) {
         
         NSString *isflog = [NSCommon getCommonConfig:@"isStartAfterFlushLog"];
@@ -581,96 +565,64 @@
             [self startFlushLogContent];
         }
         
-        NSString *addhost = [NSString stringWithFormat:@"%@Contents/Resources/addhost", _str];
+        NSString *addhost = [NSString stringWithFormat:@"%@Contents/Resources/addhost", appDir];
         [self AuthorizeExeCmd:addhost];
         
         [self startConfReplaceString];
-        [NSCommon saveNginxConfig];
+        sleep(1);
         
-        NSString *nginx = [NSString stringWithFormat:@"%@bin/startNginx.sh", str];
+        NSString *nginx = [NSString stringWithFormat:@"%@bin/startNginx.sh", rootDir];
         [self AuthorizeExeCmd:nginx];
         
-        NSString *php = [NSString stringWithFormat:@"%@bin/start.sh php", str];
+        NSString *php_version = [NSCommon getCommonConfig:PHP_C_VER_KEY];
+        NSString *php = [NSString stringWithFormat:@"%@bin/php/status.sh %@ start", rootDir, php_version];
         [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", php, nil]] waitUntilExit];
         
-        NSString *mysql = [NSString stringWithFormat:@"%@bin/start.sh mysql", str];
-        [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", mysql, nil]] waitUntilExit];
+        [self userCenter:@"启动成功"];
     }
 }
 
+#pragma mark - 停止服务 -
 - (void)stopWebService
 {
-    //NSLog(@"start:开始停止");
-    NSString *str = [NSCommon getRootDir];
-    NSString *_str = [NSCommon getAppDir];
+    NSString *rootDir = [NSCommon getRootDir];
+    NSString *appDir = [NSCommon getAppDir];
     NSString *title = pStartTitle.stringValue;
     
     if([title isEqual:@"stop"]){
         
-        NSString *nginx_php = [NSString stringWithFormat:@"%@bin/stopNginx.sh", str];
+        NSString *nginx_php = [NSString stringWithFormat:@"%@bin/stopNginx.sh", rootDir];
         [self AuthorizeExeCmd:nginx_php];
         
-        NSString *php = [NSString stringWithFormat:@"%@bin/stop.sh php", str];
+        NSString *php_version = [NSCommon getCommonConfig:PHP_C_VER_KEY];
+        NSString *php = [NSString stringWithFormat:@"%@bin/php/status.sh %@ stop", rootDir, php_version];
         [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", php, nil]] waitUntilExit];
         
-         NSString *mysql = [NSString stringWithFormat:@"%@bin/stop.sh mysql", str];
-        [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", mysql, nil]] waitUntilExit];
-        
-        sleep(2);
-
-        [self stopConfReplaceString];
-        [NSCommon setRemoveAllConfig];
-        NSString *removehost = [NSString stringWithFormat:@"%@Contents/Resources/removehost", _str];
+        NSString *removehost = [NSString stringWithFormat:@"%@Contents/Resources/removehost", appDir];
         [self AuthorizeExeCmd:removehost];
+        
+        sleep(1);
+        [self stopConfReplaceString];
+        
+        [self userCenter:@"停止成功"];
     }
 }
 
-#pragma mark 修改Host文件
-- (void)modHostsFile
+#pragma mark - 重置服务 -
+-(IBAction)reloadSVC:(id)sender
 {
-    
-    NSString *content = [NSString stringWithContentsOfFile:@"/etc/hosts" encoding:NSUTF8StringEncoding error:nil];
-    NSString *add = [NSCommon getHostFileNeedContent];
-    content = [NSString stringWithFormat:@"%@\r\n%@", content, add];
-    
-    NSLog(@"c:%@", content);
-    NSError *err;
-    [content writeToFile:@"/etc/hosts" atomically:YES encoding:NSUTF8StringEncoding error:&err];
-    if(err != nil){
-        NSLog(@"%@", err);
-    }
+    [self AuthorizeCreate];
+    NSString *rootDir = [NSCommon getRootDir];
+    NSString *reloadSVC = [NSString stringWithFormat:@"%@bin/reloadSVC.sh", rootDir];
+    [self AuthorizeExeCmd:reloadSVC];
 }
-
-#pragma mark 还原Host文件
--(void)removeHostFile
-{
-    NSString *content = [NSString stringWithContentsOfFile:@"/etc/hosts" encoding:NSUTF8StringEncoding error:nil];
-    NSString *add = [NSCommon getHostFileNeedContent];
-    content = [NSString stringWithFormat:@"%@\r\n%@", content, add];
-    
-    
-    NSString *ok = [NSCommon setHostFileNotNeedContent:content];
-    
-    NSLog(@"----------------------------------------------------------------------------");
-    NSLog(@"c:%@", ok);
-    NSLog(@"----------------------------------------------------------------------------");
-}
-
 
 #pragma mark 启动时清空内容
 -(void)startFlushLogContent
 {
-    NSString *root = [NSCommon getRootDir];
-    
-    NSString *nginx_error_log = [NSString stringWithFormat:@"%@/bin/nginx/logs/error.log", root];
-    NSString *nginx_access_log = [NSString stringWithFormat:@"%@/bin/nginx/logs/access.log", root];
-    NSString *mysql_error_log = [NSString stringWithFormat:@"%@/bin/mysql/data/localhost.log", root];
-    NSString *php_fpm_log = [NSString stringWithFormat:@"%@/bin/php/var/log/php-fpm.log", root];
-    
-    [NSCommon setFlushLog:nginx_error_log];
-    [NSCommon setFlushLog:nginx_access_log];
-    [NSCommon setFlushLog:mysql_error_log];
-    [NSCommon setFlushLog:php_fpm_log];
+    NSString *rootDir = [NSCommon getRootDir];
+    rootDir = [NSString stringWithFormat:@"%@bin/flush.sh", rootDir];
+    [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", rootDir, nil]] waitUntilExit];
 }
 
 #pragma mark 打开本软件自动启动
@@ -685,7 +637,7 @@
     
     [pProgress setHidden:NO];
     [pProgress startAnimation:nil];
-
+    
     if ([title isEqual:@"start"]) {
         [self startWebService];
     }else if([title isEqual:@"stop"]){
@@ -702,7 +654,7 @@
 
 #pragma mark - 按钮启动 -
 - (IBAction)start:(id)sender {
-    [self AuthorizeCreate];    
+    [self AuthorizeCreate];
     [self selfStart];
 }
 
@@ -716,7 +668,7 @@
     }
 }
 
-#pragma mark - redis和mongodb相关功能 && Memcached -
+#pragma mark - redis和mongodb相关功能 && Memcached && MySQL -
 
 -(IBAction)goRedisWeb:(id)sender
 {
@@ -748,15 +700,21 @@
     }else{
         [self alert:@"web服务未启动"];
     }
-    
 }
 
+-(IBAction)goMySQL:(id)sender
+{
+    NSString *title = [pStartTitle stringValue];
+    if ([title isEqual:@"stop"]) {
+        [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://localhost:8888/phpMyAdmin/"]];
+    }else{
+        [self alert:@"web服务未启动"];
+    }
+}
 
 -(IBAction)redisStart:(id)sender
 {
-    
     NSString *str   = [NSCommon getRootDir];
-    
     //NSLog(@"%@",str);
     //str = @"/Applications/mdserver/";
     if( _mRedisButton.state == 1 ){
@@ -772,13 +730,13 @@
 
 -(IBAction)mongoStart:(id)sender
 {
-    NSString *str   = [NSCommon getRootDir];
+    NSString *rootDir   = [NSCommon getRootDir];
     if( _mMongoButton.state == 1 ){
-        str = [NSString stringWithFormat:@"%@bin/mongodb.sh start", str];
-        [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", str, nil]] waitUntilExit];
+        rootDir = [NSString stringWithFormat:@"%@bin/mongodb.sh start", rootDir];
+        [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", rootDir, nil]] waitUntilExit];
     } else {
-        str = [NSString stringWithFormat:@"%@bin/mongodb.sh stop", str];
-        [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", str, nil]] waitUntilExit];
+        rootDir = [NSString stringWithFormat:@"%@bin/mongodb.sh stop", rootDir];
+        [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", rootDir, nil]] waitUntilExit];
     }
     [self checkMongoStatus];
 }
@@ -786,8 +744,6 @@
 -(IBAction)memcachedStart:(id)sender
 {
     NSString *str   = [NSCommon getRootDir];
-    
-    //str = @"/Applications/mdserver/";
     if( _mMemcachedButton.state == 1 ){
         str = [NSString stringWithFormat:@"%@bin/memcached.sh start", str];
         [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", str, nil]] waitUntilExit];
@@ -797,6 +753,21 @@
     }
     [self checkMemcachedStatus];
     
+}
+
+-(IBAction)MySQLStart:(id)sender
+{
+    NSString *rootDir   = [NSCommon getRootDir];
+    if (_mMySQLButton.state == 1) {
+        NSString *mysql = [NSString stringWithFormat:@"%@bin/start.sh mysql", rootDir];
+        [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", mysql, nil]] waitUntilExit];
+        sleep(3);
+    } else {
+        NSString *mysql = [NSString stringWithFormat:@"%@bin/stop.sh mysql", rootDir];
+        [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", mysql, nil]] waitUntilExit];
+    }
+    
+    [self checkMySQLStatus];
 }
 
 -(BOOL)checkRedisStatus
@@ -851,13 +822,32 @@
     return isStart;
 }
 
+#pragma mark 检查MySQL是否启动
+-(BOOL)checkMySQLStatus
+{
+    NSString *path = [NSCommon getRootDir];
+    NSFileManager *fm = [NSFileManager defaultManager];
+    path = [NSString stringWithFormat:@"%@bin/mysql/data/mysql.pid", path];
+    BOOL isStart =  [fm fileExistsAtPath:path];
+    
+    if(isStart){
+        _mMySQLTool.enabled = TRUE;
+        _mMySQLButton.state = 1;
+    } else {
+        _mMySQLTool.enabled = FALSE;
+        _mMySQLButton.state = 0;
+    }
+    return isStart;
+}
+
 #pragma mark - 程序入口 -
+
 #pragma mark 检查PHP-FPM是否启动
 -(BOOL)checkWebPHP
 {
     NSString *path = [NSCommon getRootDir];
     NSFileManager *fm = [NSFileManager defaultManager];
-    path = [NSString stringWithFormat:@"%@bin/php/var/run/php-fpm.pid", path];
+    path = [NSString stringWithFormat:@"%@bin/tmp/php-fpm.pid", path];
     return [fm fileExistsAtPath:path];
 }
 
@@ -866,16 +856,7 @@
 {
     NSString *path = [NSCommon getRootDir];
     NSFileManager *fm = [NSFileManager defaultManager];
-    path = [NSString stringWithFormat:@"%@bin/nginx/logs/nginx.pid", path];
-    return [fm fileExistsAtPath:path];
-}
-
-#pragma mark 检查MySQL是否启动
--(BOOL)checkWebMySQL
-{
-    NSString *path = [NSCommon getRootDir];
-    NSFileManager *fm = [NSFileManager defaultManager];
-    path = [NSString stringWithFormat:@"%@bin/mysql/data/localhost.pid", path];
+    path = [NSString stringWithFormat:@"%@bin/tmp/nginx.pid", path];
     return [fm fileExistsAtPath:path];
 }
 
@@ -884,16 +865,14 @@
 {
     BOOL n = [self checkWebNginx];
     BOOL p = [self checkWebPHP];
-    BOOL m = [self checkWebMySQL];
     
-    if (n || p || m) {
-        [self userCenter:@"启动成功"];
+    if (n || p) {
+        
         [pStartTitle setStringValue:@"stop"];
         [pStart setImage:[NSImage imageNamed:@"stop"]];
         //NSLog(@"stoping");
         [NSCommon setCommonConfig:@"WebServerStatus" value:@"started"];
     }else{
-        [self userCenter:@"停止成功"];
         [pStartTitle setStringValue:@"start"];
         [pStart setImage:[NSImage imageNamed:@"start"]];
         [NSCommon setCommonConfig:@"WebServerStatus" value:@"stoped"];
@@ -910,14 +889,7 @@
     }else{
         pPHPFPMStatus.state = 0;
     }
-    
-    if (m) {
-        pMySQLStatus.state = 1;
-    }else{
-        pMySQLStatus.state = 0;
-    }
 }
-
 
 #pragma mark 设置界面UI
 -(void)setBarStatus
@@ -930,36 +902,107 @@
     [statusBarItem setHighlightMode:YES];
 }
 
--(void)setUI
+#pragma mark - 初始化PHP版本列表 -
+-(void)initPhpList
 {
-    [self setBarStatus];
+    NSString *rootDir           = [NSCommon getRootDir];
+    NSString *php_version = [NSCommon getCommonConfig:PHP_C_VER_KEY];
+    //PHP列表
+    NSString *php_list = [NSString stringWithFormat:@"%@bin/php/", rootDir];
+    NSFileManager *fm = [NSFileManager  defaultManager];
     
-    //[_window setTitle:@"MDserver"];
-    //[_window setTitlebarAppearsTransparent:NO];
-    //[_windo];
-    //[_window setMinSize:CGSizeMake(600, 500)];
-    //[_window setMaxSize:CGSizeMake(600, 500)];
-    //[_window makeMainWindow];
-    //[_window addChildWindow:[[MainUIViewController alloc] init] ordered:NSWindowAbove];
+    NSArray *dirList = [fm contentsOfDirectoryAtPath:php_list error:nil];
+    NSInteger i = 1;
+    
+    phpList = [[NSMutableArray alloc] init];
+    
+    [phpSwitch.submenu addItem:[NSMenuItem separatorItem]];
+    for (NSString *f in dirList) {
+        
+        if([f hasPrefix:@"php"]){
+            NSMenuItem *tmpItem = [[NSMenuItem alloc] initWithTitle:f
+                                                             action:@selector(phpClick:)
+                                                      keyEquivalent:[NSString stringWithFormat:@"%ld", i]];
+            
+            
+            if ([php_version isEqualToString:f]){
+                tmpItem.state = 1;
+            }
+            
+            [phpSwitch.submenu addItem:tmpItem];
+            [phpList addObject:tmpItem];
+            i++;
+        }
+    }
+    [phpSwitch.submenu addItem:[NSMenuItem separatorItem]];
 }
 
-#pragma mark 程序加载时执行
+-(void)phpClick:(id)sender {
+    
+    NSString *rootDir = [NSCommon getRootDir];
+    NSMenuItem *cItem = (NSMenuItem *)sender;
+    
+    NSString *cphp_version = [cItem title];
+    NSString *php_version = [NSCommon getCommonConfig:PHP_C_VER_KEY];
+    
+    
+    if ( [self checkWebPHP] ){
+        
+        //停止当前PHP-FPM
+        NSString *php = [NSString stringWithFormat:@"%@bin/php/status.sh %@ stop", rootDir, php_version];
+        [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", php, nil]] waitUntilExit];
+        
+        [self replacePHP:NO];
+        [NSCommon setCommonConfig:PHP_C_VER_KEY value:cphp_version];
+        
+        //启动新PHP-FPM
+        [self replacePHP:YES];
+        NSString *new_php = [NSString stringWithFormat:@"%@bin/php/status.sh %@ start", rootDir, cphp_version];
+        [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", new_php, nil]] waitUntilExit];
+        
+        for (NSMenuItem *tItem in phpList) {
+            tItem.state = 0;
+        }
+        cItem.state = 1;
+        
+        if ([php_version isEqualToString:cphp_version]){
+            
+            NSString *info = [NSString stringWithFormat:@"%@ Restart OK!", php_version];
+            [self userCenter:info];
+            
+        } else {
+            [self userCenter:@"PHP-FPM Restart OK!"];
+        }
+        
+    } else {
+        [self userCenter:@"Service not started!"];
+    }
+    
+}
+
+#pragma mark - 程序加载时执行 -
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-    // Insert code here to initialize your application
+    [self initPhpList];
     
     [self checkWebStatus];
     
     [self checkRedisStatus];
     [self checkMongoStatus];
     [self checkMemcachedStatus];
+    [self checkMySQLStatus];
     
-    [self setUI];
-    
+    [self setBarStatus];
     
     NSString *isos = [NSCommon getCommonConfig:@"isOpenAfterStart"];
     if ([isos isEqualTo:@"1"]) {
         sleep(1);
         [self startWebService];
+    }
+    
+    //初始化php版本信息
+    NSString *php_version = [NSCommon getCommonConfig:PHP_C_VER_KEY];
+    if (!php_version || [php_version isEqualToString:@""]) {
+        [NSCommon setCommonConfig:PHP_C_VER_KEY value:@"php55"];
     }
     
     [NSCommon setCommonConfig:@"isOpenModMySQLPwdWindow" value:@"no"];

@@ -13,15 +13,18 @@
 
     NSStatusItem        *statusBarItem;
     IBOutlet NSMenu     *statusBarItemMenu;
+    IBOutlet NSMenuItem *phpSwitch;
+    NSMutableArray <NSMenuItem *> *phpList;
 
 //基本属性
     IBOutlet NSProgressIndicator *pProgress;
     IBOutlet NSButton *pNginxStatus;
     IBOutlet NSButton *pPHPFPMStatus;
-    IBOutlet NSButton *pMySQLStatus;
     
     IBOutlet NSButton *pStart;
     IBOutlet NSTextField *pStartTitle;
+    
+    
 
     
 //权限测试
@@ -47,6 +50,7 @@
 #pragma mark  - 启动或暂停 -
 - (IBAction)start:(id)sender;
 - (IBAction)goWeb:(id)sender;
+-(IBAction)reloadSVC:(id)sender;
 
 
 #pragma mark - General通用设置 -
@@ -56,6 +60,8 @@
 -(IBAction)goRedisWeb:(id)sender;
 -(IBAction)mongoStart:(id)sender;
 -(IBAction)goMongoWeb:(id)sender;
+-(IBAction)MySQLStart:(id)sender;
+-(IBAction)goMySQL:(id)sender;
 
 @end
 

@@ -17,6 +17,8 @@
 
 - (id)init
 {
+    NSLog(@"HostNameController");
+    
     //NSLog(@"init");
     if (self = [super init]) {
         [_tableView setGridColor:[NSColor blackColor]];
@@ -43,8 +45,6 @@
 
 -(void)awakeFromNib
 {
-    NSLog(@"HostNameController");
-    
     //默认路径为空
     //[_serverPath setURL:[NSURL URLWithString:@"file://"]];
     
@@ -124,8 +124,6 @@
 #pragma mark 添加功能
 -(IBAction)add:(id)sender
 {
-    [_tableView beginUpdates];
-    
     NSString *hostname = [NSString stringWithFormat:@"host-%ld", [_list count]+1];
     NSString *port = _gPort.stringValue;
     
@@ -134,11 +132,14 @@
     
     [_list addObject:[[HostNameModel alloc] setWithHost:hostname port:port path:@""]];
     
-    [_tableView deselectAll:sender];
-    [_tableView insertRowsAtIndexes:[NSIndexSet indexSetWithIndex:[_list count]] withAnimation:NSTableViewAnimationSlideDown];
-    [_tableView selectRowIndexes:[[NSIndexSet alloc] initWithIndex:[_list count]] byExtendingSelection:YES];
-    //[_tableView editColumn:0 row:([_list count] - 1) withEvent:nil select:YES];
-    [_tableView endUpdates];
+    //新版已经不支持了
+//    [_tableView beginUpdates];
+//    [_tableView deselectAll:sender];
+//    [_tableView insertRowsAtIndexes:[NSIndexSet indexSetWithIndex:[_list count]] withAnimation:NSTableViewAnimationSlideUp];
+//    [_tableView endUpdates];
+    
+    [_tableView reloadData];
+    [_tableView selectRowIndexes:[[NSIndexSet alloc] initWithIndex:[_list count]-1] byExtendingSelection:YES];
 }
 
 #pragma mark 删除功能
