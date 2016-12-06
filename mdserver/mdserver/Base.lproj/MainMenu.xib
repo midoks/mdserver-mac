@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11201"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11542"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="NSApplication">
@@ -127,14 +128,14 @@
                                     <action selector="reloadSVC:" target="Voe-Tx-rLC" id="f9M-KN-LPo"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="MySQL初始化" id="cyS-Ve-s5G" userLabel="MySQL编译">
-                                <modifierMask key="keyEquivalentModifierMask"/>
+                            <menuItem title="MySQL初始化" keyEquivalent="m" id="cyS-Ve-s5G" userLabel="MySQL编译">
+                                <modifierMask key="keyEquivalentModifierMask" control="YES"/>
                                 <connections>
                                     <action selector="SelfCompileMySQL:" target="Voe-Tx-rLC" id="dBO-K8-JGQ"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Debug调试" id="dBt-Kf-auN" userLabel="Debug调试">
-                                <modifierMask key="keyEquivalentModifierMask"/>
+                            <menuItem title="Debug调试" keyEquivalent="d" id="dBt-Kf-auN" userLabel="Debug调试">
+                                <modifierMask key="keyEquivalentModifierMask" control="YES"/>
                                 <connections>
                                     <action selector="SelfDebug:" target="Voe-Tx-rLC" id="oIh-NM-bEQ"/>
                                 </connections>
@@ -520,7 +521,7 @@
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <clipView key="contentView" copiesOnScroll="NO" id="0RZ-5f-Xjz">
                                                 <rect key="frame" x="1" y="0.0" width="238" height="296"/>
-                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                <autoresizingMask key="autoresizingMask"/>
                                                 <subviews>
                                                     <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="20" rowSizeStyle="automatic" headerView="B9H-aO-DLa" viewBased="YES" id="tNs-DA-7w6">
                                                         <rect key="frame" x="0.0" y="0.0" width="238" height="279"/>
