@@ -1,4 +1,4 @@
-### mdserver(mac版) 2.2.3
+### mdserver(mac版) 2.2.4
 mac上高度可定制的PHP开发环境,集成必要的扩展,方便使用。
 (pkg安装方式),安装方便,是你Mac上的PHP开发利器。
 - 加入redis,mongo,phalcon,yaf,swoole框架。
@@ -9,7 +9,7 @@ mac上高度可定制的PHP开发环境,集成必要的扩展,方便使用。
 - openresty支持lua开发
 
 ### 下版本计划
-等待php7稳定
+等待php7稳定及扩展
 
 ### 文件说明
 - host(修改hosts命令)
@@ -18,7 +18,7 @@ mac上高度可定制的PHP开发环境,集成必要的扩展,方便使用。
 
 
 ### 相关链接
-- 2.2.3安装地址:[2.2.3](https://pan.baidu.com/s/1dENLb8l)
+- 2.2.4安装地址:[2.2.4](https://pan.baidu.com/s/1cFwq42)
 - 2.1.2安装地址:[2.1.2](https://pan.baidu.com/s/1boCUDVx)
 - 2.1.0安装地址:[2.1.0](http://pan.baidu.com/s/1o7YmzTC)
 - 2.0pkg安装地址:[2.0.0](http://pan.baidu.com/s/1kV52okB)
