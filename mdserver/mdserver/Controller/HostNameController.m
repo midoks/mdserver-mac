@@ -34,7 +34,7 @@
         _tableView.dataSource = self;
         
         //plist操作
-        [self relaodListData];
+        [self reloadListData];
         
         
         //[_serverPort ];
@@ -185,7 +185,7 @@
     }
 }
 
--(void)relaodListData
+-(void)reloadListData
 {
     _list = [[NSMutableArray alloc] init];
     NSString *str = [NSCommon getRootDir];
@@ -212,7 +212,7 @@
 #pragma mark 恢复功能
 -(IBAction)revert:(id)sender
 {
-    [self relaodListData];
+    [self reloadListData];
     //默认选择
     if ([_list count] > 0) {
         [_tableView selectRowIndexes:[[NSIndexSet alloc] initWithIndex:0] byExtendingSelection:YES];
