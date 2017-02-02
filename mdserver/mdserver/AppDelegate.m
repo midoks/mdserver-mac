@@ -637,6 +637,13 @@
     }
 }
 
+#pragma mark - goNeo4j -
+- (IBAction)goNeo4j:(id)sender {
+    NSString *str           = [NSCommon getRootDir];
+    str = [NSString stringWithFormat:@"file://%@bin/Neo4j.app", str];
+    [[NSTask launchedTaskWithLaunchPath:@"/usr/bin/open" arguments:[NSArray arrayWithObjects:str, nil]] waitUntilExit];
+}
+
 -(IBAction)redisStart:(id)sender
 {
     NSString *str   = [NSCommon getRootDir];
