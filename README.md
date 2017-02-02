@@ -7,7 +7,7 @@ mac上高度可定制的PHP开发环境,集成必要的扩展,方便使用。
 - PHP版本切换功能。
 - MySQL5.6。
 - openresty支持lua开发
-- neo4j([图数据](http://baike.baidu.com/item/Neo4j))
+- Neo4j([图数据](http://baike.baidu.com/item/Neo4j))
 
 ```
 php55
@@ -24,6 +24,7 @@ php71
 
 
 ### 相关链接
+- 2.3.2安装地址:[2.3.2](https://pan.baidu.com/s/1i5I8Fg5)
 - 2.3.0安装地址:[2.3.0](https://pan.baidu.com/s/1eRXpp4m)
 - 2.2.4安装地址:[2.2.4](https://pan.baidu.com/s/1cFwq42)
 - 2.1.2安装地址:[2.1.2](https://pan.baidu.com/s/1boCUDVx)
