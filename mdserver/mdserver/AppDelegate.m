@@ -123,7 +123,7 @@
 #pragma mark 获取cmd执行特权
 #define ADMIN_PRIVILEGE     "system.privilege.admin"
 #pragma mark 给执行文件授权
--(void)AuthorizeCreate
+-(BOOL)AuthorizeCreate
 {
     NSString *app_dir = [NSCommon getAppDir];
     NSString *addhost = [NSString stringWithFormat:@"%@Contents/Resources/addhost", app_dir];
@@ -136,7 +136,7 @@
     
     if (self->_authRef) {
         //NSLog(@"ok");
-        return;
+        return true;
     }else{
         UInt32 count = (UInt32)[list count];
         AuthorizationItem authItem[count];
@@ -160,11 +160,14 @@
         OSStatus status = AuthorizationCreate(&authRights, kAuthorizationEmptyEnvironment, flags, &self->_authRef);
         if(status != errAuthorizationSuccess){
             NSLog(@"AuthorizationCreate failed!");
-            return;
         }else{
             NSLog(@"AuthorizationCreate ok!");
+            return true;
         }
     }
+    
+    [self userCenter:@"授权失败!"];
+    return false;
 }
 
 
@@ -536,10 +539,11 @@
 #pragma mark - 重置服务 -
 -(IBAction)reloadSVC:(id)sender
 {
-    [self AuthorizeCreate];
-    NSString *rootDir = [NSCommon getRootDir];
-    NSString *reloadSVC = [NSString stringWithFormat:@"%@bin/reloadSVC.sh", rootDir];
-    [self AuthorizeExeCmd:reloadSVC];
+    if ([self AuthorizeCreate]){
+        NSString *rootDir = [NSCommon getRootDir];
+        NSString *reloadSVC = [NSString stringWithFormat:@"%@bin/reloadSVC.sh", rootDir];
+        [self AuthorizeExeCmd:reloadSVC];
+    }
 }
 
 #pragma mark 启动时清空内容
@@ -579,8 +583,9 @@
 
 #pragma mark - 按钮启动 -
 - (IBAction)start:(id)sender {
-    [self AuthorizeCreate];
-    [self selfStart];
+    if ([self AuthorizeCreate]){
+        [self selfStart];
+    }
 }
 
 #pragma mark 跳到开发地址
