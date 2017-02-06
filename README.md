@@ -1,7 +1,7 @@
 ### mdserver(mac版) 2.3.3
 mac上高度可定制的PHP开发环境,集成必要的扩展,方便使用。
 (pkg安装方式),安装方便,是你Mac上的PHP开发利器。
-- 加入redis,mongo,phalcon,yaf,swoole框架。
+- 加入redis,mongo,yaf,swoole框架。
 - 支持80端口。
 - 加入memcached支持。
 - PHP版本切换功能。
@@ -11,7 +11,7 @@ mac上高度可定制的PHP开发环境,集成必要的扩展,方便使用。
 
 ```
 php55
-[redis,memecached,mongo,phalcon,yaf,swoole,xhprof]
+[redis,memecached,mongo,yaf,swoole,xhprof]
 
 php71
 [redis,memecached,yaf,swoole,md_xhprof]
@@ -24,6 +24,7 @@ php71
 
 
 ### 相关链接
+- 2.3.4安装地址:[2.3.4](https://pan.baidu.com/s/1jI5F7XO)
 - 2.3.3安装地址:[2.3.3](https://pan.baidu.com/s/1slq8jil)
 - 2.3.0安装地址:[2.3.0](https://pan.baidu.com/s/1eRXpp4m)
 - 2.2.4安装地址:[2.2.4](https://pan.baidu.com/s/1cFwq42)
