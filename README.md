@@ -24,7 +24,7 @@ php71
 
 
 ### 相关链接
-- 2.3.4安装地址:[2.3.4](https://pan.baidu.com/s/1jI5F7XO)
+- 2.3.4安装地址:[2.3.4](https://pan.baidu.com/s/1jHS0d06)
 - 2.3.3安装地址:[2.3.3](https://pan.baidu.com/s/1slq8jil)
 - 2.3.0安装地址:[2.3.0](https://pan.baidu.com/s/1eRXpp4m)
 - 2.2.4安装地址:[2.2.4](https://pan.baidu.com/s/1cFwq42)
