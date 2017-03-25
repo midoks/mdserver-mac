@@ -1,13 +1,13 @@
-### mdserver(mac版) 2.3.3
+### mdserver(mac版) 2.4.0
 mac上高度可定制的PHP开发环境,集成必要的扩展,方便使用。
 (pkg安装方式),安装方便,是你Mac上的PHP开发利器。
-- 加入redis,mongo,yaf,swoole框架。
+- 加入redis,mongo,yaf,swoole组件。
 - 支持80端口。
 - 加入memcached支持。
 - PHP版本切换功能。
 - MySQL5.6。
 - openresty支持lua开发
-- Neo4j([图数据](http://baike.baidu.com/item/Neo4j))
+- ~~Neo4j([图数据](http://baike.baidu.com/item/Neo4j))~~2.3.4
 
 ```
 php55
@@ -22,8 +22,8 @@ php71
 - mdserver(主功能)
 - Screenshot(截图)
 
-
 ### 相关链接
+- 2.4.0安装地址:[2.4.0](https://pan.baidu.com/s/1jHS0d06)
 - 2.3.4安装地址:[2.3.4](https://pan.baidu.com/s/1jHS0d06)
 - 2.3.3安装地址:[2.3.3](https://pan.baidu.com/s/1slq8jil)
 - 2.3.0安装地址:[2.3.0](https://pan.baidu.com/s/1eRXpp4m)
