@@ -46,16 +46,6 @@
 }
 
 #pragma mark 用户通知中心
-//- (void)userNotificationCenter:(NSUserNotificationCenter *)center didDeliverNotification:(NSUserNotification *)notification
-//{
-//    //NSLog(@"通知已经递交！");
-//}
-//
-//- (void)userNotificationCenter:(NSUserNotificationCenter *)center didActivateNotification:(NSUserNotification *)notification
-//{
-//    //NSLog(@"用户点击了通知！");
-//}
-
 - (BOOL)userNotificationCenter:(NSUserNotificationCenter *)center shouldPresentNotification:(NSUserNotification *)notification
 {
     return YES;
@@ -177,10 +167,10 @@
 {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-
+    
     char *args[] = {NULL};
     OSStatus  status_exe = AuthorizationExecuteWithPrivileges(self->_authRef, (void *)[file cStringUsingEncoding:NSASCIIStringEncoding], kAuthorizationFlagDefaults, args, nil);
-    if (status_exe != errAuthorizationSuccess)
+    if (status_exe != 0)//errAuthorizationSuccess
     {
         NSLog(@"AuthorizationExecuteWithPrivileges failed!:%d", status_exe);
         return;
@@ -497,7 +487,7 @@
         [self AuthorizeExeCmd:addhost];
         
         [self startConfReplaceString];
-        sleep(1);
+        sleep(0.5);
         
         NSString *nginx = [NSString stringWithFormat:@"%@bin/startNginx.sh", rootDir];
         [self AuthorizeExeCmd:nginx];
@@ -529,7 +519,7 @@
         NSString *removehost = [NSString stringWithFormat:@"%@Contents/Resources/removehost", appDir];
         [self AuthorizeExeCmd:removehost];
         
-        sleep(1);
+        //sleep(1);
         [self stopConfReplaceString];
         
         [self userCenter:@"停止成功"];
@@ -588,6 +578,63 @@
     }
 }
 
+#pragma mark - 重新启动 -
+-(void)selfReStart
+{
+    if ([self AuthorizeCreate]){
+        if ([_StartServerStatus isEqual:@"starting"]) {
+            [NSCommon alert:@"正在启动或停止中,勿再点击!!!"];
+            return;
+        }
+        _StartServerStatus = @"starting";
+        NSString *title = pStartTitle.stringValue;
+        
+        [pProgress setHidden:NO];
+        [pProgress startAnimation:nil];
+        
+        if ([title isEqual:@"start"]) {
+            
+            _StartServerStatus = @"ended";
+            [pProgress setHidden:YES];
+            [pProgress stopAnimation:nil];
+            [self checkWebStatus];
+            [self alert:@"启动后,才能重启!!!"];
+            
+        }else if([title isEqual:@"stop"]){
+            
+            NSString *rootDir = [NSCommon getRootDir];
+            NSString *appDir  = [NSCommon getAppDir];
+            
+            NSString *removehost = [NSString stringWithFormat:@"%@Contents/Resources/removehost", appDir];
+            [self AuthorizeExeCmd:removehost];
+            NSString *addhost = [NSString stringWithFormat:@"%@Contents/Resources/addhost", appDir];
+            [self AuthorizeExeCmd:addhost];
+            
+            
+            [self stopConfReplaceString];
+            [self startConfReplaceString];
+            
+            //NSLog(@"rootDir:%@",rootDir);
+            NSString *reload = [NSString stringWithFormat:@"%@bin/reloadSVC.sh", rootDir];
+            [self AuthorizeExeCmd:reload];
+            
+        }
+        
+        [self delayedRun:1.0f callback:^{
+            _StartServerStatus = @"ended";
+            [self checkWebStatus];
+            [pProgress setHidden:YES];
+            [pProgress stopAnimation:nil];
+        }];
+    }
+}
+
+#pragma mark - 重启启动 -
+- (IBAction)reStart:(id)sender {
+    [self selfReStart];
+}
+
+
 #pragma mark 跳到开发地址
 - (IBAction)goWeb:(id)sender {
     NSString *title = [pStartTitle stringValue];
@@ -643,11 +690,11 @@
 }
 
 #pragma mark - goNeo4j -
-- (IBAction)goNeo4j:(id)sender {
-    NSString *str           = [NSCommon getRootDir];
-    str = [NSString stringWithFormat:@"file://%@bin/Neo4j.app", str];
-    [[NSTask launchedTaskWithLaunchPath:@"/usr/bin/open" arguments:[NSArray arrayWithObjects:str, nil]] waitUntilExit];
-}
+//- (IBAction)goNeo4j:(id)sender {
+//    NSString *str           = [NSCommon getRootDir];
+//    str = [NSString stringWithFormat:@"file://%@bin/Neo4j.app", str];
+//    [[NSTask launchedTaskWithLaunchPath:@"/usr/bin/open" arguments:[NSArray arrayWithObjects:str, nil]] waitUntilExit];
+//}
 
 -(IBAction)redisStart:(id)sender
 {
@@ -943,6 +990,8 @@
     }
     
     [NSCommon setCommonConfig:@"isOpenModMySQLPwdWindow" value:@"no"];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(selfReStart) name: @"reloadSVC" object:nil];
 }
 
 #pragma mark 程序退出时执行

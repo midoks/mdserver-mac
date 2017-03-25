@@ -19,7 +19,6 @@
 {
     NSLog(@"HostNameController");
     
-    //NSLog(@"init");
     if (self = [super init]) {
         [_tableView setGridColor:[NSColor blackColor]];
         [_tableView setRowSizeStyle:NSTableViewRowSizeStyleLarge];
@@ -35,9 +34,6 @@
         
         //plist操作
         [self reloadListData];
-        
-        
-        //[_serverPort ];
     }
     return  self;
 }
@@ -86,13 +82,11 @@
 #pragma mark 点击选择框
 - (void)tableViewSelectionDidChange:(NSNotification *)notification
 {
-    //NSLog(@"lo");
     NSInteger row = [_tableView selectedRow];
     if (row > -1) {
         NSMutableDictionary *serverinfo = [_list objectAtIndex:row];
         [_serverName setStringValue:[serverinfo objectForKey:@"hostname"]];
         [_serverPort setStringValue:[serverinfo objectForKey:@"port"]];
-        
         
         if ([[serverinfo objectForKey:@"hostname"] isEqual:@"localhost"]) {
             _serverName.enabled = NO;
@@ -114,12 +108,7 @@
     }
 }
 
-//-(void)tableViewSelectionIsChanging:(NSNotification *)notification{
-//    NSLog(@"%ld, %ld, %ld, %ld", [_tableView editedColumn], [_tableView editedRow], [_tableView clickedColumn], [_tableView clickedRow]);
-//}
 #pragma mark - NSTextFieldDelegate -
-#pragma mark - Document -
-
 #pragma mark - IBACTION -
 #pragma mark 添加功能
 -(IBAction)add:(id)sender
@@ -131,12 +120,6 @@
     [_serverPort setStringValue:port];
     
     [_list addObject:[[HostNameModel alloc] setWithHost:hostname port:port path:@""]];
-    
-    //新版已经不支持了
-//    [_tableView beginUpdates];
-//    [_tableView deselectAll:sender];
-//    [_tableView insertRowsAtIndexes:[NSIndexSet indexSetWithIndex:[_list count]] withAnimation:NSTableViewAnimationSlideUp];
-//    [_tableView endUpdates];
     
     [_tableView reloadData];
     [_tableView selectRowIndexes:[[NSIndexSet alloc] initWithIndex:[_list count]-1] byExtendingSelection:YES];
@@ -150,7 +133,6 @@
     if (row!=-1) {
         
         NSMutableDictionary *serverinfo = [_list objectAtIndex:row];
-        
         
         if ([[serverinfo objectForKey:@"hostname"] isEqual:@"localhost"]) {
             return;
@@ -171,9 +153,10 @@
             }
         }
         
-        //[_tableView removeRowsAtIndexes:[NSIndexSet indexSetWithIndex:row] withAnimation:NSTableViewAnimationEffectFade];
         [_list removeObjectAtIndex:row];
         
+        //保存配置
+        [self save:sender];
         
         [_tableView reloadData];
         [_tableView deselectAll:sender];
@@ -200,9 +183,6 @@
         {
             NSString *urlstr = [NSString stringWithFormat:@"%@htdocs/www/", str];
             [[listContent objectForKey:pos] setObject:urlstr forKey:@"path"];
-            
-            //[_serverPath setURL:[NSURL URLWithString:urlstr]];
-            //_emptyPath.hidden = YES;
         }
         [_list addObject:t];
     }
@@ -217,7 +197,6 @@
     if ([_list count] > 0) {
         [_tableView selectRowIndexes:[[NSIndexSet alloc] initWithIndex:0] byExtendingSelection:YES];
     }
-    
 }
 
 #pragma mark 保存功能
@@ -236,13 +215,62 @@
         [dictplist setObject:serverinfo forKey:[NSString stringWithFormat:@"%ld", c]];
         ++c;
     }
+    
+    NSMutableDictionary *listContent = [[NSMutableDictionary alloc] initWithContentsOfFile:pathplist];
+    
+    //判断是否改变
+    BOOL isNotify = false;
+    
+    //数量上判断
+    if ([listContent count] != [_list count]){
+        isNotify = true;
+    }
+    
+    NSString *hostname = @"";
+    NSString *port = @"";
+    NSString *path = @"";
+    
+    //内容上判断
+    if(!isNotify){
+        
+        for (id key in listContent){
+            int key_num = [key intValue];
+            
+            id obj = [listContent objectForKey:key];
+            
+            hostname = [obj objectForKey:@"hostname"];
+            port     = [obj objectForKey:@"port"];
+            path     = [obj objectForKey:@"path"];
+            
+            if([[[_list objectAtIndex:key_num] objectForKey:@"hostname"] isEqualToString:hostname] &&
+               [[[_list objectAtIndex:key_num] objectForKey:@"port"] isEqualToString:port] &&
+               [[[_list objectAtIndex:key_num] objectForKey:@"path"] isEqualToString:path]){
+            
+            } else {
+                isNotify = true;
+            }
+        }
+    }
+    
     //NSLog(@"%@", dictplist);
     [dictplist writeToFile:pathplist atomically:YES];
-    //[NSCommon saveNginxConfig];
+    
+    //改变后,重新启动,发送通知
+    if (isNotify){
+        NSAlert *alert = [[NSAlert alloc] init];
+        [alert setMessageText:@""];
+        [alert setInformativeText:@"你是否重新启动服务?"];
+        [alert addButtonWithTitle:@"确定"];
+        [alert addButtonWithTitle:@"取消"];
+        [alert setAlertStyle:NSInformationalAlertStyle];
+        NSModalResponse r = [alert runModal];
+        
+        if (1001 == r) {
+            return;
+        }
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadSVC" object:nil];
+    }
 }
-
-#pragma mark 保存为Nginx配置文件
-
 
 #pragma mark 选择文件
 -(IBAction)selectedDIr:(id)sender
@@ -260,6 +288,9 @@
         if (row > -1) {
             NSString *path = [[[panel URL] absoluteString] stringByReplacingOccurrencesOfString:@"file://" withString:@""];
             [[_list objectAtIndex:row] setObject:path forKey:@"path"];
+            
+            //[NSCommon ];
+            [self save:sender];
         }
     }];
 }
@@ -290,6 +321,10 @@
         [[_list objectAtIndex:row] setObject:[_serverName stringValue] forKey:@"hostname"];
         [_tableView reloadData];
         [_tableView selectRowIndexes:[[NSIndexSet alloc] initWithIndex:row] byExtendingSelection:YES];
+        
+        if ([[[_list objectAtIndex:row] objectForKey:@"path"] isNotEqualTo:@""]) {
+            [self save:sender];
+        }
     }
 }
 
@@ -300,13 +335,20 @@
         
         NSInteger port = [_serverPort integerValue];
         //默认0-1023是系统默认的端口,需要root权限才能开启。
-        if (port <80) {
+        if (port < 80) {
             port = 80;
+        } else if (port > 65534){
+            port = 65534;
         }
+        
         NSString *portstr = [NSString stringWithFormat:@"%ld", port];
         [[_list objectAtIndex:row] setObject:portstr forKey:@"port"];
         [_tableView reloadData];
         [_tableView selectRowIndexes:[[NSIndexSet alloc] initWithIndex:row] byExtendingSelection:YES];
+        
+        if ([[[_list objectAtIndex:row] objectForKey:@"path"] isNotEqualTo:@""]) {
+            [self save:sender];
+        }
     }
 }
 
@@ -324,7 +366,7 @@
 - (IBAction)goWebInfo:(id)sender {
     NSInteger row = [_tableView selectedRow];
     NSString *title = [pStartTitle stringValue];
-    //NSLog(@"row:%ld",row);
+    
     if((row>-1) && ([title isEqual:@"stop"])){
         NSMutableDictionary *rowdata = [_list objectAtIndex:row];
         NSString *hostname = [rowdata objectForKey:@"hostname"];
@@ -336,15 +378,13 @@
         long r = random();
         gourl  = [NSString stringWithFormat:@"%@/tmp_%ld.php", gourl, r];
         path = [NSString stringWithFormat:@"%@tmp_%ld.php", path, r];
-        //NSLog(@"%@", path);
-        //NSLog(@"url:%@", gourl);
+ 
         [NSCommon makePhpInfo:path];
         [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:gourl]];
         [NSCommon delayedRun:5.0 callback:^{
             NSFileManager *fm = [NSFileManager defaultManager];
             [fm removeItemAtPath:path error:nil];
         }];
-        
     }
 }
 @end

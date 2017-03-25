@@ -15,6 +15,8 @@
 		82409EEE1A90451700CE78F9 /* modMysqlPwd.sh in Resources */ = {isa = PBXBuildFile; fileRef = 82409EED1A90451700CE78F9 /* modMysqlPwd.sh */; };
 		824EBDD91A8DD6BC0043BFA7 /* ModMySQLPwd.xib in Resources */ = {isa = PBXBuildFile; fileRef = 824EBDD81A8DD6BC0043BFA7 /* ModMySQLPwd.xib */; };
 		824EBDDC1A8E1D730043BFA7 /* ModMySQLPwdController.m in Sources */ = {isa = PBXBuildFile; fileRef = 824EBDDB1A8E1D730043BFA7 /* ModMySQLPwdController.m */; };
+		8255B51D1E7ECEC20068D35F /* restart.png in Resources */ = {isa = PBXBuildFile; fileRef = 8255B51B1E7ECEC20068D35F /* restart.png */; };
+		8255B51E1E7ECEC20068D35F /* restart@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8255B51C1E7ECEC20068D35F /* restart@2x.png */; };
 		8263CC5B1A9A14B0007E791A /* MainAlipay.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8263CC5A1A9A14B0007E791A /* MainAlipay.xib */; };
 		8263CC5D1A9A14E9007E791A /* MainWeibo.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8263CC5C1A9A14E9007E791A /* MainWeibo.xib */; };
 		8279E0AD1A73646700CD79C9 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 8279E0AB1A73646700CD79C9 /* Credits.rtf */; };
@@ -75,6 +77,8 @@
 		824EBDD81A8DD6BC0043BFA7 /* ModMySQLPwd.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ModMySQLPwd.xib; sourceTree = "<group>"; };
 		824EBDDA1A8E1D730043BFA7 /* ModMySQLPwdController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModMySQLPwdController.h; sourceTree = "<group>"; };
 		824EBDDB1A8E1D730043BFA7 /* ModMySQLPwdController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModMySQLPwdController.m; sourceTree = "<group>"; };
+		8255B51B1E7ECEC20068D35F /* restart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = restart.png; sourceTree = "<group>"; };
+		8255B51C1E7ECEC20068D35F /* restart@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "restart@2x.png"; sourceTree = "<group>"; };
 		8263CC591A99DC6F007E791A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
 		8263CC5A1A9A14B0007E791A /* MainAlipay.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainAlipay.xib; sourceTree = "<group>"; };
 		8263CC5C1A9A14E9007E791A /* MainWeibo.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainWeibo.xib; sourceTree = "<group>"; };
@@ -147,6 +151,8 @@
 		824CD7C41A7265E400668E6F /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				8255B51B1E7ECEC20068D35F /* restart.png */,
+				8255B51C1E7ECEC20068D35F /* restart@2x.png */,
 				8285780E1A9CA8C900526446 /* Icon.icns */,
 				82FDBB681A9ADAA80086E89B /* weixin.jpg */,
 				82409EED1A90451700CE78F9 /* modMysqlPwd.sh */,
@@ -387,7 +393,9 @@
 				828B76101A860DEF0040DA32 /* stop@2x.png in Resources */,
 				8285780F1A9CA8C900526446 /* Icon.icns in Resources */,
 				828B75941A8239780040DA32 /* hostInfo@2x.png in Resources */,
+				8255B51E1E7ECEC20068D35F /* restart@2x.png in Resources */,
 				820F1E951A8B90E200CBC093 /* removehost in Resources */,
+				8255B51D1E7ECEC20068D35F /* restart.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

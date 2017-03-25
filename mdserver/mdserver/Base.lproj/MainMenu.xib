@@ -25,6 +25,7 @@
                 <outlet property="pNginxStatus" destination="iCn-DW-pu3" id="Snf-r4-mQN"/>
                 <outlet property="pPHPFPMStatus" destination="yWR-eF-vFG" id="kMK-59-jSy"/>
                 <outlet property="pProgress" destination="XYp-dI-Cdf" id="XsF-0U-mPu"/>
+                <outlet property="pReStart" destination="l2b-ZL-DL0" id="Cvc-7X-bf2"/>
                 <outlet property="pStart" destination="ynu-WP-Afh" id="2dP-Me-3oN"/>
                 <outlet property="pStartTitle" destination="TMl-iR-kF8" id="iEx-i9-s5c"/>
                 <outlet property="phpSwitch" destination="U5T-o3-HhE" id="Nbi-Sg-p0r"/>
@@ -231,8 +232,8 @@
                         <rect key="frame" x="0.0" y="431" width="600" height="5"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     </box>
-                    <progressIndicator hidden="YES" wantsLayer="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" maxValue="100" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" id="XYp-dI-Cdf">
-                        <rect key="frame" x="471" y="456" width="16" height="16"/>
+                    <progressIndicator hidden="YES" wantsLayer="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" maxValue="100" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" id="XYp-dI-Cdf">
+                        <rect key="frame" x="469" y="456" width="16" height="16"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     </progressIndicator>
                     <button misplaced="YES" id="iCn-DW-pu3">
@@ -881,139 +882,11 @@
                             </tabViewItem>
                         </tabViewItems>
                     </tabView>
-                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" id="3TR-JN-S1b">
-                        <rect key="frame" x="370" y="439" width="61" height="17"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="WebStart" id="kOu-68-MUD">
-                            <font key="font" metaFont="system" size="10"/>
-                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
-                    <button verticalHuggingPriority="750" misplaced="YES" id="hng-0Q-ltZ">
-                        <rect key="frame" x="372" y="458" width="54" height="32"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="webstart" imagePosition="overlaps" alignment="center" imageScaling="proportionallyDown" inset="2" id="OAy-nV-9y7">
-                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="goWeb:" target="Voe-Tx-rLC" id="shV-yd-ZU2"/>
-                        </connections>
-                    </button>
-                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" id="TMl-iR-kF8">
-                        <rect key="frame" x="433" y="442" width="32" height="17"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="start" id="Xl8-Cv-kMZ">
-                            <font key="font" metaFont="cellTitle"/>
-                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
-                    <button verticalHuggingPriority="750" misplaced="YES" id="ynu-WP-Afh">
-                        <rect key="frame" x="427" y="454" width="39" height="40"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="start" imagePosition="overlaps" alignment="center" imageScaling="proportionallyDown" inset="2" id="Uyi-Hb-Eax">
-                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="start:" target="Voe-Tx-rLC" id="cwD-k4-TJ4"/>
-                        </connections>
-                    </button>
                     <imageView misplaced="YES" id="U3g-cC-7v7">
                         <rect key="frame" x="33" y="400" width="32" height="32"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" animates="YES" imageScaling="proportionallyDown" image="NSEveryone" id="ilv-EQ-EdG"/>
                     </imageView>
-                    <button verticalHuggingPriority="750" misplaced="YES" id="RKy-kT-jP0">
-                        <rect key="frame" x="154" y="468" width="68" height="24"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="check" title="redis" bezelStyle="regularSquare" imagePosition="right" alignment="right" inset="2" id="vKL-Fh-s22">
-                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="redisStart:" target="Voe-Tx-rLC" id="Xvv-5I-RB8"/>
-                        </connections>
-                    </button>
-                    <button verticalHuggingPriority="750" misplaced="YES" id="5rd-h7-S8p">
-                        <rect key="frame" x="154" y="443" width="68" height="24"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="check" title="mongo" bezelStyle="regularSquare" imagePosition="right" alignment="right" inset="2" id="Qrf-zj-VfF">
-                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="mongoStart:" target="Voe-Tx-rLC" id="rsC-2T-JLf"/>
-                        </connections>
-                    </button>
-                    <button verticalHuggingPriority="750" misplaced="YES" id="FW6-8l-zZa">
-                        <rect key="frame" x="223" y="470" width="20" height="20"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="tool" imagePosition="overlaps" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="d6O-3a-BKL">
-                            <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="goRedisWeb:" target="Voe-Tx-rLC" id="n0l-dK-C6r"/>
-                        </connections>
-                    </button>
-                    <button verticalHuggingPriority="750" misplaced="YES" id="lry-lY-Knx">
-                        <rect key="frame" x="223" y="444" width="20" height="20"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="tool" imagePosition="overlaps" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="nyb-1C-Wbz">
-                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="goMongoWeb:" target="Voe-Tx-rLC" id="TjO-px-rpw"/>
-                        </connections>
-                    </button>
-                    <button verticalHuggingPriority="750" misplaced="YES" id="pcK-yB-8NY">
-                        <rect key="frame" x="242" y="468" width="99" height="25"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="check" title="memcached" bezelStyle="regularSquare" imagePosition="right" alignment="right" inset="2" id="Hom-CO-tAv">
-                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="memcachedStart:" target="Voe-Tx-rLC" id="MuN-ep-tbO"/>
-                        </connections>
-                    </button>
-                    <button verticalHuggingPriority="750" misplaced="YES" id="gAm-U8-CgO">
-                        <rect key="frame" x="343" y="472" width="20" height="20"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="tool" imagePosition="overlaps" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="fdQ-kE-wEZ">
-                            <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="goMemcached:" target="Voe-Tx-rLC" id="HUu-mH-blk"/>
-                        </connections>
-                    </button>
-                    <button verticalHuggingPriority="750" misplaced="YES" id="rFw-SI-Kgp">
-                        <rect key="frame" x="243" y="443" width="99" height="25"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="check" title="MySQL" bezelStyle="regularSquare" imagePosition="right" alignment="right" inset="2" id="8Uz-W8-loK">
-                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="MySQLStart:" target="Voe-Tx-rLC" id="Nfi-hB-mHh"/>
-                        </connections>
-                    </button>
-                    <button verticalHuggingPriority="750" misplaced="YES" id="JJV-kP-Bb3">
-                        <rect key="frame" x="343" y="445" width="20" height="20"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="tool" imagePosition="overlaps" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="TSm-ej-a2R">
-                            <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="goMySQL:" target="Voe-Tx-rLC" id="QuS-Eh-VYW"/>
-                        </connections>
-                    </button>
                     <button misplaced="YES" id="yWR-eF-vFG">
                         <rect key="frame" x="493" y="446" width="84" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -1027,15 +900,152 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" animates="YES" imageScaling="proportionallyDown" image="Icon" id="3R7-M2-lqa"/>
                     </imageView>
-                    <button verticalHuggingPriority="750" misplaced="YES" id="Rym-ih-GHb">
-                        <rect key="frame" x="93" y="470" width="56" height="21"/>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" id="3TR-JN-S1b">
+                        <rect key="frame" x="313" y="436" width="61" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="square" title="Neo4j" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="ybb-Lo-d4D">
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="WebStart" id="kOu-68-MUD">
+                            <font key="font" metaFont="system" size="10"/>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <button verticalHuggingPriority="750" misplaced="YES" id="hng-0Q-ltZ">
+                        <rect key="frame" x="315" y="455" width="54" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="webstart" imagePosition="overlaps" alignment="center" imageScaling="proportionallyDown" inset="2" id="OAy-nV-9y7">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
                         <connections>
-                            <action selector="goNeo4j:" target="Voe-Tx-rLC" id="iNY-nP-NPW"/>
+                            <action selector="goWeb:" target="Voe-Tx-rLC" id="shV-yd-ZU2"/>
+                        </connections>
+                    </button>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" id="TMl-iR-kF8">
+                        <rect key="frame" x="376" y="439" width="32" height="17"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="start" id="Xl8-Cv-kMZ">
+                            <font key="font" metaFont="cellTitle"/>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <button verticalHuggingPriority="750" misplaced="YES" id="ynu-WP-Afh">
+                        <rect key="frame" x="370" y="451" width="39" height="40"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="start" imagePosition="overlaps" alignment="center" imageScaling="proportionallyDown" inset="2" id="Uyi-Hb-Eax">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="start:" target="Voe-Tx-rLC" id="cwD-k4-TJ4"/>
+                        </connections>
+                    </button>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" id="RsP-Ph-Cl2">
+                        <rect key="frame" x="419" y="439" width="42" height="17"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="restart" id="AWd-XG-kCQ">
+                            <font key="font" metaFont="cellTitle"/>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <button verticalHuggingPriority="750" misplaced="YES" id="l2b-ZL-DL0">
+                        <rect key="frame" x="420" y="451" width="39" height="40"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="restart" imagePosition="overlaps" alignment="center" imageScaling="proportionallyDown" inset="2" id="Ohn-ac-6j2">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="reStart:" target="Voe-Tx-rLC" id="xWL-Cu-aqd"/>
+                        </connections>
+                    </button>
+                    <button verticalHuggingPriority="750" misplaced="YES" id="RKy-kT-jP0">
+                        <rect key="frame" x="97" y="465" width="68" height="24"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="check" title="redis" bezelStyle="regularSquare" imagePosition="right" alignment="right" inset="2" id="vKL-Fh-s22">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="redisStart:" target="Voe-Tx-rLC" id="Xvv-5I-RB8"/>
+                        </connections>
+                    </button>
+                    <button verticalHuggingPriority="750" misplaced="YES" id="5rd-h7-S8p">
+                        <rect key="frame" x="97" y="440" width="68" height="24"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="check" title="mongo" bezelStyle="regularSquare" imagePosition="right" alignment="right" inset="2" id="Qrf-zj-VfF">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="mongoStart:" target="Voe-Tx-rLC" id="rsC-2T-JLf"/>
+                        </connections>
+                    </button>
+                    <button verticalHuggingPriority="750" misplaced="YES" id="FW6-8l-zZa">
+                        <rect key="frame" x="166" y="467" width="20" height="20"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="tool" imagePosition="overlaps" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="d6O-3a-BKL">
+                            <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="goRedisWeb:" target="Voe-Tx-rLC" id="n0l-dK-C6r"/>
+                        </connections>
+                    </button>
+                    <button verticalHuggingPriority="750" misplaced="YES" id="lry-lY-Knx">
+                        <rect key="frame" x="166" y="441" width="20" height="20"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="tool" imagePosition="overlaps" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="nyb-1C-Wbz">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="goMongoWeb:" target="Voe-Tx-rLC" id="TjO-px-rpw"/>
+                        </connections>
+                    </button>
+                    <button verticalHuggingPriority="750" misplaced="YES" id="pcK-yB-8NY">
+                        <rect key="frame" x="185" y="465" width="99" height="25"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="check" title="memcached" bezelStyle="regularSquare" imagePosition="right" alignment="right" inset="2" id="Hom-CO-tAv">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="memcachedStart:" target="Voe-Tx-rLC" id="MuN-ep-tbO"/>
+                        </connections>
+                    </button>
+                    <button verticalHuggingPriority="750" misplaced="YES" id="gAm-U8-CgO">
+                        <rect key="frame" x="286" y="469" width="20" height="20"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="tool" imagePosition="overlaps" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="fdQ-kE-wEZ">
+                            <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="goMemcached:" target="Voe-Tx-rLC" id="HUu-mH-blk"/>
+                        </connections>
+                    </button>
+                    <button verticalHuggingPriority="750" misplaced="YES" id="rFw-SI-Kgp">
+                        <rect key="frame" x="186" y="440" width="99" height="25"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="check" title="MySQL" bezelStyle="regularSquare" imagePosition="right" alignment="right" inset="2" id="8Uz-W8-loK">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="MySQLStart:" target="Voe-Tx-rLC" id="Nfi-hB-mHh"/>
+                        </connections>
+                    </button>
+                    <button verticalHuggingPriority="750" misplaced="YES" id="JJV-kP-Bb3">
+                        <rect key="frame" x="286" y="442" width="20" height="20"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="tool" imagePosition="overlaps" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="TSm-ej-a2R">
+                            <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="goMySQL:" target="Voe-Tx-rLC" id="QuS-Eh-VYW"/>
                         </connections>
                     </button>
                 </subviews>
@@ -1091,6 +1101,7 @@
         <image name="docs" width="18" height="18"/>
         <image name="info" width="16" height="16"/>
         <image name="pma" width="48" height="48"/>
+        <image name="restart" width="34" height="32"/>
         <image name="start" width="32" height="32"/>
         <image name="tool" width="32" height="32"/>
         <image name="webstart" width="28" height="31"/>

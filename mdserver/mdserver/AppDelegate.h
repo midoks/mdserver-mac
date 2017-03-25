@@ -24,6 +24,8 @@
     IBOutlet NSButton *pStart;
     IBOutlet NSTextField *pStartTitle;
     
+    IBOutlet NSButton *pReStart;
+    
     
 
     
@@ -62,7 +64,7 @@
 - (IBAction)goMongoWeb:(id)sender;
 - (IBAction)MySQLStart:(id)sender;
 - (IBAction)goMySQL:(id)sender;
-- (IBAction)goNeo4j:(id)sender;
+//- (IBAction)goNeo4j:(id)sender;
 
 @end
 

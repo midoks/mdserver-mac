@@ -146,7 +146,7 @@
     return str;
 }
 
-+(BOOL)saveNginxConfig{
++(BOOL)saveNginxConfig {
     
     [NSCommon setRemoveAllConfig];
 
