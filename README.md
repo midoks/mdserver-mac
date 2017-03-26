@@ -35,7 +35,7 @@ php71
 - pkg安装地址:[1.0.0](http://pan.baidu.com/s/1eSHgmAI)
 - 使用教程:[mdserver](http://midoks.cachecha.com/2015/02/24/mdserver-mac.html)
 
-### 截图
+### 最新版本截图
 [![Screenshot.png](/Screenshot/Screenshot.png)](/Screenshot/Screenshot.png)
 
 ### 联系我
