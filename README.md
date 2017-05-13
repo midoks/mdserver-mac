@@ -23,6 +23,8 @@ php71
 - Screenshot(截图)
 
 ### 相关链接
+
+- 2.4.1.1安装地址:[2.4.1.1](https://pan.baidu.com/s/1nuEmcjv)
 - 2.4.1.0安装地址:[2.4.1.0](https://pan.baidu.com/s/1o8oFqWy)
 - 2.4.0安装地址:[2.4.0](https://pan.baidu.com/s/1kUGpz3D)
 - 2.3.4安装地址:[2.3.4](https://pan.baidu.com/s/1jHS0d06)
