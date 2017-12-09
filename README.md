@@ -1,4 +1,4 @@
-### mdserver(mac版) 2.4.1.1
+### mdserver(mac版) 2.4.2.0
 mac上高度可定制的PHP开发环境,集成必要的扩展,方便使用。
 (pkg安装方式),安装方便,是你Mac上的PHP开发利器。
 - 加入redis,mongo,yaf,swoole组件。
@@ -15,6 +15,9 @@ php55
 
 php71
 [redis,memecached,yaf,swoole,md_xhprof]
+
+php72
+[redis,memecached,yaf,swoole,md_xhprof]
 ```
 
 ### 文件说明
@@ -24,6 +27,7 @@ php71
 
 ### 相关链接
 
+- 2.4.2.0安装地址:[2.4.2.0](https://pan.baidu.com/s/1i5pJ9kh)
 - 2.4.1.1安装地址:[2.4.1.1](https://pan.baidu.com/s/1nuEmcjv)
 - 2.4.1.0安装地址:[2.4.1.0](https://pan.baidu.com/s/1o8oFqWy)
 - 2.4.0安装地址:[2.4.0](https://pan.baidu.com/s/1kUGpz3D)
@@ -42,4 +46,3 @@ php71
 
 ### 联系我
 - Email:midoks@163.com
-- QQ:627293072(我不一定在线)
