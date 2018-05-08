@@ -1,4 +1,3 @@
 
 mdserver/mdserver.xcodeproj/project.xcworkspace/xcuserdata/midoks.xcuserdatad/UserInterfaceState.xcuserstate
-
-mdserver/.DS_Store
+*.DS_Store
