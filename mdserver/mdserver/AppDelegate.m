@@ -846,13 +846,53 @@
 }
 
 #pragma mark - 初始化PHP版本列表 -
+
+-(NSMenu*)getPhpExtendsMenu:(NSString *) v
+{
+    NSMenu *extListMenu = [[NSMenu alloc] initWithTitle:v];
+    
+//    [extListMenu addItemWithTitle:@"Install" action:@selector(phpInstall:) keyEquivalent:@""];
+//    [extListMenu addItemWithTitle:@"UnInstall" action:@selector(phpUninstall:) keyEquivalent:@""];
+//
+    
+
+    NSMenu *extMenu = [[NSMenu alloc] initWithTitle:v];
+    [extMenu addItemWithTitle:@"Install" action:@selector(phpInstall:) keyEquivalent:@""];
+    [extMenu addItemWithTitle:@"UnInstall" action:@selector(phpUninstall:) keyEquivalent:@""];
+    
+    NSMenuItem *extItem = [[NSMenuItem alloc] initWithTitle:@"soowle"
+                                                   action:@selector(phpInstall:)
+                                            keyEquivalent:@""];
+    
+    [extListMenu addItem:extItem];
+    [extListMenu setSubmenu:extMenu forItem:extItem];
+    return extListMenu;
+}
+
+-(NSMenu*)getPhpVerMenu:(NSString *)title
+{
+    NSMenu *vMenu = [[NSMenu alloc] initWithTitle:title];
+    
+    [vMenu addItemWithTitle:@"Install" action:@selector(phpInstall:) keyEquivalent:@""];
+    [vMenu addItemWithTitle:@"UnInstall" action:@selector(phpUninstall:) keyEquivalent:@""];
+    
+    NSMenu *tMenu = [self getPhpExtendsMenu:title];
+    NSMenuItem *tItem = [[NSMenuItem alloc] initWithTitle:@"Extends"
+                                                   action:@selector(phpInstall:)
+                                            keyEquivalent:@""];
+    [vMenu addItem:tItem];
+    [vMenu setSubmenu:tMenu forItem:tItem];
+    return vMenu;
+}
+
+
 -(void)initPhpList
 {
+    NSFileManager *fm = [NSFileManager  defaultManager];
     NSString *rootDir           = [NSCommon getRootDir];
 //    NSString *php_version = [NSCommon getCommonConfig:PHP_C_VER_KEY];
     //PHP列表
-    NSString *php_list = [NSString stringWithFormat:@"%@bin/php/", rootDir];
-    NSFileManager *fm = [NSFileManager  defaultManager];
+    NSString *php_list = [NSString stringWithFormat:@"%@bin/reinstall", rootDir];
     
     NSArray *dirList = [fm contentsOfDirectoryAtPath:php_list error:nil];
     NSInteger i = 1;
@@ -863,51 +903,22 @@
     [phpVer.submenu addItem:[NSMenuItem separatorItem]];
     for (NSString *f in dirList) {
         
-        NSLog(@"php-%@",f);
-        
+        NSString *path =[NSString stringWithFormat:@"%@/%@", php_list,f];
+        BOOL isDir;
+        [fm fileExistsAtPath:path isDirectory:&isDir];
+        if (!isDir){
+            continue;
+        }
+    
         if([f hasPrefix:@"php"]){
             
-            NSString *v = [f stringByReplacingOccurrencesOfString:@"php" withString:@""];
-        
-            NSMenu *vMenu = [[NSMenu alloc] initWithTitle:v];
+            NSString *ver = [f stringByReplacingOccurrencesOfString:@"php" withString:@""];
+            NSMenu *vMenu = [self getPhpVerMenu:ver];
             
-            NSMenuItem *vItem = [[NSMenuItem alloc] initWithTitle:v
+            NSMenuItem *vItem = [[NSMenuItem alloc] initWithTitle:ver
                                                            action:@selector(phpInstall:)
                                                     keyEquivalent:[NSString stringWithFormat:@"%ld", i]];
-            
-            
             vItem.state = 1;
-            
-            [vMenu addItemWithTitle:@"Install" action:@selector(phpInstall:) keyEquivalent:@""];
-            [vMenu addItemWithTitle:@"UnInstall" action:@selector(phpInstall:) keyEquivalent:@""];
-            
-            
-            
-            /* 三级菜单 start */
-            NSMenu *tMenu = [[NSMenu alloc] initWithTitle:v];
-            
-            
-            /* 4级菜单 start */
-            NSMenu *fMenu = [[NSMenu alloc] initWithTitle:v];
-            [fMenu addItemWithTitle:@"Install" action:@selector(phpInstall:) keyEquivalent:@""];
-            [fMenu addItemWithTitle:@"UnInstall" action:@selector(phpInstall:) keyEquivalent:@""];
-            NSMenuItem *fItem = [[NSMenuItem alloc] initWithTitle:@"soowle"
-                                                           action:@selector(phpInstall:)
-                                                    keyEquivalent:@""];
-            
-            [tMenu addItem:fItem];
-            [tMenu setSubmenu:fMenu forItem:fItem];
-            /* 4级菜单 start */
-            
-
-            
-            NSMenuItem *tItem = [[NSMenuItem alloc] initWithTitle:@"Extends"
-                                                           action:@selector(phpInstall:)
-                                                    keyEquivalent:@""];
-            [vMenu addItem:tItem];
-            [vMenu setSubmenu:tMenu forItem:tItem];
-            /* 三级菜单 start */
-            
             [phpVer.submenu addItem:vItem];
             [phpVer.submenu setSubmenu:vMenu forItem:vItem];
             
@@ -920,6 +931,11 @@
 -(void)phpInstall:(id)sender
 {
     NSLog(@"%@",@"install");
+}
+
+-(void)phpUninstall:(id)sender
+{
+    NSLog(@"%@",@"phpUninstall");
 }
 
 -(void)phpClick:(id)sender {
