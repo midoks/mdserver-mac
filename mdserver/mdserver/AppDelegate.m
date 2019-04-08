@@ -271,26 +271,6 @@
 }
 
 
-#pragma mark - 重新编译部分 -
-- (IBAction)SelfCompilePHP:(id)sender {
-    NSAlert *alert = [[NSAlert alloc] init];
-    [alert setMessageText:@"PHP编译"];
-    [alert setInformativeText:@"你确定你要重新编译PHP程序"];
-    [alert addButtonWithTitle:@"确定编译"];
-    [alert addButtonWithTitle:@"取消编译"];
-    NSModalResponse r = [alert runModal];
-    
-    if (r == 1000) {
-        NSString *str = [NSCommon getRootDir];
-        
-        NSString *php_log = [NSString stringWithFormat:@"%@bin/logs/php.log", str];
-        [self openFile:php_log];
-        
-        
-        str = [NSString stringWithFormat:@"%@bin/reinstall/php.sh", str];
-        [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", str, nil]] waitUntilExit];
-    }
-}
 
 - (IBAction)SelfCompileNginx:(id)sender {
     NSAlert *alert = [[NSAlert alloc] init];
@@ -329,27 +309,6 @@
         [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", str, nil]] waitUntilExit];
         
         [NSCommon setCommonConfig:@"setMySQLPwd" value:@"root"];
-    }
-}
-
-- (IBAction)SelfCompileYaf:(id)sender {
-    
-    NSAlert *alert = [[NSAlert alloc] init];
-    [alert setMessageText:@"Yaf编译"];
-    [alert setInformativeText:@"你确定你重新编译Yaf程序"];
-    [alert addButtonWithTitle:@"确定编译"];
-    [alert addButtonWithTitle:@"取消编译"];
-    NSModalResponse r = [alert runModal];
-    
-    if (r == 1000) {
-        NSString *str = [NSCommon getRootDir];
-        NSString *yaf_log = [NSString stringWithFormat:@"%@bin/logs/yaf.log", str];
-        [NSCommon delayedRun:1.0 callback:^{
-            [self openFile:yaf_log];
-        }];
-        
-        str = [NSString stringWithFormat:@"%@bin/reinstall/yaf.sh", str];
-        [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", str, nil]] waitUntilExit];
     }
 }
 
@@ -890,7 +849,7 @@
 -(void)initPhpList
 {
     NSString *rootDir           = [NSCommon getRootDir];
-    NSString *php_version = [NSCommon getCommonConfig:PHP_C_VER_KEY];
+//    NSString *php_version = [NSCommon getCommonConfig:PHP_C_VER_KEY];
     //PHP列表
     NSString *php_list = [NSString stringWithFormat:@"%@bin/php/", rootDir];
     NSFileManager *fm = [NSFileManager  defaultManager];
@@ -900,25 +859,67 @@
     
     phpList = [[NSMutableArray alloc] init];
     
-    [phpSwitch.submenu addItem:[NSMenuItem separatorItem]];
+    [phpVer.submenu addItem:[NSMenuItem separatorItem]];
+    [phpVer.submenu addItem:[NSMenuItem separatorItem]];
     for (NSString *f in dirList) {
         
+        NSLog(@"php-%@",f);
+        
         if([f hasPrefix:@"php"]){
-            NSMenuItem *tmpItem = [[NSMenuItem alloc] initWithTitle:f
-                                                             action:@selector(phpClick:)
-                                                      keyEquivalent:[NSString stringWithFormat:@"%ld", i]];
+            
+            NSString *v = [f stringByReplacingOccurrencesOfString:@"php" withString:@""];
+        
+            NSMenu *vMenu = [[NSMenu alloc] initWithTitle:v];
+            
+            NSMenuItem *vItem = [[NSMenuItem alloc] initWithTitle:v
+                                                           action:@selector(phpInstall:)
+                                                    keyEquivalent:[NSString stringWithFormat:@"%ld", i]];
             
             
-            if ([php_version isEqualToString:f]){
-                tmpItem.state = 1;
-            }
+            vItem.state = 1;
             
-            [phpSwitch.submenu addItem:tmpItem];
-            [phpList addObject:tmpItem];
+            [vMenu addItemWithTitle:@"Install" action:@selector(phpInstall:) keyEquivalent:@""];
+            [vMenu addItemWithTitle:@"UnInstall" action:@selector(phpInstall:) keyEquivalent:@""];
+            
+            
+            
+            /* 三级菜单 start */
+            NSMenu *tMenu = [[NSMenu alloc] initWithTitle:v];
+            
+            
+            /* 4级菜单 start */
+            NSMenu *fMenu = [[NSMenu alloc] initWithTitle:v];
+            [fMenu addItemWithTitle:@"Install" action:@selector(phpInstall:) keyEquivalent:@""];
+            [fMenu addItemWithTitle:@"UnInstall" action:@selector(phpInstall:) keyEquivalent:@""];
+            NSMenuItem *fItem = [[NSMenuItem alloc] initWithTitle:@"soowle"
+                                                           action:@selector(phpInstall:)
+                                                    keyEquivalent:@""];
+            
+            [tMenu addItem:fItem];
+            [tMenu setSubmenu:fMenu forItem:fItem];
+            /* 4级菜单 start */
+            
+
+            
+            NSMenuItem *tItem = [[NSMenuItem alloc] initWithTitle:@"Extends"
+                                                           action:@selector(phpInstall:)
+                                                    keyEquivalent:@""];
+            [vMenu addItem:tItem];
+            [vMenu setSubmenu:tMenu forItem:tItem];
+            /* 三级菜单 start */
+            
+            [phpVer.submenu addItem:vItem];
+            [phpVer.submenu setSubmenu:vMenu forItem:vItem];
+            
             i++;
         }
     }
-    [phpSwitch.submenu addItem:[NSMenuItem separatorItem]];
+    [phpVer.submenu addItem:[NSMenuItem separatorItem]];
+}
+
+-(void)phpInstall:(id)sender
+{
+    NSLog(@"%@",@"install");
 }
 
 -(void)phpClick:(id)sender {

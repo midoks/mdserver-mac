@@ -13,7 +13,7 @@
 
     NSStatusItem        *statusBarItem;
     IBOutlet NSMenu     *statusBarItemMenu;
-    IBOutlet NSMenuItem *phpSwitch;
+    IBOutlet NSMenuItem *phpVer;
     NSMutableArray <NSMenuItem *> *phpList;
 
 //基本属性
@@ -39,14 +39,11 @@
 - (IBAction)showDonateAlipay:(id)sender;
 - (IBAction)showWeibo:(id)sender;
 - (IBAction)showNginxLog:(id)sender;
-- (IBAction)showPhpFpmLog:(id)sender;
 - (IBAction)showMysqlLog:(id)sender;
 
 #pragma mark - 再次编译 -
-- (IBAction)SelfCompilePHP:(id)sender;
 - (IBAction)SelfCompileNginx:(id)sender;
 - (IBAction)SelfCompileMySQL:(id)sender;
-- (IBAction)SelfCompileYaf:(id)sender;
 - (IBAction)SelfDebug:(id)sender;
 
 #pragma mark  - 启动或暂停 -
