@@ -17,10 +17,10 @@
 +(void)alert:(NSString *)content delayedClose:(float)t;
 
 #pragma mark 延迟回调
-+(void)delayedRun:(float)t callback:(void(^)()) callback;
++(void)delayedRun:(float)t callback:(void(^)(void)) callback;
 
 #pragma mark 只执行一次方法
-+(void)runOneTime:(NSString *)sign run:(void(^)())run;
++(void)runOneTime:(NSString *)sign run:(void(^)(void))run;
 
 #pragma mark 判断文件是否存在
 +(BOOL)fileIsExists:(NSString *)absPathFile;

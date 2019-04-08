@@ -70,7 +70,7 @@
 }
 
 #pragma mark 延迟执行
-- (void)delayedRun:(float)t callback:(void(^)()) callback
+- (void)delayedRun:(float)t callback:(void(^)(void)) callback
 {
     double delayInSeconds = t;
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
@@ -564,10 +564,10 @@
     }
     
     [self delayedRun:3.0f callback:^{
-        _StartServerStatus = @"ended";
+        self->_StartServerStatus = @"ended";
         [self checkWebStatus];
-        [pProgress setHidden:YES];
-        [pProgress stopAnimation:nil];
+        [self->pProgress setHidden:YES];
+        [self->pProgress stopAnimation:nil];
     }];
 }
 
@@ -621,10 +621,10 @@
         }
         
         [self delayedRun:1.0f callback:^{
-            _StartServerStatus = @"ended";
+            self->_StartServerStatus = @"ended";
             [self checkWebStatus];
-            [pProgress setHidden:YES];
-            [pProgress stopAnimation:nil];
+            [self->pProgress setHidden:YES];
+            [self->pProgress stopAnimation:nil];
         }];
     }
 }

@@ -47,8 +47,8 @@
     [NSCommon delayedRun:0.5 callback:^{
         static BOOL reload = YES;
         if (reload) {//默认选择
-            if ([_list count] > 0) {
-                [_tableView selectRowIndexes:[[NSIndexSet alloc] initWithIndex:0] byExtendingSelection:YES];
+            if ([self->_list count] > 0) {
+                [self->_tableView selectRowIndexes:[[NSIndexSet alloc] initWithIndex:0] byExtendingSelection:YES];
             }
             reload = NO;
         }
@@ -281,13 +281,13 @@
     [panel setCanChooseFiles:NO];           //不能选择文件
     
     [panel beginSheetModalForWindow:[self windowForSheet] completionHandler:^(NSInteger result) {
-        [_serverPath setURL:[panel URL]];
-        [_emptyPath setHidden:YES];
+        [self->_serverPath setURL:[panel URL]];
+        [self->_emptyPath setHidden:YES];
         
-        NSInteger row = [_tableView selectedRow];
+        NSInteger row = [self->_tableView selectedRow];
         if (row > -1) {
             NSString *path = [[[panel URL] absoluteString] stringByReplacingOccurrencesOfString:@"file://" withString:@""];
-            [[_list objectAtIndex:row] setObject:path forKey:@"path"];
+            [[self->_list objectAtIndex:row] setObject:path forKey:@"path"];
             
             //[NSCommon ];
             [self save:sender];

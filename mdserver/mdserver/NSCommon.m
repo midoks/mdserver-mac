@@ -40,7 +40,7 @@
 }
 
 #pragma mark 延迟执行
-+(void)delayedRun:(float)t callback:(void(^)()) callback
++(void)delayedRun:(float)t callback:(void(^)(void)) callback
 {
     double delayInSeconds = t;
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
@@ -50,7 +50,7 @@
 }
 
 #pragma mark 只执行一次方法
-+(void)runOneTime:(NSString *)sign run:(void(^)())run
++(void)runOneTime:(NSString *)sign run:(void(^)(void))run
 {
     NSMutableDictionary *s = [[NSMutableDictionary alloc] init];
     if(![s objectForKey:sign]){
