@@ -889,7 +889,7 @@
     [cmd.submenu addItem:[NSMenuItem separatorItem]];
     
     NSMenuItem *refresh = [[NSMenuItem alloc] initWithTitle:@"refresh"
-                                                     action:@selector(cmdStatusSet:)
+                                                     action:@selector(cmdRefresh:)
                                               keyEquivalent:@""];
     refresh.state = 1;
     [cmd.submenu addItem:refresh];
@@ -904,53 +904,53 @@
 
 -(void)cmdInstall:(id)sender
 {
-//    NSString *rootDir           = [NSCommon getRootDir];
-//    NSFileManager *fm = [NSFileManager  defaultManager];
-//
-//    NSMenuItem *cMenu = (NSMenuItem*)sender;
-//    NSMenuItem *pMenu=[cMenu parentItem];
-//
-//    NSString *installSh = [NSString stringWithFormat:@"%@bin/reinstall/php%@/install.sh", rootDir, pMenu.title];
-//    NSString *logDir = [NSString stringWithFormat:@"%@bin/logs/reinstall", rootDir];
-//
-//    if (![fm fileExistsAtPath:logDir]){
-//        [fm createDirectoryAtPath:logDir withIntermediateDirectories:YES attributes:NULL error:NULL];
-//    }
-//
-//    NSString *log = [NSString stringWithFormat:@"%@/php_%@_install.log", logDir, pMenu.title];
-//
-//    NSString *cmd = [NSString stringWithFormat:@"%@ 1> %@ 2>&1", installSh,log];
-//    [NSCommon delayedRun:1 callback:^{
-//        [self openFile:log];
-//    }];
-//
-//    [NSCommon delayedRun:0 callback:^{
-//        [NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", cmd, nil]];
-//    }];
+    NSString *rootDir           = [NSCommon getRootDir];
+    NSFileManager *fm = [NSFileManager  defaultManager];
+
+    NSMenuItem *cMenu = (NSMenuItem*)sender;
+    NSMenuItem *pMenu=[cMenu parentItem];
+    
+    NSString *installSh = [NSString stringWithFormat:@"%@bin/reinstall/cmd/%@/install.sh", rootDir, pMenu.title];
+    NSString *logDir = [NSString stringWithFormat:@"%@bin/logs/reinstall", rootDir];
+
+    if (![fm fileExistsAtPath:logDir]){
+        [fm createDirectoryAtPath:logDir withIntermediateDirectories:YES attributes:NULL error:NULL];
+    }
+
+    NSString *log = [NSString stringWithFormat:@"%@/cmd_%@_install.log", logDir, pMenu.title];
+
+    NSString *cmd = [NSString stringWithFormat:@"%@ 1> %@ 2>&1", installSh,log];
+    [NSCommon delayedRun:0 callback:^{
+        [self openFile:log];
+    }];
+
+    [NSCommon delayedRun:0 callback:^{
+        [NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", cmd, nil]];
+    }];
 }
 
 -(void)cmdUninstall:(id)sender
 {
-//    NSString *rootDir           = [NSCommon getRootDir];
-//    NSFileManager *fm = [NSFileManager  defaultManager];
-//
-//    NSMenuItem *cMenu = (NSMenuItem*)sender;
-//    NSMenuItem *pMenu=[cMenu parentItem];
-//
-//    NSString *installSh = [NSString stringWithFormat:@"%@bin/reinstall/php%@/uninstall.sh", rootDir, pMenu.title];
-//    NSString *logDir = [NSString stringWithFormat:@"%@bin/logs/reinstall", rootDir];
-//
-//    NSString *log = [NSString stringWithFormat:@"%@bin/logs/reinstall/php_%@_uninstall.log", rootDir, pMenu.title];
-//    [fm createDirectoryAtPath:logDir withIntermediateDirectories:YES attributes:NULL error:NULL];
-//
-//    NSString *cmd = [NSString stringWithFormat:@"%@ 1>> %@ 2>&1", installSh,log];
-//    [NSCommon delayedRun:1 callback:^{
-//        [self openFile:log];
-//    }];
-//
-//    [NSCommon delayedRun:0 callback:^{
-//        [NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", cmd, nil]];
-//    }];
+    NSString *rootDir           = [NSCommon getRootDir];
+    NSFileManager *fm = [NSFileManager  defaultManager];
+
+    NSMenuItem *cMenu = (NSMenuItem*)sender;
+    NSMenuItem *pMenu=[cMenu parentItem];
+
+    NSString *installSh = [NSString stringWithFormat:@"%@bin/reinstall/cmd/%@/uninstall.sh", rootDir, pMenu.title];
+    NSString *logDir = [NSString stringWithFormat:@"%@bin/logs/reinstall", rootDir];
+
+    NSString *log = [NSString stringWithFormat:@"%@bin/logs/reinstall/cmd_%@_uninstall.log", rootDir, pMenu.title];
+    [fm createDirectoryAtPath:logDir withIntermediateDirectories:YES attributes:NULL error:NULL];
+
+    NSString *cmd = [NSString stringWithFormat:@"%@ 1>> %@ 2>&1", installSh,log];
+    [NSCommon delayedRun:0 callback:^{
+        [self openFile:log];
+    }];
+
+    [NSCommon delayedRun:0 callback:^{
+        [NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", cmd, nil]];
+    }];
 }
 
 
@@ -1075,7 +1075,7 @@
     NSString *log = [NSString stringWithFormat:@"%@/php_%@_install.log", logDir, pMenu.title];
     
     NSString *cmd = [NSString stringWithFormat:@"%@ 1> %@ 2>&1", installSh,log];
-    [NSCommon delayedRun:1 callback:^{
+    [NSCommon delayedRun:0 callback:^{
         [self openFile:log];
     }];
     
