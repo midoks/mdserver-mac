@@ -15,6 +15,7 @@
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customObject id="Voe-Tx-rLC" customClass="AppDelegate">
             <connections>
+                <outlet property="cmd" destination="0qH-Mk-cQl" id="Rwx-0g-48i"/>
                 <outlet property="mMemcachedButton" destination="pcK-yB-8NY" id="yJ0-VU-5aq"/>
                 <outlet property="mMemcachedTool" destination="gAm-U8-CgO" id="5jB-fA-AD8"/>
                 <outlet property="mMongoButton" destination="5rd-h7-S8p" id="Zah-Dk-90V"/>
@@ -24,7 +25,6 @@
                 <outlet property="mRedisButton" destination="RKy-kT-jP0" id="0Ev-QT-zY3"/>
                 <outlet property="mRedisTool" destination="FW6-8l-zZa" id="aKJ-vo-M7k"/>
                 <outlet property="pNginxStatus" destination="iCn-DW-pu3" id="Snf-r4-mQN"/>
-                <outlet property="pPHPFPMStatus" destination="yWR-eF-vFG" id="kMK-59-jSy"/>
                 <outlet property="pProgress" destination="XYp-dI-Cdf" id="XsF-0U-mPu"/>
                 <outlet property="pReStart" destination="l2b-ZL-DL0" id="Cvc-7X-bf2"/>
                 <outlet property="pStart" destination="ynu-WP-Afh" id="2dP-Me-3oN"/>
@@ -106,9 +106,9 @@
                         </items>
                     </menu>
                 </menuItem>
-                <menuItem title="Compile" id="0qH-Mk-cQl" userLabel="Compile">
+                <menuItem title="CMD" id="0qH-Mk-cQl">
                     <modifierMask key="keyEquivalentModifierMask"/>
-                    <menu key="submenu" title="Compile" systemMenu="window" id="IwK-hp-vvF">
+                    <menu key="submenu" title="CMD" systemMenu="window" id="IwK-hp-vvF">
                         <items>
                             <menuItem title="Nginx编译" keyEquivalent="n" id="Ox3-9u-OQE">
                                 <connections>
@@ -218,17 +218,9 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     </box>
                     <progressIndicator hidden="YES" wantsLayer="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" maxValue="100" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" id="XYp-dI-Cdf">
-                        <rect key="frame" x="469" y="456" width="16" height="16"/>
+                        <rect key="frame" x="472" y="456" width="16" height="16"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     </progressIndicator>
-                    <button misplaced="YES" id="iCn-DW-pu3">
-                        <rect key="frame" x="493" y="469" width="84" height="18"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="check" title="Nginx" bezelStyle="regularSquare" imagePosition="right" enabled="NO" inset="2" id="WfW-fj-oN6">
-                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                    </button>
                     <tabView id="WOp-cV-L3f">
                         <rect key="frame" x="14" y="22" width="574" height="393"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -894,21 +886,13 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" animates="YES" imageScaling="proportionallyDown" image="NSEveryone" id="ilv-EQ-EdG"/>
                     </imageView>
-                    <button misplaced="YES" id="yWR-eF-vFG">
-                        <rect key="frame" x="493" y="446" width="84" height="18"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="check" title="PHP-FPM" bezelStyle="regularSquare" imagePosition="right" enabled="NO" inset="2" id="iAj-gs-ao2">
-                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                    </button>
                     <imageView misplaced="YES" id="n1b-G6-2Nq">
                         <rect key="frame" x="20" y="439" width="60" height="60"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" animates="YES" imageScaling="proportionallyDown" image="Icon" id="3R7-M2-lqa"/>
                     </imageView>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" allowsCharacterPickerTouchBarItem="YES" id="3TR-JN-S1b">
-                        <rect key="frame" x="313" y="436" width="61" height="17"/>
+                        <rect key="frame" x="315" y="436" width="61" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="WebStart" id="kOu-68-MUD">
                             <font key="font" metaFont="system" size="10"/>
@@ -917,7 +901,7 @@
                         </textFieldCell>
                     </textField>
                     <button verticalHuggingPriority="750" misplaced="YES" id="hng-0Q-ltZ">
-                        <rect key="frame" x="315" y="455" width="54" height="32"/>
+                        <rect key="frame" x="317" y="455" width="54" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="webstart" imagePosition="overlaps" alignment="center" imageScaling="proportionallyDown" inset="2" id="OAy-nV-9y7">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -928,7 +912,7 @@
                         </connections>
                     </button>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" allowsCharacterPickerTouchBarItem="YES" id="TMl-iR-kF8">
-                        <rect key="frame" x="376" y="439" width="32" height="17"/>
+                        <rect key="frame" x="378" y="439" width="32" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="start" id="Xl8-Cv-kMZ">
                             <font key="font" metaFont="cellTitle"/>
@@ -937,7 +921,7 @@
                         </textFieldCell>
                     </textField>
                     <button verticalHuggingPriority="750" misplaced="YES" id="ynu-WP-Afh">
-                        <rect key="frame" x="370" y="451" width="39" height="40"/>
+                        <rect key="frame" x="372" y="451" width="39" height="40"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="start" imagePosition="overlaps" alignment="center" imageScaling="proportionallyDown" inset="2" id="Uyi-Hb-Eax">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -948,7 +932,7 @@
                         </connections>
                     </button>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" allowsCharacterPickerTouchBarItem="YES" id="RsP-Ph-Cl2">
-                        <rect key="frame" x="419" y="439" width="42" height="17"/>
+                        <rect key="frame" x="421" y="439" width="42" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="restart" id="AWd-XG-kCQ">
                             <font key="font" metaFont="cellTitle"/>
@@ -957,7 +941,7 @@
                         </textFieldCell>
                     </textField>
                     <button verticalHuggingPriority="750" misplaced="YES" id="l2b-ZL-DL0">
-                        <rect key="frame" x="420" y="451" width="39" height="40"/>
+                        <rect key="frame" x="422" y="451" width="39" height="40"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="restart" imagePosition="overlaps" alignment="center" imageScaling="proportionallyDown" inset="2" id="Ohn-ac-6j2">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -1055,9 +1039,17 @@
                             <action selector="goMySQL:" target="Voe-Tx-rLC" id="QuS-Eh-VYW"/>
                         </connections>
                     </button>
+                    <button misplaced="YES" id="iCn-DW-pu3">
+                        <rect key="frame" x="498" y="455" width="84" height="18"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="check" title="Nginx" bezelStyle="regularSquare" imagePosition="right" enabled="NO" inset="2" id="WfW-fj-oN6">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                    </button>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="384" y="567"/>
+            <point key="canvasLocation" x="360" y="565"/>
         </window>
         <userDefaultsController representsSharedInstance="YES" id="FzA-Zp-fHT"/>
         <customObject id="A2B-NI-gKD" customClass="HostNameController">

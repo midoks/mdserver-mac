@@ -14,12 +14,12 @@
     NSStatusItem        *statusBarItem;
     IBOutlet NSMenu     *statusBarItemMenu;
     IBOutlet NSMenuItem *phpVer;
+    IBOutlet NSMenuItem *cmd;
     NSMutableArray <NSMenuItem *> *phpList;
 
 //基本属性
     IBOutlet NSProgressIndicator *pProgress;
     IBOutlet NSButton *pNginxStatus;
-    IBOutlet NSButton *pPHPFPMStatus;
     
     IBOutlet NSButton *pStart;
     IBOutlet NSTextField *pStartTitle;

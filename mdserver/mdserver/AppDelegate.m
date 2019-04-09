@@ -827,11 +827,11 @@
         pNginxStatus.state = 0;
     }
     
-    if (p) {
-        pPHPFPMStatus.state = 1;
-    }else{
-        pPHPFPMStatus.state = 0;
-    }
+//    if (p) {
+//        pPHPFPMStatus.state = 1;
+//    }else{
+//        pPHPFPMStatus.state = 0;
+//    }
 }
 
 #pragma mark 设置界面UI
@@ -845,27 +845,153 @@
     [statusBarItem setHighlightMode:YES];
 }
 
+
+#pragma mark - 初始化CMD列表 -
+
+-(NSMenu*)getCmdMenu:(NSString *)title
+{
+    NSMenu *menu = [[NSMenu alloc] initWithTitle:title];
+    
+    [menu addItemWithTitle:@"Install" action:@selector(cmdInstall:) keyEquivalent:@""];
+    [menu addItemWithTitle:@"UnInstall" action:@selector(cmdUninstall:) keyEquivalent:@""];
+    return menu;
+}
+
+-(void)initCmdList{
+    
+    NSFileManager *fm = [NSFileManager  defaultManager];
+    NSString *rootDir           = [NSCommon getRootDir];
+    
+    NSString *cmdDir = [NSString stringWithFormat:@"%@bin/reinstall/cmd", rootDir];
+    NSArray *cmdList = [fm contentsOfDirectoryAtPath:cmdDir error:nil];
+    NSInteger i = 1;
+    
+    [cmd.submenu addItem:[NSMenuItem separatorItem]];
+    
+    for (NSString *f in cmdList) {
+        
+        NSString *path =[NSString stringWithFormat:@"%@/%@", cmdDir,f];
+        BOOL isDir = YES;
+        [fm fileExistsAtPath:path isDirectory:&isDir];
+        if (!isDir){
+            continue;
+        }
+        
+        NSMenu *vMenu = [self getCmdMenu:f];
+        NSMenuItem *vItem = [[NSMenuItem alloc] initWithTitle:f
+                                                       action:@selector(cmdStatusSet:)
+                                                keyEquivalent:@""];
+        [cmd.submenu addItem:vItem];
+        [cmd.submenu setSubmenu:vMenu forItem:vItem];
+        
+        i++;
+    }
+    [cmd.submenu addItem:[NSMenuItem separatorItem]];
+    
+    NSMenuItem *refresh = [[NSMenuItem alloc] initWithTitle:@"refresh"
+                                                     action:@selector(cmdStatusSet:)
+                                              keyEquivalent:@""];
+    refresh.state = 1;
+    [cmd.submenu addItem:refresh];
+    [cmd.submenu addItem:[NSMenuItem separatorItem]];
+}
+
+-(void)cmdRefresh:(id)sender
+{
+    [cmd.submenu removeAllItems];
+    [self initCmdList];
+}
+
+-(void)cmdInstall:(id)sender
+{
+//    NSString *rootDir           = [NSCommon getRootDir];
+//    NSFileManager *fm = [NSFileManager  defaultManager];
+//
+//    NSMenuItem *cMenu = (NSMenuItem*)sender;
+//    NSMenuItem *pMenu=[cMenu parentItem];
+//
+//    NSString *installSh = [NSString stringWithFormat:@"%@bin/reinstall/php%@/install.sh", rootDir, pMenu.title];
+//    NSString *logDir = [NSString stringWithFormat:@"%@bin/logs/reinstall", rootDir];
+//
+//    if (![fm fileExistsAtPath:logDir]){
+//        [fm createDirectoryAtPath:logDir withIntermediateDirectories:YES attributes:NULL error:NULL];
+//    }
+//
+//    NSString *log = [NSString stringWithFormat:@"%@/php_%@_install.log", logDir, pMenu.title];
+//
+//    NSString *cmd = [NSString stringWithFormat:@"%@ 1> %@ 2>&1", installSh,log];
+//    [NSCommon delayedRun:1 callback:^{
+//        [self openFile:log];
+//    }];
+//
+//    [NSCommon delayedRun:0 callback:^{
+//        [NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", cmd, nil]];
+//    }];
+}
+
+-(void)cmdUninstall:(id)sender
+{
+//    NSString *rootDir           = [NSCommon getRootDir];
+//    NSFileManager *fm = [NSFileManager  defaultManager];
+//
+//    NSMenuItem *cMenu = (NSMenuItem*)sender;
+//    NSMenuItem *pMenu=[cMenu parentItem];
+//
+//    NSString *installSh = [NSString stringWithFormat:@"%@bin/reinstall/php%@/uninstall.sh", rootDir, pMenu.title];
+//    NSString *logDir = [NSString stringWithFormat:@"%@bin/logs/reinstall", rootDir];
+//
+//    NSString *log = [NSString stringWithFormat:@"%@bin/logs/reinstall/php_%@_uninstall.log", rootDir, pMenu.title];
+//    [fm createDirectoryAtPath:logDir withIntermediateDirectories:YES attributes:NULL error:NULL];
+//
+//    NSString *cmd = [NSString stringWithFormat:@"%@ 1>> %@ 2>&1", installSh,log];
+//    [NSCommon delayedRun:1 callback:^{
+//        [self openFile:log];
+//    }];
+//
+//    [NSCommon delayedRun:0 callback:^{
+//        [NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", cmd, nil]];
+//    }];
+}
+
+
+
+-(void)cmdStatusSet:(id)sender
+{
+    NSLog(@"%@",@"phpStatusSet");
+}
+
+
 #pragma mark - 初始化PHP版本列表 -
 
 -(NSMenu*)getPhpExtendsMenu:(NSString *) v
 {
+    NSFileManager *fm = [NSFileManager  defaultManager];
     NSMenu *extListMenu = [[NSMenu alloc] initWithTitle:v];
     
-//    [extListMenu addItemWithTitle:@"Install" action:@selector(phpInstall:) keyEquivalent:@""];
-//    [extListMenu addItemWithTitle:@"UnInstall" action:@selector(phpUninstall:) keyEquivalent:@""];
-//
-    
+    NSString *rootDir           = [NSCommon getRootDir];
+    NSString *extDir = [NSString stringWithFormat:@"%@bin/reinstall/php%@", rootDir, v];
+    NSArray *extList = [fm contentsOfDirectoryAtPath:extDir error:nil];
 
-    NSMenu *extMenu = [[NSMenu alloc] initWithTitle:v];
-    [extMenu addItemWithTitle:@"Install" action:@selector(phpInstall:) keyEquivalent:@""];
-    [extMenu addItemWithTitle:@"UnInstall" action:@selector(phpUninstall:) keyEquivalent:@""];
     
-    NSMenuItem *extItem = [[NSMenuItem alloc] initWithTitle:@"soowle"
-                                                   action:@selector(phpInstall:)
-                                            keyEquivalent:@""];
+    for (NSString *e in extList) {
+        
+        NSString *path =[NSString stringWithFormat:@"%@/%@", extDir,e];
+        BOOL isDir;
+        [fm fileExistsAtPath:path isDirectory:&isDir];
+        if (!isDir){
+            continue;
+        }
+
+        NSMenu *extMenu = [[NSMenu alloc] initWithTitle:v];
+        [extMenu addItemWithTitle:@"Install" action:@selector(phpInstall:) keyEquivalent:@""];
+        [extMenu addItemWithTitle:@"UnInstall" action:@selector(phpUninstall:) keyEquivalent:@""];
+        NSMenuItem *extItem = [[NSMenuItem alloc] initWithTitle:e
+                                                         action:@selector(phpInstall:)
+                                                  keyEquivalent:@""];
+        [extListMenu addItem:extItem];
+        [extListMenu setSubmenu:extMenu forItem:extItem];
+    }
     
-    [extListMenu addItem:extItem];
-    [extListMenu setSubmenu:extMenu forItem:extItem];
     return extListMenu;
 }
 
@@ -876,34 +1002,30 @@
     [vMenu addItemWithTitle:@"Install" action:@selector(phpInstall:) keyEquivalent:@""];
     [vMenu addItemWithTitle:@"UnInstall" action:@selector(phpUninstall:) keyEquivalent:@""];
     
-    NSMenu *tMenu = [self getPhpExtendsMenu:title];
-    NSMenuItem *tItem = [[NSMenuItem alloc] initWithTitle:@"Extends"
+    NSMenu *extMenu = [self getPhpExtendsMenu:title];
+    NSMenuItem *extItem = [[NSMenuItem alloc] initWithTitle:@"Extends"
                                                    action:@selector(phpInstall:)
                                             keyEquivalent:@""];
-    [vMenu addItem:tItem];
-    [vMenu setSubmenu:tMenu forItem:tItem];
+    [vMenu addItem:extItem];
+    [vMenu setSubmenu:extMenu forItem:extItem];
     return vMenu;
 }
-
 
 -(void)initPhpList
 {
     NSFileManager *fm = [NSFileManager  defaultManager];
     NSString *rootDir           = [NSCommon getRootDir];
-//    NSString *php_version = [NSCommon getCommonConfig:PHP_C_VER_KEY];
-    //PHP列表
-    NSString *php_list = [NSString stringWithFormat:@"%@bin/reinstall", rootDir];
+
+    NSString *phpDir = [NSString stringWithFormat:@"%@bin/reinstall", rootDir];
     
-    NSArray *dirList = [fm contentsOfDirectoryAtPath:php_list error:nil];
+    NSArray *phpVlist = [fm contentsOfDirectoryAtPath:phpDir error:nil];
     NSInteger i = 1;
     
-    phpList = [[NSMutableArray alloc] init];
+    [phpVer.submenu addItem:[NSMenuItem separatorItem]];
     
-    [phpVer.submenu addItem:[NSMenuItem separatorItem]];
-    [phpVer.submenu addItem:[NSMenuItem separatorItem]];
-    for (NSString *f in dirList) {
+    for (NSString *f in phpVlist) {
         
-        NSString *path =[NSString stringWithFormat:@"%@/%@", php_list,f];
+        NSString *path =[NSString stringWithFormat:@"%@/%@", phpDir,f];
         BOOL isDir;
         [fm fileExistsAtPath:path isDirectory:&isDir];
         if (!isDir){
@@ -916,7 +1038,7 @@
             NSMenu *vMenu = [self getPhpVerMenu:ver];
             
             NSMenuItem *vItem = [[NSMenuItem alloc] initWithTitle:ver
-                                                           action:@selector(phpInstall:)
+                                                           action:@selector(phpStatusSet:)
                                                     keyEquivalent:[NSString stringWithFormat:@"%ld", i]];
             vItem.state = 1;
             [phpVer.submenu addItem:vItem];
@@ -926,16 +1048,76 @@
         }
     }
     [phpVer.submenu addItem:[NSMenuItem separatorItem]];
+    
+    NSMenuItem *refresh = [[NSMenuItem alloc] initWithTitle:@"refresh"
+                                                  action:@selector(phpRefresh:)
+                                           keyEquivalent:[NSString stringWithFormat:@"%d", 0]];
+    refresh.state = 1;
+    [phpVer.submenu addItem:refresh];
+    [phpVer.submenu addItem:[NSMenuItem separatorItem]];
 }
 
 -(void)phpInstall:(id)sender
 {
-    NSLog(@"%@",@"install");
+    NSString *rootDir           = [NSCommon getRootDir];
+    NSFileManager *fm = [NSFileManager  defaultManager];
+    
+    NSMenuItem *cMenu = (NSMenuItem*)sender;
+    NSMenuItem *pMenu=[cMenu parentItem];
+    
+    NSString *installSh = [NSString stringWithFormat:@"%@bin/reinstall/php%@/install.sh", rootDir, pMenu.title];
+    NSString *logDir = [NSString stringWithFormat:@"%@bin/logs/reinstall", rootDir];
+    
+    if (![fm fileExistsAtPath:logDir]){
+        [fm createDirectoryAtPath:logDir withIntermediateDirectories:YES attributes:NULL error:NULL];
+    }
+    
+    NSString *log = [NSString stringWithFormat:@"%@/php_%@_install.log", logDir, pMenu.title];
+    
+    NSString *cmd = [NSString stringWithFormat:@"%@ 1> %@ 2>&1", installSh,log];
+    [NSCommon delayedRun:1 callback:^{
+        [self openFile:log];
+    }];
+    
+    [NSCommon delayedRun:0 callback:^{
+        [NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", cmd, nil]];
+    }];
 }
 
 -(void)phpUninstall:(id)sender
 {
-    NSLog(@"%@",@"phpUninstall");
+    NSString *rootDir           = [NSCommon getRootDir];
+    NSFileManager *fm = [NSFileManager  defaultManager];
+    
+    NSMenuItem *cMenu = (NSMenuItem*)sender;
+    NSMenuItem *pMenu=[cMenu parentItem];
+    
+    NSString *installSh = [NSString stringWithFormat:@"%@bin/reinstall/php%@/uninstall.sh", rootDir, pMenu.title];
+    NSString *logDir = [NSString stringWithFormat:@"%@bin/logs/reinstall", rootDir];
+    
+    NSString *log = [NSString stringWithFormat:@"%@bin/logs/reinstall/php_%@_uninstall.log", rootDir, pMenu.title];
+    [fm createDirectoryAtPath:logDir withIntermediateDirectories:YES attributes:NULL error:NULL];
+    
+    NSString *cmd = [NSString stringWithFormat:@"%@ 1>> %@ 2>&1", installSh,log];
+    [NSCommon delayedRun:1 callback:^{
+        [self openFile:log];
+    }];
+    
+    [NSCommon delayedRun:0 callback:^{
+        [NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", cmd, nil]];
+    }];
+}
+
+
+-(void)phpStatusSet:(id)sender
+{
+    NSLog(@"%@",@"phpStatusSet");
+}
+
+-(void)phpRefresh:(id)sender
+{
+    [phpVer.submenu removeAllItems];
+    [self initPhpList];
 }
 
 -(void)phpClick:(id)sender {
@@ -983,6 +1165,7 @@
 
 #pragma mark - 程序加载时执行 -
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
+    [self initCmdList];
     [self initPhpList];
     
     [self checkWebStatus];
