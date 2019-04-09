@@ -786,11 +786,10 @@
 #pragma mark - 程序入口 -
 
 #pragma mark 检查PHP-FPM是否启动
--(BOOL)checkWebPHP
+-(BOOL)checkWebPHP:(NSString *)ver
 {
-    NSString *path = [NSCommon getRootDir];
     NSFileManager *fm = [NSFileManager defaultManager];
-    path = [NSString stringWithFormat:@"%@bin/tmp/php-fpm.pid", path];
+    NSString *path = [NSString stringWithFormat:@"/tmp/php%@-cgi.sock", ver];
     return [fm fileExistsAtPath:path];
 }
 
@@ -807,9 +806,9 @@
 -(void)checkWebStatus
 {
     BOOL n = [self checkWebNginx];
-    BOOL p = [self checkWebPHP];
+//    BOOL p = [self checkWebPHP];
     
-    if (n || p) {
+    if (n) {
         
         [pStartTitle setStringValue:@"stop"];
         [pStart setImage:[NSImage imageNamed:@"stop"]];
@@ -826,12 +825,6 @@
     }else{
         pNginxStatus.state = 0;
     }
-    
-//    if (p) {
-//        pPHPFPMStatus.state = 1;
-//    }else{
-//        pPHPFPMStatus.state = 0;
-//    }
 }
 
 #pragma mark 设置界面UI
@@ -1040,7 +1033,10 @@
             NSMenuItem *vItem = [[NSMenuItem alloc] initWithTitle:ver
                                                            action:@selector(phpStatusSet:)
                                                     keyEquivalent:[NSString stringWithFormat:@"%ld", i]];
-            vItem.state = 1;
+            
+            if ( [self checkWebPHP:ver] ){
+                vItem.state = 1;
+            }
             [phpVer.submenu addItem:vItem];
             [phpVer.submenu setSubmenu:vMenu forItem:vItem];
             
@@ -1109,58 +1105,43 @@
 }
 
 
--(void)phpStatusSet:(id)sender
-{
-    NSLog(@"%@",@"phpStatusSet");
-}
-
 -(void)phpRefresh:(id)sender
 {
     [phpVer.submenu removeAllItems];
     [self initPhpList];
 }
 
--(void)phpClick:(id)sender {
+-(void)phpStatusSet:(id)sender {
     
     NSString *rootDir = [NSCommon getRootDir];
+    NSFileManager *fm = [NSFileManager  defaultManager];
     NSMenuItem *cItem = (NSMenuItem *)sender;
     
-    NSString *cphp_version = [cItem title];
+    NSString *cPhpVer = [cItem title];
     NSString *php_version = [NSCommon getCommonConfig:PHP_C_VER_KEY];
     
     
-    if ( [self checkWebPHP] ){
-        
-        //停止当前PHP-FPM
-        NSString *php = [NSString stringWithFormat:@"%@bin/php/status.sh %@ stop", rootDir, php_version];
-        [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", php, nil]] waitUntilExit];
-        
-        [self replacePHP:NO];
-        [NSCommon setCommonConfig:PHP_C_VER_KEY value:cphp_version];
-        
-        //启动新PHP-FPM
-        [self replacePHP:YES];
-        NSString *new_php = [NSString stringWithFormat:@"%@bin/php/status.sh %@ start", rootDir, cphp_version];
-        [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", new_php, nil]] waitUntilExit];
-        
-        for (NSMenuItem *tItem in phpList) {
-            tItem.state = 0;
-        }
-        cItem.state = 1;
-        
-        if ([php_version isEqualToString:cphp_version]){
-            
-            NSString *info = [NSString stringWithFormat:@"%@ Restart OK!", php_version];
-            [self userCenter:info];
-            
-        } else {
-            [self userCenter:@"PHP-FPM Restart OK!"];
-        }
-        
-    } else {
-        [self userCenter:@"Service not started!"];
-    }
+    NSString *phpDir = [NSString stringWithFormat:@"%@bin/php/php%@", rootDir, cPhpVer];
     
+    if (![fm fileExistsAtPath:phpDir]){
+        NSString *notice = [NSString stringWithFormat:@"PHP-%@ NOT INSTALL,PLEASE INSTALL!!", cPhpVer];
+        [self userCenter:notice];
+        return;
+    }
+
+    if ( [self checkWebPHP:cPhpVer] ){
+        //停止当前PHP-FPM
+        NSString *cmd = [NSString stringWithFormat:@"%@bin/php/status.sh %@ stop", rootDir, php_version];
+        [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", cmd, nil]] waitUntilExit];
+    
+        [self userCenter:@"PHP-FPM STOP OK!"];
+    } else {
+        //启动新PHP-FPM
+        NSString *cmd = [NSString stringWithFormat:@"%@bin/php/status.sh %@ start", rootDir, cPhpVer];
+        [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", cmd, nil]] waitUntilExit];
+        [self userCenter:@"PHP-FPM STRAT OK!"];
+    }
+    [self phpRefresh:sender];
 }
 
 #pragma mark - 程序加载时执行 -
