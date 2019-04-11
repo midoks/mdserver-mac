@@ -859,7 +859,7 @@
     NSArray *cmdList = [fm contentsOfDirectoryAtPath:cmdDir error:nil];
     NSInteger i = 1;
     
-    [cmd.submenu addItem:[NSMenuItem separatorItem]];
+//    [cmd.submenu addItem:[NSMenuItem separatorItem]];
     
     for (NSString *f in cmdList) {
         
@@ -886,7 +886,7 @@
                                               keyEquivalent:@""];
     refresh.state = 1;
     [cmd.submenu addItem:refresh];
-    [cmd.submenu addItem:[NSMenuItem separatorItem]];
+//    [cmd.submenu addItem:[NSMenuItem separatorItem]];
 }
 
 -(void)cmdRefresh:(id)sender
@@ -968,6 +968,7 @@
     
     NSString *content = @"";
     NSString *phpDir = [NSString stringWithFormat:@"%@bin/php/php%@", rootDir, v];
+    
     if ([NSCommon fileIsExists:phpDir]){
         NSString *phpIni = [NSString stringWithFormat:@"%@bin/php/php%@/etc/php.ini", rootDir, v];
         
@@ -1026,13 +1027,13 @@
     }
     
     NSString *logDir = [NSString stringWithFormat:@"%@bin/logs/reinstall", rootDir];
-    if (![fm fileExistsAtPath:logDir]){
+    if (![NSCommon fileIsExists:logDir]){
         [fm createDirectoryAtPath:logDir withIntermediateDirectories:YES attributes:NULL error:NULL];
     }
 
     NSString *log = [NSString stringWithFormat:@"%@/php%@_ext_%@_install.log", logDir, pppMenu.title,pMenu.title];
-    
     NSString *cmd = [NSString stringWithFormat:@"%@ %@ 1> %@ 2>&1", installSh,pppMenu.title,log];
+    
     [NSCommon delayedRun:1 callback:^{
         [self openFile:log];
     }];
@@ -1075,9 +1076,6 @@
         [NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", cmd, nil]];
     }];
 }
-
-
-
 
 -(NSString *)getPhpIniContent:(NSString*)version
 {
@@ -1158,7 +1156,6 @@
     
     
     NSString *logDir = [NSString stringWithFormat:@"%@bin/logs/reinstall", rootDir];
-
     if (![NSCommon fileIsExists:logDir]){
         [fm createDirectoryAtPath:logDir withIntermediateDirectories:YES attributes:NULL error:NULL];
     }
@@ -1173,6 +1170,8 @@
     [NSCommon delayedRun:0.2 callback:^{
         [self->phpVer.submenu removeAllItems];
         [self initPhpList];
+        [self userCenter:[NSString stringWithFormat:@"PHP%@-%@扩展%@脚本执行成功!", ppMenu.title,cMenu.title,shName]];
+        [self phpFpmCmdReload:ppMenu.title];
     }];
 }
 
@@ -1186,7 +1185,7 @@
     
     NSMenu *extMenu = [self getPhpExtendsMenu:title];
     NSMenuItem *extItem = [[NSMenuItem alloc] initWithTitle:@"Extends"
-                                                   action:@selector(phpInstall:)
+                                                   action:NULL
                                             keyEquivalent:@""];
     [vMenu addItem:extItem];
     [vMenu setSubmenu:extMenu forItem:extItem];
@@ -1203,8 +1202,7 @@
     NSArray *phpVlist = [fm contentsOfDirectoryAtPath:phpDir error:nil];
     NSInteger i = 1;
     
-    [phpVer.submenu addItem:[NSMenuItem separatorItem]];
-    
+//    [phpVer.submenu addItem:[NSMenuItem separatorItem]];
     for (NSString *f in phpVlist) {
         
         NSString *path =[NSString stringWithFormat:@"%@/%@", phpDir,f];
@@ -1239,7 +1237,6 @@
                                            keyEquivalent:[NSString stringWithFormat:@"%d", 0]];
     refresh.state = 1;
     [phpVer.submenu addItem:refresh];
-    [phpVer.submenu addItem:[NSMenuItem separatorItem]];
 }
 
 -(void)phpInstall:(id)sender
@@ -1300,6 +1297,50 @@
     [self initPhpList];
 }
 
+#pragma 启动当前PHP-FPM
+-(void)phpFpmCmdStart:(NSString *)version
+{
+    NSString *rootDir = [NSCommon getRootDir];
+    NSString *cmd = [NSString stringWithFormat:@"%@bin/php/status.sh %@ start", rootDir, version];
+    [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", cmd, nil]] waitUntilExit];
+}
+
+#pragma 停止当前PHP-FPM
+-(void)phpFpmCmdStop:(NSString *)version
+{
+    NSString *rootDir = [NSCommon getRootDir];
+    NSString *cmd = [NSString stringWithFormat:@"%@bin/php/status.sh %@ stop", rootDir, version];
+    [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", cmd, nil]] waitUntilExit];
+}
+
+
+-(void)phpFpmCmdReload:(NSString *)version
+{
+    NSString *rootDir = [NSCommon getRootDir];
+    NSString *cmd = [NSString stringWithFormat:@"%@bin/php/status.sh %@ reload", rootDir, version];
+    [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", cmd, nil]] waitUntilExit];
+}
+
+
+-(void)phpFpmTrigger:(NSString *)version
+{
+    if ( [self checkWebPHP:version] ){
+        [self phpFpmCmdStop:version];
+        [self userCenter:[NSString stringWithFormat:@"执行[PHP%@-FPM停止]成功!", version]];
+    } else {
+        [self phpFpmCmdStart:version];
+        [self userCenter:[NSString stringWithFormat:@"执行[PHP%@-FPM启动]成功!", version]];
+    }
+}
+
+-(void)phpFpmReload:(NSString *)version
+{
+    if ( [self checkWebPHP:version] ){
+        [self phpFpmCmdReload:version];
+        [self userCenter:[NSString stringWithFormat:@"执行[PHP%@-FPM重启]成功!", version]];
+    }
+}
+
 -(void)phpStatusSet:(id)sender {
     
     NSString *rootDir = [NSCommon getRootDir];
@@ -1315,19 +1356,12 @@
         return;
     }
 
-    if ( [self checkWebPHP:cPhpVer] ){
-        //停止当前PHP-FPM
-        NSString *cmd = [NSString stringWithFormat:@"%@bin/php/status.sh %@ stop", rootDir, cPhpVer];
-        [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", cmd, nil]] waitUntilExit];
-    
-        [self userCenter:@"PHP-FPM STOP OK!"];
-    } else {
-        //启动新PHP-FPM
-        NSString *cmd = [NSString stringWithFormat:@"%@bin/php/status.sh %@ start", rootDir, cPhpVer];
-        [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", cmd, nil]] waitUntilExit];
-        [self userCenter:@"PHP-FPM STRAT OK!"];
-    }
-    [self phpRefresh:sender];
+    [NSCommon delayedRun:0.1 callback:^{
+        [self phpFpmTrigger:cPhpVer];
+        [NSCommon delayedRun:0.5 callback:^{
+            [self phpRefresh:sender];
+        }];
+    }];
 }
 
 #pragma mark - 程序加载时执行 -
