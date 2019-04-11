@@ -152,7 +152,7 @@
                     </menu>
                 </menuItem>
             </items>
-            <point key="canvasLocation" x="237" y="48"/>
+            <point key="canvasLocation" x="160" y="-83"/>
         </menu>
         <menu id="2J9-UB-8Ud" userLabel="Menu Icon">
             <items>
@@ -1049,7 +1049,7 @@
                     </button>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="360" y="565"/>
+            <point key="canvasLocation" x="409" y="362"/>
         </window>
         <userDefaultsController representsSharedInstance="YES" id="FzA-Zp-fHT"/>
         <customObject id="A2B-NI-gKD" customClass="HostNameController">
