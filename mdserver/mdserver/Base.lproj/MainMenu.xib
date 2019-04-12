@@ -110,11 +110,6 @@
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <menu key="submenu" title="CMD" systemMenu="window" id="IwK-hp-vvF">
                         <items>
-                            <menuItem title="Nginx编译" keyEquivalent="n" id="Ox3-9u-OQE">
-                                <connections>
-                                    <action selector="SelfCompileNginx:" target="Voe-Tx-rLC" id="kSc-Y1-r7W"/>
-                                </connections>
-                            </menuItem>
                             <menuItem title="ReloadSVC" keyEquivalent="r" id="IYD-zU-rhY">
                                 <connections>
                                     <action selector="reloadSVC:" target="Voe-Tx-rLC" id="f9M-KN-LPo"/>
@@ -124,12 +119,6 @@
                                 <modifierMask key="keyEquivalentModifierMask" control="YES"/>
                                 <connections>
                                     <action selector="SelfCompileMySQL:" target="Voe-Tx-rLC" id="dBO-K8-JGQ"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem title="Debug调试" keyEquivalent="d" id="dBt-Kf-auN" userLabel="Debug调试">
-                                <modifierMask key="keyEquivalentModifierMask" control="YES"/>
-                                <connections>
-                                    <action selector="SelfDebug:" target="Voe-Tx-rLC" id="oIh-NM-bEQ"/>
                                 </connections>
                             </menuItem>
                         </items>

@@ -42,9 +42,7 @@
 - (IBAction)showMysqlLog:(id)sender;
 
 #pragma mark - 再次编译 -
-- (IBAction)SelfCompileNginx:(id)sender;
 - (IBAction)SelfCompileMySQL:(id)sender;
-- (IBAction)SelfDebug:(id)sender;
 
 #pragma mark  - 启动或暂停 -
 - (IBAction)start:(id)sender;
