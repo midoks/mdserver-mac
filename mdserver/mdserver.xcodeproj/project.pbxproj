@@ -11,6 +11,7 @@
 		820F1E951A8B90E200CBC093 /* removehost in Resources */ = {isa = PBXBuildFile; fileRef = 820F1E931A8B90E200CBC093 /* removehost */; };
 		820F1EAD1A8C823800CBC093 /* ss in Resources */ = {isa = PBXBuildFile; fileRef = 820F1EAC1A8C823800CBC093 /* ss */; };
 		820F1EAF1A8CA74700CBC093 /* st in Resources */ = {isa = PBXBuildFile; fileRef = 820F1EAE1A8CA74700CBC093 /* st */; };
+		822279A42261810B00928FB1 /* NSTextField+Copypast.m in Sources */ = {isa = PBXBuildFile; fileRef = 822279A32261810B00928FB1 /* NSTextField+Copypast.m */; };
 		82409EEC1A8F448700CE78F9 /* my.cnf in Resources */ = {isa = PBXBuildFile; fileRef = 82409EEB1A8F448700CE78F9 /* my.cnf */; };
 		82409EEE1A90451700CE78F9 /* modMysqlPwd.sh in Resources */ = {isa = PBXBuildFile; fileRef = 82409EED1A90451700CE78F9 /* modMysqlPwd.sh */; };
 		824EBDD91A8DD6BC0043BFA7 /* ModMySQLPwd.xib in Resources */ = {isa = PBXBuildFile; fileRef = 824EBDD81A8DD6BC0043BFA7 /* ModMySQLPwd.xib */; };
@@ -72,6 +73,8 @@
 		820F1E931A8B90E200CBC093 /* removehost */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = removehost; sourceTree = "<group>"; };
 		820F1EAC1A8C823800CBC093 /* ss */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = ss; sourceTree = "<group>"; };
 		820F1EAE1A8CA74700CBC093 /* st */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = st; sourceTree = "<group>"; };
+		822279A22261810B00928FB1 /* NSTextField+Copypast.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSTextField+Copypast.h"; sourceTree = "<group>"; };
+		822279A32261810B00928FB1 /* NSTextField+Copypast.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSTextField+Copypast.m"; sourceTree = "<group>"; };
 		82409EEB1A8F448700CE78F9 /* my.cnf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = my.cnf; sourceTree = "<group>"; };
 		82409EED1A90451700CE78F9 /* modMysqlPwd.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = modMysqlPwd.sh; sourceTree = "<group>"; };
 		824EBDD81A8DD6BC0043BFA7 /* ModMySQLPwd.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ModMySQLPwd.xib; sourceTree = "<group>"; };
@@ -229,6 +232,8 @@
 				8263CC5A1A9A14B0007E791A /* MainAlipay.xib */,
 				8263CC5C1A9A14E9007E791A /* MainWeibo.xib */,
 				82F8CFF51A70E5FC00B9FD25 /* Supporting Files */,
+				822279A22261810B00928FB1 /* NSTextField+Copypast.h */,
+				822279A32261810B00928FB1 /* NSTextField+Copypast.m */,
 			);
 			path = mdserver;
 			sourceTree = "<group>";
@@ -418,6 +423,7 @@
 				82F8CFFB1A70E5FC00B9FD25 /* main.m in Sources */,
 				82F8CFF91A70E5FC00B9FD25 /* AppDelegate.m in Sources */,
 				828B75861A81F9180040DA32 /* HostNameModel.m in Sources */,
+				822279A42261810B00928FB1 /* NSTextField+Copypast.m in Sources */,
 				824EBDDC1A8E1D730043BFA7 /* ModMySQLPwdController.m in Sources */,
 				828B76671A874C2D0040DA32 /* MySQLController.m in Sources */,
 				82FC77471A765DB800D599AA /* NSCommon.m in Sources */,

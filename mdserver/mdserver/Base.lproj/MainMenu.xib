@@ -493,7 +493,7 @@
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="0RZ-5f-Xjz">
                                                 <rect key="frame" x="1" y="0.0" width="238" height="296"/>
-                                                <autoresizingMask key="autoresizingMask"/>
+                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="20" rowSizeStyle="automatic" headerView="B9H-aO-DLa" viewBased="YES" id="tNs-DA-7w6">
                                                         <rect key="frame" x="0.0" y="0.0" width="238" height="279"/>
@@ -516,11 +516,11 @@
                                                                 <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                 <prototypeCellViews>
                                                                     <tableCellView identifier="hostname" id="z4R-pW-Rsb">
-                                                                        <rect key="frame" x="1" y="1" width="164.5" height="20"/>
+                                                                        <rect key="frame" x="1" y="1" width="164" height="20"/>
                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                         <subviews>
                                                                             <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" allowsCharacterPickerTouchBarItem="YES" id="ZSi-AY-1ia">
-                                                                                <rect key="frame" x="0.0" y="3" width="164.5" height="17"/>
+                                                                                <rect key="frame" x="0.0" y="3" width="164" height="17"/>
                                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                                                 <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="cell" id="skf-Z3-l4l">
                                                                                     <font key="font" metaFont="system"/>
@@ -549,11 +549,11 @@
                                                                 <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                 <prototypeCellViews>
                                                                     <tableCellView identifier="port" id="fIa-93-cdc">
-                                                                        <rect key="frame" x="168.5" y="1" width="67.5" height="20"/>
+                                                                        <rect key="frame" x="168" y="1" width="68" height="20"/>
                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                         <subviews>
                                                                             <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" allowsCharacterPickerTouchBarItem="YES" id="u1M-08-mKh">
-                                                                                <rect key="frame" x="0.0" y="3" width="67.5" height="17"/>
+                                                                                <rect key="frame" x="0.0" y="3" width="68" height="17"/>
                                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                                                 <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="cell" id="Opr-ZN-LMY">
                                                                                     <font key="font" metaFont="system"/>
@@ -577,11 +577,11 @@
                                                 </subviews>
                                                 <nil key="backgroundColor"/>
                                             </clipView>
-                                            <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="A7A-Su-Dgr">
+                                            <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="A7A-Su-Dgr">
                                                 <rect key="frame" x="1" y="280" width="238" height="16"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                             </scroller>
-                                            <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="33F-Hx-qfL">
+                                            <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="33F-Hx-qfL">
                                                 <rect key="frame" x="224" y="17" width="15" height="102"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                             </scroller>
@@ -1089,7 +1089,7 @@
         <image name="docs" width="18" height="18"/>
         <image name="info" width="16" height="16"/>
         <image name="pma" width="48" height="48"/>
-        <image name="restart" width="33" height="31"/>
+        <image name="restart" width="34" height="32"/>
         <image name="start" width="32" height="32"/>
         <image name="tool" width="32" height="32"/>
         <image name="webstart" width="28" height="31"/>
