@@ -31,7 +31,6 @@
         
         _tableView.delegate = self;
         _tableView.dataSource = self;
-        
         //plist操作
         [self reloadListData];
     }

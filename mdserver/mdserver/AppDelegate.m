@@ -842,9 +842,6 @@
     NSString *name = @"start";
     if ([NSCommon fileIsExists:lock]){
         name = @"stop";
-        [fm removeItemAtPath:lock error:NULL];
-    } else {
-        [fm createFileAtPath:lock contents:NULL attributes:NULL];
     }
     
     NSString *doSh = [NSString stringWithFormat:@"%@bin/reinstall/cmd/%@/%@.sh", rootDir, cMenu.title,name];
@@ -860,8 +857,13 @@
             [NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", cmd, nil]];
             [self userCenter:[NSString stringWithFormat:@"执行[%@服务%@脚本]成功!", cMenu.title,name]];
         }];
+        
+        if ([NSCommon fileIsExists:lock]){
+            [fm removeItemAtPath:lock error:NULL];
+        } else {
+            [fm createFileAtPath:lock contents:NULL attributes:NULL];
+        }
     }
-    NSLog(@"%@",@"cmdStatusSet");
 }
 
 #pragma mark - 初始化PHP版本列表 -
@@ -1278,9 +1280,9 @@
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     [self initCmdList];
     [self initPhpList];
-    
+
     [self checkWebStatus];
-    
+
     [self checkRedisStatus];
     [self checkMongoStatus];
     [self checkMemcachedStatus];
@@ -1293,15 +1295,15 @@
         sleep(1);
         [self startWebService];
     }
-    
+
     //初始化php版本信息
     NSString *php_version = [NSCommon getCommonConfig:PHP_C_VER_KEY];
     if (!php_version || [php_version isEqualToString:@""]) {
         [NSCommon setCommonConfig:PHP_C_VER_KEY value:@"php55"];
     }
-    
+
     [NSCommon setCommonConfig:@"isOpenModMySQLPwdWindow" value:@"no"];
-    
+
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(selfReStart) name: @"reloadSVC" object:nil];
 }
 

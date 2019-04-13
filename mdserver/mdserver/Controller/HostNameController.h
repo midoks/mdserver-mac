@@ -15,6 +15,7 @@
     IBOutlet NSPathControl *_serverPath;
     IBOutlet NSTextField *_serverName;
     IBOutlet NSTextField *_serverPort;
+    IBOutlet NSPopUpButton *_serverPHPVer;
     
     IBOutlet NSTextField *_gPort;
     IBOutlet NSImageView *_emptyPath;

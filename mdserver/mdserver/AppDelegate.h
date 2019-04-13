@@ -24,12 +24,9 @@
     
     IBOutlet NSButton *pStart;
     IBOutlet NSTextField *pStartTitle;
-    
     IBOutlet NSButton *pReStart;
     
-    
 
-    
 //权限测试
     AuthorizationRef        _authRef;
 }
