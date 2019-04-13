@@ -434,7 +434,7 @@
                                         <textField autoresizesSubviews="NO" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" id="k4l-qs-JF4">
                                             <rect key="frame" x="372" y="310" width="127" height="22"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" continuous="YES" refusesFirstResponder="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="3O1-zh-lev">
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" continuous="YES" refusesFirstResponder="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" bezelStyle="round" id="3O1-zh-lev">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -447,7 +447,7 @@
                                         <textField autoresizesSubviews="NO" verticalHuggingPriority="750" misplaced="YES" allowsCharacterPickerTouchBarItem="YES" id="4r4-hg-1kA">
                                             <rect key="frame" x="372" y="276" width="127" height="22"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="2qc-Zi-m8h">
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" bezelStyle="round" id="2qc-Zi-m8h">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -536,7 +536,7 @@
                                                                     </tableCellView>
                                                                 </prototypeCellViews>
                                                             </tableColumn>
-                                                            <tableColumn identifier="port" width="42" minWidth="40" maxWidth="1000" id="ciU-HK-O62" userLabel="php">
+                                                            <tableColumn identifier="php" width="42" minWidth="40" maxWidth="1000" id="ciU-HK-O62" userLabel="php">
                                                                 <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="php">
                                                                     <font key="font" metaFont="smallSystem"/>
                                                                     <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -674,23 +674,25 @@
                                                 <action selector="goWebInfo:" target="A2B-NI-gKD" id="LeX-WS-ggu"/>
                                             </connections>
                                         </button>
-                                        <popUpButton verticalHuggingPriority="750" misplaced="YES" id="yYe-U4-MVK">
-                                            <rect key="frame" x="370" y="241" width="76" height="25"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <popUpButtonCell key="cell" type="push" title="PHP" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="tzx-Qn-tvr" id="wQF-u2-AEJ">
-                                                <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                                                <font key="font" metaFont="menu"/>
-                                                <menu key="menu" id="lqf-4g-8dD">
-                                                    <items>
-                                                        <menuItem title="PHP" state="on" id="tzx-Qn-tvr"/>
-                                                    </items>
-                                                </menu>
-                                            </popUpButtonCell>
-                                        </popUpButton>
                                         <box verticalHuggingPriority="750" misplaced="YES" boxType="separator" id="XSr-aR-0jX">
                                             <rect key="frame" x="277" y="216" width="280" height="5"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         </box>
+                                        <popUpButton verticalHuggingPriority="750" misplaced="YES" id="Z4t-4S-Izv">
+                                            <rect key="frame" x="370" y="241" width="132" height="26"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <popUpButtonCell key="cell" type="push" title="Item 2" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="border" inset="2" preferredEdge="maxY" selectedItem="fJ0-Fm-7Kb" id="If9-kF-DLb">
+                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                                <menu key="menu" id="c3H-rX-HVx">
+                                                    <items>
+                                                        <menuItem title="Item 2" state="on" id="fJ0-Fm-7Kb"/>
+                                                        <menuItem title="Item 3" state="on" id="WLx-Uh-mP7"/>
+                                                        <menuItem title="Item 3" state="on" id="VHO-3j-vXF"/>
+                                                    </items>
+                                                </menu>
+                                            </popUpButtonCell>
+                                        </popUpButton>
                                     </subviews>
                                 </view>
                             </tabViewItem>
@@ -1030,7 +1032,7 @@
                         </connections>
                     </button>
                     <button misplaced="YES" id="iCn-DW-pu3">
-                        <rect key="frame" x="498" y="470" width="84" height="18"/>
+                        <rect key="frame" x="497" y="466" width="84" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="Nginx" bezelStyle="regularSquare" imagePosition="right" enabled="NO" inset="2" id="WfW-fj-oN6">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -1038,7 +1040,7 @@
                         </buttonCell>
                     </button>
                     <button misplaced="YES" id="eq2-P5-dYn">
-                        <rect key="frame" x="498" y="450" width="84" height="18"/>
+                        <rect key="frame" x="498" y="443" width="84" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="PHP" bezelStyle="regularSquare" imagePosition="right" enabled="NO" inset="2" id="b7h-Rg-vdh">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -1047,7 +1049,7 @@
                     </button>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="809" y="208"/>
+            <point key="canvasLocation" x="733" y="-114"/>
         </window>
         <userDefaultsController representsSharedInstance="YES" id="FzA-Zp-fHT"/>
         <customObject id="A2B-NI-gKD" customClass="HostNameController">
@@ -1055,7 +1057,7 @@
                 <outlet property="_emptyPath" destination="aol-PQ-9yu" id="LOS-UC-MYH"/>
                 <outlet property="_gPort" destination="4FE-5V-96D" id="kGK-5b-KaC"/>
                 <outlet property="_serverName" destination="k4l-qs-JF4" id="Pu7-fh-may"/>
-                <outlet property="_serverPHPVer" destination="yYe-U4-MVK" id="inR-8z-qgf"/>
+                <outlet property="_serverPHPVer" destination="Z4t-4S-Izv" id="4U5-PV-Mvk"/>
                 <outlet property="_serverPath" destination="gbO-JY-Wqj" id="P2p-8b-Xo9"/>
                 <outlet property="_serverPort" destination="4r4-hg-1kA" id="h4q-6b-xCS"/>
                 <outlet property="_tableView" destination="tNs-DA-7w6" id="BJ3-hP-Abv"/>

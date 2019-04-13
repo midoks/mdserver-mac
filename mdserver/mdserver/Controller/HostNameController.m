@@ -33,16 +33,41 @@
         _tableView.dataSource = self;
         //plist操作
         [self reloadListData];
+        
+        
+        _phplist = [[NSMutableArray alloc] init];
+        NSFileManager *fm = [NSFileManager  defaultManager];
+        NSString *rootDir           = [NSCommon getRootDir];
+        NSString *phpDir = [NSString stringWithFormat:@"%@bin/php", rootDir];
+        NSArray *phpVlist = [fm contentsOfDirectoryAtPath:phpDir error:NULL];
+        
+        for (NSString *f in phpVlist) {
+            
+            NSString *path =[NSString stringWithFormat:@"%@/%@", phpDir,f];
+            BOOL isDir;
+            [fm fileExistsAtPath:path isDirectory:&isDir];
+            if (!isDir){
+                continue;
+            }
+            
+            NSString *v = [f stringByReplacingOccurrencesOfString:@"php" withString:@""];
+            [_phplist addObject:v];
+        }
+        
+        [_phplist sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+            if ([obj1 intValue]>[obj2 intValue]){
+                return YES;
+            }
+            return NO;
+        }];
     }
     return  self;
 }
-
 
 -(void)awakeFromNib
 {
     //默认路径为空
     //[_serverPath setURL:[NSURL URLWithString:@"file://"]];
-    
     [NSCommon delayedRun:0.5 callback:^{
         static BOOL reload = YES;
         if (reload) {//默认选择
@@ -66,7 +91,6 @@
     [cell.textField setStringValue:[hnm valueForKey:tableColumn.identifier]];
     [cell.textField setEditable:NO];
     [cell.textField setDrawsBackground:NO];
-    
     return cell;
 }
 
@@ -81,18 +105,35 @@
 #pragma mark 点击选择框
 - (void)tableViewSelectionDidChange:(NSNotification *)notification
 {
+    [_serverPHPVer removeAllItems];
+    for (NSString *i in _phplist) {
+        [_serverPHPVer addItemWithTitle:i];
+    }
+    
+    [_serverPHPVer setTarget:self];
+    [_serverPHPVer setAction:@selector(handlePopBtn:)];
+    
     NSInteger row = [_tableView selectedRow];
     if (row > -1) {
         NSMutableDictionary *serverinfo = [_list objectAtIndex:row];
         [_serverName setStringValue:[serverinfo objectForKey:@"hostname"]];
         [_serverPort setStringValue:[serverinfo objectForKey:@"port"]];
+        [_serverPHPVer setStringValue:[serverinfo objectForKey:@"php"]];
+        
+        NSString *php = [serverinfo objectForKey:@"php"];
+        NSInteger cphp = [_phplist indexOfObject:php];
+        if (cphp > -1){
+            [_serverPHPVer selectItemAtIndex:cphp];
+        }
         
         if ([[serverinfo objectForKey:@"hostname"] isEqual:@"localhost"]) {
             _serverName.enabled = NO;
             _serverPort.enabled = NO;
+            _serverPHPVer.enabled = NO;
         }else{
             _serverName.enabled = YES;
             _serverPort.enabled = YES;
+            _serverPHPVer.enabled = YES;
         }
         
         NSString * path = [serverinfo objectForKey:@"path"];
@@ -105,6 +146,7 @@
             _emptyPath.hidden = YES;
         }
     }
+
 }
 
 #pragma mark - NSTextFieldDelegate -
@@ -114,11 +156,13 @@
 {
     NSString *hostname = [NSString stringWithFormat:@"host-%ld", [_list count]+1];
     NSString *port = _gPort.stringValue;
+    NSString *php = _serverPHPVer.stringValue;
     
     [_serverName setStringValue:hostname];
     [_serverPort setStringValue:port];
+//    [_serverPHPVer setStringValue:php];
     
-    [_list addObject:[[HostNameModel alloc] setWithHost:hostname port:port path:@""]];
+    [_list addObject:[[HostNameModel alloc] setWithHost:hostname port:port path:@"" php:php]];
     
     [_tableView reloadData];
     [_tableView selectRowIndexes:[[NSIndexSet alloc] initWithIndex:[_list count]-1] byExtendingSelection:YES];
@@ -182,7 +226,13 @@
         {
             NSString *urlstr = [NSString stringWithFormat:@"%@htdocs/www/", str];
             [[listContent objectForKey:pos] setObject:urlstr forKey:@"path"];
+            [[listContent objectForKey:pos] setObject:@"55" forKey:@"php"];
         }
+        
+        if (![[listContent objectForKey:pos] objectForKey:@"php"]){
+             [[listContent objectForKey:pos] setObject:@"55" forKey:@"php"];
+        }
+        
         [_list addObject:t];
     }
     [_tableView reloadData];
@@ -207,10 +257,12 @@
     //NSLog(@"_list:%@", _list);
     for (NSDictionary *i in _list)
     {
+//        NSLog(@"i:%@", i);
         NSMutableDictionary *serverinfo = [[NSMutableDictionary alloc] init];
         [serverinfo setObject:[i objectForKey:@"hostname"] forKey:@"hostname"];
         [serverinfo setObject:[i objectForKey:@"port"] forKey:@"port"];
         [serverinfo setObject:[i objectForKey:@"path"] forKey:@"path"];
+        [serverinfo setObject:[i objectForKey:@"php"] forKey:@"php"];
         [dictplist setObject:serverinfo forKey:[NSString stringWithFormat:@"%ld", c]];
         ++c;
     }
@@ -228,6 +280,7 @@
     NSString *hostname = @"";
     NSString *port = @"";
     NSString *path = @"";
+    NSString *php = @"";
     
     //内容上判断
     if(!isNotify){
@@ -240,18 +293,19 @@
             hostname = [obj objectForKey:@"hostname"];
             port     = [obj objectForKey:@"port"];
             path     = [obj objectForKey:@"path"];
+            php     = [obj objectForKey:@"php"];
             
             if([[[_list objectAtIndex:key_num] objectForKey:@"hostname"] isEqualToString:hostname] &&
                [[[_list objectAtIndex:key_num] objectForKey:@"port"] isEqualToString:port] &&
-               [[[_list objectAtIndex:key_num] objectForKey:@"path"] isEqualToString:path]){
+               [[[_list objectAtIndex:key_num] objectForKey:@"path"] isEqualToString:path] &&
+                [[[_list objectAtIndex:key_num] objectForKey:@"php"] isEqualToString:php]){
             
             } else {
                 isNotify = true;
             }
         }
     }
-    
-    //NSLog(@"%@", dictplist);
+
     [dictplist writeToFile:pathplist atomically:YES];
     
     //改变后,重新启动,发送通知
@@ -288,7 +342,6 @@
             NSString *path = [[[panel URL] absoluteString] stringByReplacingOccurrencesOfString:@"file://" withString:@""];
             [[self->_list objectAtIndex:row] setObject:path forKey:@"path"];
             
-            //[NSCommon ];
             [self save:sender];
         }
     }];
@@ -299,8 +352,7 @@
     NSURL *pathstring = [_serverPath URL];
     NSString *dir = [[pathstring absoluteString] stringByReplacingOccurrencesOfString:@"file://" withString:@""];
     
-    if ([dir isEqual:@""]) {
-    }else{
+    if (![dir isEqual:@""]) {
         [[NSTask launchedTaskWithLaunchPath:@"/usr/bin/open" arguments:[NSArray arrayWithObjects:dir, nil]] waitUntilExit];
     }
 }
@@ -351,6 +403,22 @@
     }
 }
 
+-(void)handlePopBtn:(NSPopUpButton *)popBtn
+{
+    popBtn.title = popBtn.selectedItem.title;
+    NSInteger row = [_tableView selectedRow];
+    
+    if (row != -1) {
+        [[_list objectAtIndex:row] setObject:popBtn.title forKey:@"php"];
+        [_tableView reloadData];
+        [_tableView selectRowIndexes:[[NSIndexSet alloc] initWithIndex:row] byExtendingSelection:YES];
+
+        if ([[[_list objectAtIndex:row] objectForKey:@"path"] isNotEqualTo:@""]) {
+            [self save:popBtn];
+        }
+    }
+}
+
 - (IBAction)goWebSite:(id)sender {
     NSInteger row = [_tableView selectedRow];
     if(row>-1){
@@ -386,4 +454,5 @@
         }];
     }
 }
+
 @end

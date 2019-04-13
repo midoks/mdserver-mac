@@ -17,10 +17,12 @@
     IBOutlet NSTextField *_serverPort;
     IBOutlet NSPopUpButton *_serverPHPVer;
     
+    
     IBOutlet NSTextField *_gPort;
     IBOutlet NSImageView *_emptyPath;
     
     NSMutableArray *_list;
+    NSMutableArray *_phplist;
     
     IBOutlet NSTextField *pStartTitle;
     

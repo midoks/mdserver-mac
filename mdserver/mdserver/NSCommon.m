@@ -175,7 +175,8 @@
             if (![fm fileExistsAtPath:own_conf]){
                 [NSCommon setConfigWithServerName:[i objectForKey:@"hostname"]
                                              port:[i objectForKey:@"port"]
-                                             path:[i objectForKey:@"path"]];
+                                             path:[i objectForKey:@"path"]
+                                             php:[i objectForKey:@"php"]];
             }
         
         }
@@ -203,7 +204,8 @@
     return YES;
 }
 
-+(BOOL)setConfigWithServerName:(NSString *)serverName port:(NSString *)port path:(NSString *)path{
++(BOOL)setConfigWithServerName:(NSString *)serverName port:(NSString *)port path:(NSString *)path php:(NSString *)php
+{
     NSString *str = [NSCommon getRootDir];
     //vhost下配置
     NSString *vhost = [NSString stringWithFormat:@"%@bin/openresty/nginx/conf/vhost", str];
@@ -215,6 +217,7 @@
     content = [content stringByReplacingOccurrencesOfString:@"{PORT}" withString:port];
     content = [content stringByReplacingOccurrencesOfString:@"{PATH}" withString:path];
     content = [content stringByReplacingOccurrencesOfString:@"MD:/" withString:str];
+    content = [content stringByReplacingOccurrencesOfString:@"{VERSION}" withString:php];
     return [content writeToFile:nginx_vhost atomically:YES encoding:NSUTF8StringEncoding error:nil];
 }
 
