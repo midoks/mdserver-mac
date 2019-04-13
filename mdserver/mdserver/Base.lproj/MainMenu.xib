@@ -108,21 +108,7 @@
                 </menuItem>
                 <menuItem title="CMD" id="0qH-Mk-cQl">
                     <modifierMask key="keyEquivalentModifierMask"/>
-                    <menu key="submenu" title="CMD" systemMenu="window" id="IwK-hp-vvF">
-                        <items>
-                            <menuItem title="ReloadSVC" keyEquivalent="r" id="IYD-zU-rhY">
-                                <connections>
-                                    <action selector="reloadSVC:" target="Voe-Tx-rLC" id="f9M-KN-LPo"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem title="MySQL初始化" keyEquivalent="m" id="cyS-Ve-s5G" userLabel="MySQL编译">
-                                <modifierMask key="keyEquivalentModifierMask" control="YES"/>
-                                <connections>
-                                    <action selector="SelfCompileMySQL:" target="Voe-Tx-rLC" id="dBO-K8-JGQ"/>
-                                </connections>
-                            </menuItem>
-                        </items>
-                    </menu>
+                    <menu key="submenu" title="CMD" systemMenu="window" id="IwK-hp-vvF"/>
                 </menuItem>
                 <menuItem title="PHP" id="U5T-o3-HhE" userLabel="Php">
                     <modifierMask key="keyEquivalentModifierMask"/>
@@ -145,25 +131,6 @@
         </menu>
         <menu id="2J9-UB-8Ud" userLabel="Menu Icon">
             <items>
-                <menuItem title="日志" id="kgo-oF-VyL">
-                    <modifierMask key="keyEquivalentModifierMask"/>
-                    <menu key="submenu" title="日志" id="F3F-ki-azu">
-                        <items>
-                            <menuItem title="nginx.log" id="oWd-qR-txT">
-                                <modifierMask key="keyEquivalentModifierMask"/>
-                                <connections>
-                                    <action selector="showNginxLog:" target="Voe-Tx-rLC" id="L1I-8u-b92"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem title="mysql.log" id="tXF-wb-VS2">
-                                <modifierMask key="keyEquivalentModifierMask"/>
-                                <connections>
-                                    <action selector="showMysqlLog:" target="Voe-Tx-rLC" id="j9U-qL-iK6"/>
-                                </connections>
-                            </menuItem>
-                        </items>
-                    </menu>
-                </menuItem>
                 <menuItem title="显示主界面" id="TKn-nw-eEy">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>
@@ -1038,7 +1005,7 @@
                     </button>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="409" y="362"/>
+            <point key="canvasLocation" x="809" y="208"/>
         </window>
         <userDefaultsController representsSharedInstance="YES" id="FzA-Zp-fHT"/>
         <customObject id="A2B-NI-gKD" customClass="HostNameController">

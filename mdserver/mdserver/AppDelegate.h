@@ -38,16 +38,11 @@
 - (IBAction)showMain:(id)sender;
 - (IBAction)showDonateAlipay:(id)sender;
 - (IBAction)showWeibo:(id)sender;
-- (IBAction)showNginxLog:(id)sender;
-- (IBAction)showMysqlLog:(id)sender;
 
-#pragma mark - 再次编译 -
-- (IBAction)SelfCompileMySQL:(id)sender;
 
 #pragma mark  - 启动或暂停 -
 - (IBAction)start:(id)sender;
 - (IBAction)goWeb:(id)sender;
-- (IBAction)reloadSVC:(id)sender;
 
 
 #pragma mark - General通用设置 -
