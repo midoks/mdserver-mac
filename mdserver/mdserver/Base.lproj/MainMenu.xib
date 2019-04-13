@@ -679,7 +679,7 @@
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         </box>
                                         <popUpButton verticalHuggingPriority="750" misplaced="YES" id="Z4t-4S-Izv">
-                                            <rect key="frame" x="370" y="241" width="132" height="26"/>
+                                            <rect key="frame" x="371" y="241" width="131" height="26"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <popUpButtonCell key="cell" type="push" title="Item 2" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="border" inset="2" preferredEdge="maxY" selectedItem="fJ0-Fm-7Kb" id="If9-kF-DLb">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>

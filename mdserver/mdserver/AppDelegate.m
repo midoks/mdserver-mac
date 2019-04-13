@@ -369,21 +369,16 @@
     
     if([title isEqual:@"stop"]){
         
-        NSString *nginx_php = [NSString stringWithFormat:@"%@bin/stopNginx.sh", rootDir];
-        [self AuthorizeExeCmd:nginx_php];
-        
-        NSString *php_version = [NSCommon getCommonConfig:PHP_C_VER_KEY];
-        NSString *php = [NSString stringWithFormat:@"%@bin/php/status.sh %@ stop", rootDir, php_version];
-        [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", php, nil]] waitUntilExit];
-        
+        NSString *nginx = [NSString stringWithFormat:@"%@bin/stopNginx.sh", rootDir];
+        [self AuthorizeExeCmd:nginx];
+
         NSString *removehost = [NSString stringWithFormat:@"%@Contents/Resources/removehost", appDir];
         [self AuthorizeExeCmd:removehost];
         
-        //sleep(1);
         [self stopConfReplaceString];
-        
         [self userCenter:@"停止成功"];
     }
+
 }
 
 #pragma mark - 重置服务 -
@@ -470,17 +465,16 @@
             NSString *addhost = [NSString stringWithFormat:@"%@Contents/Resources/addhost", appDir];
             [self AuthorizeExeCmd:addhost];
             
-            
             [self stopConfReplaceString];
             [self startConfReplaceString];
             
             //NSLog(@"rootDir:%@",rootDir);
             NSString *reload = [NSString stringWithFormat:@"%@bin/reloadSVC.sh", rootDir];
             [self AuthorizeExeCmd:reload];
-            
         }
         
         [self delayedRun:1.0f callback:^{
+            NSLog(@"ddd");
             self->_StartServerStatus = @"ended";
             [self checkWebStatus];
             [self->pProgress setHidden:YES];
@@ -707,13 +701,10 @@
 -(void)checkWebStatus
 {
     BOOL n = [self checkWebNginx];
-//    BOOL p = [self checkWebPHP];
     
     if (n) {
-        
         [pStartTitle setStringValue:@"stop"];
         [pStart setImage:[NSImage imageNamed:@"stop"]];
-        //NSLog(@"stoping");
         [NSCommon setCommonConfig:@"WebServerStatus" value:@"started"];
     }else{
         [pStartTitle setStringValue:@"start"];
@@ -723,7 +714,17 @@
     
     if (n) {
         pNginxStatus.state = 1;
+        
+        NSString *php_version = [NSCommon getCommonConfig:PHP_C_VER_KEY];
+        BOOL p = [self checkWebPHP:php_version];
+        if (p) {
+            pPHPStatus.state = 1;
+        }else{
+            pPHPStatus.state = 0;
+        }
+        
     }else{
+        pPHPStatus.state = 0;
         pNginxStatus.state = 0;
     }
 }
@@ -1299,7 +1300,7 @@
     //初始化php版本信息
     NSString *php_version = [NSCommon getCommonConfig:PHP_C_VER_KEY];
     if (!php_version || [php_version isEqualToString:@""]) {
-        [NSCommon setCommonConfig:PHP_C_VER_KEY value:@"php55"];
+        [NSCommon setCommonConfig:PHP_C_VER_KEY value:@"55"];
     }
 
     [NSCommon setCommonConfig:@"isOpenModMySQLPwdWindow" value:@"no"];

@@ -41,7 +41,7 @@
 #pragma mark HostCofig
 +(BOOL)saveNginxConfig;
 +(BOOL)setRemoveAllConfig;
-+(BOOL)setConfigWithServerName:(NSString *)serverName port:(NSString *)port path:(NSString *)path;
++(BOOL)setConfigWithServerName:(NSString *)serverName port:(NSString *)port path:(NSString *)path php:(NSString *)php;
 
 
 +(NSString *)getHostFileNeedContent;
