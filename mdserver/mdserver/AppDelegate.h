@@ -20,6 +20,7 @@
 //基本属性
     IBOutlet NSProgressIndicator *pProgress;
     IBOutlet NSButton *pNginxStatus;
+    IBOutlet NSButton *pPHPStatus;
     
     IBOutlet NSButton *pStart;
     IBOutlet NSTextField *pStartTitle;

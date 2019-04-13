@@ -25,6 +25,7 @@
                 <outlet property="mRedisButton" destination="RKy-kT-jP0" id="0Ev-QT-zY3"/>
                 <outlet property="mRedisTool" destination="FW6-8l-zZa" id="aKJ-vo-M7k"/>
                 <outlet property="pNginxStatus" destination="iCn-DW-pu3" id="Snf-r4-mQN"/>
+                <outlet property="pPHPStatus" destination="eq2-P5-dYn" id="O5h-bl-SRb"/>
                 <outlet property="pProgress" destination="XYp-dI-Cdf" id="XsF-0U-mPu"/>
                 <outlet property="pReStart" destination="l2b-ZL-DL0" id="Cvc-7X-bf2"/>
                 <outlet property="pStart" destination="ynu-WP-Afh" id="2dP-Me-3oN"/>
@@ -996,9 +997,17 @@
                         </connections>
                     </button>
                     <button misplaced="YES" id="iCn-DW-pu3">
-                        <rect key="frame" x="498" y="455" width="84" height="18"/>
+                        <rect key="frame" x="498" y="470" width="84" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="Nginx" bezelStyle="regularSquare" imagePosition="right" enabled="NO" inset="2" id="WfW-fj-oN6">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                    </button>
+                    <button misplaced="YES" id="eq2-P5-dYn">
+                        <rect key="frame" x="498" y="450" width="84" height="18"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="check" title="PHP" bezelStyle="regularSquare" imagePosition="right" enabled="NO" inset="2" id="b7h-Rg-vdh">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
