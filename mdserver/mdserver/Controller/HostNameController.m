@@ -34,7 +34,6 @@
         //plist操作
         [self reloadListData];
         
-        
         _phplist = [[NSMutableArray alloc] init];
         NSFileManager *fm = [NSFileManager  defaultManager];
         NSString *rootDir           = [NSCommon getRootDir];
@@ -146,7 +145,6 @@
             _emptyPath.hidden = YES;
         }
     }
-
 }
 
 #pragma mark - NSTextFieldDelegate -

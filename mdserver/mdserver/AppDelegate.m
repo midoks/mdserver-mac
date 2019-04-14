@@ -895,24 +895,37 @@
             [self userCenter:[NSString stringWithFormat:@"PHP%@INI配置文件读取错误!", v]];
         }
     }
-    
+
+    NSMutableArray *_extList = [[NSMutableArray alloc] init];
     for (NSString *e in extList) {
-        
         NSString *path =[NSString stringWithFormat:@"%@/%@", extDir,e];
         BOOL isDir;
         [fm fileExistsAtPath:path isDirectory:&isDir];
         if (!isDir){
             continue;
         }
+        [_extList addObject:e];
+    }
+  
+    NSArray *__extList = [[NSArray alloc] init];
+    __extList = [_extList sortedArrayUsingComparator:^NSComparisonResult(NSString* obj1, NSString* obj2){
+        const char  * o1 = [[obj1 substringToIndex:1] UTF8String];
+        const char  * o2 = [[obj2 substringToIndex:1] UTF8String];
+        if (strcmp(o1, o2)>-1){
+            return YES;
+        }
+        return NO;
+    }];
+    
+    for (NSString *ee in __extList) {
 
         NSMenu *extMenu = [[NSMenu alloc] initWithTitle:v];
         [extMenu addItemWithTitle:@"Install" action:@selector(phpExtInstall:) keyEquivalent:@""];
         [extMenu addItemWithTitle:@"UnInstall" action:@selector(phpExtUninstall:) keyEquivalent:@""];
-        NSMenuItem *extItem = [[NSMenuItem alloc] initWithTitle:e
+        NSMenuItem *extItem = [[NSMenuItem alloc] initWithTitle:ee
                                                          action:@selector(phpExtStatusSet:)
                                                   keyEquivalent:@""];
-        
-        if ([self checkPhpExtIsLoadByContent:content extName:e]){
+        if ([self checkPhpExtIsLoadByContent:content extName:ee]){
             extItem.state = 1;
         }
         
@@ -1117,6 +1130,7 @@
     NSInteger i = 1;
     
     
+    NSMutableArray *_phpVlist = [[NSMutableArray alloc] init];
     for (NSString *f in phpVlist) {
         
         NSString *path =[NSString stringWithFormat:@"%@/%@", phpDir,f];
@@ -1125,27 +1139,35 @@
         if (!isDir){
             continue;
         }
-    
+        
         if([f hasPrefix:@"php"]){
-            
-            NSString *ver = [f stringByReplacingOccurrencesOfString:@"php" withString:@""];
-            NSMenu *vMenu = [self getPhpVerMenu:ver];
-            
-            NSMenuItem *vItem = [[NSMenuItem alloc] initWithTitle:ver
-                                                           action:@selector(phpStatusSet:)
-                                                    keyEquivalent:[NSString stringWithFormat:@"%ld", i]];
-            
-            if ( [self checkWebPHP:ver] ){
-                vItem.state = 1;
-            }
-            [phpVer.submenu addItem:vItem];
-            [phpVer.submenu setSubmenu:vMenu forItem:vItem];
-            
-            i++;
+            NSString *v = [f stringByReplacingOccurrencesOfString:@"php" withString:@""];
+            [_phpVlist addObject:v];
         }
     }
-    [phpVer.submenu addItem:[NSMenuItem separatorItem]];
     
+    [_phpVlist sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+        if ([obj1 intValue]>[obj2 intValue]){
+            return YES;
+        }
+        return NO;
+    }];
+    
+    for (NSString *f in _phpVlist) {
+        NSMenu *vMenu = [self getPhpVerMenu:f];
+        
+        NSMenuItem *vItem = [[NSMenuItem alloc] initWithTitle:f
+                                                       action:@selector(phpStatusSet:)
+                                                keyEquivalent:[NSString stringWithFormat:@"%ld", i]];
+        if ( [self checkWebPHP:f] ){
+            vItem.state = 1;
+        }
+        [phpVer.submenu addItem:vItem];
+        [phpVer.submenu setSubmenu:vMenu forItem:vItem];
+        i++;
+    }
+    
+    [phpVer.submenu addItem:[NSMenuItem separatorItem]];
     NSMenuItem *refresh = [[NSMenuItem alloc] initWithTitle:@"refresh"
                                                   action:@selector(phpRefresh:)
                                            keyEquivalent:[NSString stringWithFormat:@"%d", 0]];
