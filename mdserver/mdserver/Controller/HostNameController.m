@@ -17,7 +17,7 @@
 
 - (id)init
 {
-    NSLog(@"HostNameController");
+//    NSLog(@"HostNameController");
     
     if (self = [super init]) {
         [_tableView setGridColor:[NSColor blackColor]];

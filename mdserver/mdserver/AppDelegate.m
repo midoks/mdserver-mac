@@ -907,7 +907,7 @@
         [_extList addObject:e];
     }
   
-    NSArray *__extList = [[NSArray alloc] init];
+    NSArray *__extList;
     __extList = [_extList sortedArrayUsingComparator:^NSComparisonResult(NSString* obj1, NSString* obj2){
         const char  * o1 = [[obj1 substringToIndex:1] UTF8String];
         const char  * o2 = [[obj2 substringToIndex:1] UTF8String];
