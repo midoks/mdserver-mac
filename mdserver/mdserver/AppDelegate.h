@@ -15,7 +15,7 @@
     IBOutlet NSMenu     *statusBarItemMenu;
     IBOutlet NSMenuItem *phpVer;
     IBOutlet NSMenuItem *cmd;
-    NSMutableArray <NSMenuItem *> *phpList;
+//    NSMutableArray <NSMenuItem *> *phpList;
 
 //基本属性
     IBOutlet NSProgressIndicator *pProgress;

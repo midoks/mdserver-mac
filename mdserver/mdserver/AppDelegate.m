@@ -474,7 +474,6 @@
         }
         
         [self delayedRun:1.0f callback:^{
-            NSLog(@"ddd");
             self->_StartServerStatus = @"ended";
             [self checkWebStatus];
             [self->pProgress setHidden:YES];
