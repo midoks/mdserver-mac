@@ -516,7 +516,7 @@
                                                                 </textFieldCell>
                                                                 <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                 <prototypeCellViews>
-                                                                    <tableCellView identifier="port" id="fIa-93-cdc">
+                                                                    <tableCellView identifier="" id="fIa-93-cdc">
                                                                         <rect key="frame" x="129" y="1" width="68" height="20"/>
                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                         <subviews>
