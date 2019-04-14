@@ -154,14 +154,12 @@
 {
     NSString *hostname = [NSString stringWithFormat:@"host-%ld", [_list count]+1];
     NSString *port = _gPort.stringValue;
-    NSString *php = _serverPHPVer.stringValue;
-    
+    NSString *php = @"55";
     [_serverName setStringValue:hostname];
     [_serverPort setStringValue:port];
-//    [_serverPHPVer setStringValue:php];
+    [_serverPHPVer setStringValue:php];
     
     [_list addObject:[[HostNameModel alloc] setWithHost:hostname port:port path:@"" php:php]];
-    
     [_tableView reloadData];
     [_tableView selectRowIndexes:[[NSIndexSet alloc] initWithIndex:[_list count]-1] byExtendingSelection:YES];
 }
