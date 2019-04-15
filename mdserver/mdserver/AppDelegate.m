@@ -1319,10 +1319,9 @@
     }
 
     //初始化php版本信息
-    NSString *php_version = [NSCommon getCommonConfig:PHP_C_VER_KEY];
-    if (!php_version || [php_version isEqualToString:@""]) {
-        [NSCommon setCommonConfig:PHP_C_VER_KEY value:@"55"];
-    }
+//    NSString *php_version = [NSCommon getCommonConfig:PHP_C_VER_KEY];
+    [NSCommon setCommonConfig:PHP_C_VER_KEY value:@"55"];
+    
 
     [NSCommon setCommonConfig:@"isOpenModMySQLPwdWindow" value:@"no"];
 
