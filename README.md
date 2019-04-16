@@ -1,13 +1,12 @@
 ### mdserver(mac版) 3.0.0.0
 mac上高度可定制的PHP开发环境,集成必要的扩展,方便使用。
 (pkg安装方式),安装方便,是你Mac上的PHP开发利器。
-- 加入redis,mongo,yaf,swoole组件。
 - 支持80端口。
-- 加入memcached支持。
-- MySQL5.6。
-- openresty支持lua开发
-- php-fpm以sock文件方式管理。多php进程共存,快速切换开发。
-- 安装完全脚本化。
+- 配置memcached,redis,mongodb通用支持。
+- 配置MySQL5.6。
+- openresty支持lua开发。
+- **php-fpm以sock文件方式管理。多php进程共存,快速切换开发。**
+- 安装完全脚本化,易于管理。
 - 减小文件大小，利于下载。
 
 ```
