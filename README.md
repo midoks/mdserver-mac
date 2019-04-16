@@ -8,6 +8,7 @@ mac上高度可定制的PHP开发环境,集成必要的扩展,方便使用。
 - openresty支持lua开发
 - php-fpm以sock文件方式管理。多php进程共存,快速切换开发。
 - 安装完全脚本化。
+- 减小文件大小，利于下载。
 
 ```
 php53-73
@@ -22,8 +23,8 @@ php53-73
 ### 相关链接
 
 - 3.0.0.0 安装地址:[3.0.0.0]()
-- 使用教程:[mdserver](https://github.com/midoks/mdserver-mac/wiki)
-- 2.x 安装地址:[2.x](https://github.com/midoks/mdserver-mac/README_2x.md)
+- [使用教程](https://github.com/midoks/mdserver-mac/wiki)
+- 旧版安装地址:[2.x](https://github.com/midoks/mdserver-mac/README_2x.md)
 
 
 ### 最新版本截图
