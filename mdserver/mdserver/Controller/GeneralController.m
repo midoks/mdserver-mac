@@ -26,7 +26,7 @@
     
     //初始化的数据
     NSString *str           = [NSCommon getRootDir];
-    str = [NSString stringWithFormat:@"file://%@bin/nginx/logs/error.log", str];
+    str = [NSString stringWithFormat:@"file://%@bin/openresty/nginx/logs/error.log", str];
     [_nginxLogPath setURL:[NSURL URLWithString:str]];
     
     NSString *httpPort = [NSCommon getCommonConfig:@"HttpPort"];
