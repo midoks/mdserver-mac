@@ -21,7 +21,7 @@ php53-73
 
 ### 相关链接
 
-- 3.0.0.0 安装地址:[3.0.0.0]()
+- 安装地址:[3.0.0.0]()
 - [使用教程](https://github.com/midoks/mdserver-mac/wiki)
 - 旧版安装地址:[2.x](/README_2x.md)
 
