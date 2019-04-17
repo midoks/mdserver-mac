@@ -21,9 +21,13 @@ php53-73
 
 ### 相关链接
 
-- 安装地址:[3.0.0.0]()
+- 下载地址-百度提取码(jf71):[3.0.0.0](https://pan.baidu.com/s/1RIox0w8Lplvwd4Nw8B-hwg)
+- 下载地址-阿里OSS:[3.0.0.0](https://midoks.oss-cn-hangzhou.aliyuncs.com/mdserver3.0.0.0.pkg.zip)
 - [使用教程](https://github.com/midoks/mdserver-mac/wiki)
 - 旧版安装地址:[2.x](/README_2x.md)
+
+### 学习版本
+- 下载地址:[3.0.0.0](https://midoks.oss-cn-hangzhou.aliyuncs.com/mdserver3.0.0.0_selfinstall.pkg.zip)
 
 
 ### 最新版本截图
