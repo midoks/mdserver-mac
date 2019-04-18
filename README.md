@@ -28,7 +28,7 @@ php53-73
 - 旧版安装地址:[2.x](/README_2x.md)
 
 ### 使用说明
-[说明](https://github.com/midoks/mdserver-mac/wiki)
+[说明](https://github.com/midoks/mdserver-mac/wiki/%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E-3.0)
 
 ### 学习版本
 - 下载地址:[3.0.0.0](https://midoks.oss-cn-hangzhou.aliyuncs.com/mdserver3.0.0.0_selfinstall.pkg.zip)
