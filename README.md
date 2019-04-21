@@ -42,4 +42,4 @@ php53-73
 - e-mail:midoks@163.com
 
 ### 访问统计，😊
-[![Visit tracker](http://www.clustrmaps.com/map_v2.png?d=WGjERIEklP1qbkyucGHB7tWPSBrRHY04mK1xZCft-rA&cl=ffffff)](http://www.clustrmaps.com/map_v2.png?d=WGjERIEklP1qbkyucGHB7tWPSBrRHY04mK1xZCft-rA&cl=ffffff)
+[![Visit tracker](http://www.clustrmaps.com/map_v2.png?d=WGjERIEklP1qbkyucGHB7tWPSBrRHY04mK1xZCft-rA&cl=ffffff)](https://clustrmaps.com/site/1ap6t)
