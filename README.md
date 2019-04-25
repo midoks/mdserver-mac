@@ -39,7 +39,7 @@ php53-73
 [![Screenshot_3.png](/Screenshot/Screenshot_3.png)](/Screenshot/Screenshot_3.png)
 
 ### 联系我
-- e-mail:midoks@163.com
+- https://t.me/midoks
 
 ### 访问统计，😊
 [![Visit tracker](http://www.clustrmaps.com/map_v2.png?d=WGjERIEklP1qbkyucGHB7tWPSBrRHY04mK1xZCft-rA&cl=ffffff)](https://clustrmaps.com/site/1ap6t)
