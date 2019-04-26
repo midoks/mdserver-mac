@@ -24,7 +24,9 @@ php53-73
 ### 相关链接
 - 下载地址-七牛:[3.0.0.0](http://pq79sfte2.bkt.clouddn.com/mdserver3.0.0.0.pkg.zip)
 - 下载地址-阿里OSS:[3.0.0.0](https://midoks.oss-cn-hangzhou.aliyuncs.com/mdserver3.0.0.0.pkg.zip)
+- 下载地址-微云:[3.0.0.0](https://share.weiyun.com/5mDuEiO)
 - 下载地址-百度提取码(jf71):[3.0.0.0](https://pan.baidu.com/s/1RIox0w8Lplvwd4Nw8B-hwg)
+
 
 - 旧版安装地址:[2.x](/README_2x.md)
 
