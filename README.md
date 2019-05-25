@@ -31,6 +31,7 @@ php54-73
 
 ### 相关链接 - 3.0.1.2
 - 下载地址-微云:[3.0.1.2](https://share.weiyun.com/5tip6wD)
+- 下载地址-百度提取码(exsw):[3.0.1.2](https://pan.baidu.com/s/1oEq1GtPgKY6inbaXoNsmDg)
 
 ### 相关链接 - 3.0.0.0
 - 下载地址-微云:[3.0.0.0](https://share.weiyun.com/5mDuEiO)
