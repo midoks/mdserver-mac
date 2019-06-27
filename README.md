@@ -38,6 +38,7 @@ php54-73
 - Screenshot(截图)
 
 ### 相关链接 - 3.0.2.2
+- 下载地址-微云:[3.0.2.2](https://share.weiyun.com/5CpRsYI)
 - 下载地址-百度提取码(waeh):[3.0.2.2](https://pan.baidu.com/s/1mSrM_yuqwEQ46zl8IO7IFw)
 
 ### 相关链接 - 3.0.1.2
