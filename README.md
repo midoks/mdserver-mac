@@ -54,6 +54,8 @@ php54-73
 
 ### 相关链接 - 3.1.0.0
 - 下载地址-百度提取码(etrs):[3.1.0.0](https://pan.baidu.com/s/1Q2Xc2NDfO38JJQdq8FRlVw)
+- 下载地址-微云:[3.1.0.0](https://share.weiyun.com/50kscmm)
+
 
 ### 相关链接 - 3.0.2.2
 - 下载地址-微云:[3.0.2.2](https://share.weiyun.com/5CpRsYI)
