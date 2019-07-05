@@ -23,7 +23,7 @@ php54-73
 ### 3.1.0.0[操作说明]
 
 ```
-操作一: mkdir -p /Applications/mdserver/source
+操作一: mkdir -p /Applications/mdserver/bin/logs/reinstall
 操作二: 菜单[CMD]->icu4c->install(php54-php70依赖icu4c)
 操作三: 菜单[CMD]->php-ext-init->install(解决大部分的依赖问题)
 ```
