@@ -16,6 +16,10 @@ php54-73
 [redis,memecached,mongo,yaf,swoole,xhprof,...]
 ```
 
+### 相关项目
+
+- 最新的安装脚本[mdserver-mac-reinstall](https://github.com/midoks/mdserver-mac-reinstall) 
+
 ### 3.1.0.0[操作说明]
 
 ```
