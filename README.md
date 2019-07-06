@@ -1,4 +1,4 @@
-## mdserver(mac版) 3.1.0.0
+## mdserver(mac版) 3.1.0.3
 mac上高度可定制的PHP开发环境,集成必要的扩展,方便使用。
 (pkg安装方式),安装方便,是你Mac上的PHP开发利器。
 - 支持80端口。
@@ -20,16 +20,14 @@ php54-73
 
 - 最新的安装脚本[mdserver-mac-reinstall](https://github.com/midoks/mdserver-mac-reinstall) 
 
-### 3.1.0.0[操作说明]
+### 3.1.0.3[操作说明]
 
 ```
-操作一: mkdir -p /Applications/mdserver/bin/logs/reinstall
-操作二: 菜单[CMD]->icu4c->install(php54-php70依赖icu4c)
-操作三: 菜单[CMD]->php-ext-init->install(解决大部分的依赖问题)
+菜单[CMD]->php-ext-init->install(解决大部分的依赖问题)
 ```
 
 ### 版本版本
-- 3.1.0.0
+- 3.1.0.3
 
 ```
 * 加入php74测试版
@@ -56,8 +54,8 @@ php54-73
 - mdserver(主功能)
 - Screenshot(截图)
 
-### 相关链接 - 3.1.0.0
-- 下载地址-百度提取码(etrs):[3.1.0.0](https://pan.baidu.com/s/1Q2Xc2NDfO38JJQdq8FRlVw)
+### 相关链接 - 3.1.0.3
+- 下载地址-百度提取码:[3.1.0.3](https://pan.baidu.com/s/1W3OBhQ1UfTR1_Xx6i-Iinw)
 - 下载地址-微云:[3.1.0.0](https://share.weiyun.com/50kscmm)
 
 
