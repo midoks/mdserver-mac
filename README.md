@@ -55,7 +55,7 @@ php54-73
 - Screenshot(截图)
 
 ### 相关链接 - 3.1.0.3
-- 下载地址-百度提取码:[3.1.0.3](https://pan.baidu.com/s/1W3OBhQ1UfTR1_Xx6i-Iinw)
+- 下载地址-百度:[3.1.0.3](https://pan.baidu.com/s/1W3OBhQ1UfTR1_Xx6i-Iinw)
 - 下载地址-微云:[3.1.0.3](https://share.weiyun.com/5eOmW6v)
 
 
