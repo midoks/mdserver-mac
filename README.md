@@ -18,7 +18,7 @@ php54-73
 
 ### 相关项目
 
-- 最新的安装脚本[mdserver-mac-reinstall](https://github.com/midoks/mdserver-mac-reinstall) 
+- 最新的安装脚本[mdserver-mac-reinstall](https://github.com/midoks/mdserver-mac-reinstall)对应目录->[/Applications/mdserver/bin/reinstall]
 
 ### 3.1.0.3[操作说明]
 
