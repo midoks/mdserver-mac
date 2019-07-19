@@ -1106,6 +1106,7 @@
     
     [vMenu addItemWithTitle:@"Install" action:@selector(phpInstall:) keyEquivalent:@""];
     [vMenu addItemWithTitle:@"UnInstall" action:@selector(phpUninstall:) keyEquivalent:@""];
+    [vMenu addItemWithTitle:@"Command" action:@selector(phpCommand:) keyEquivalent:@""];
     
     NSMenu *extMenu = [self getPhpExtendsMenu:title];
     NSMenuItem *extItem = [[NSMenuItem alloc] initWithTitle:@"Extends"
@@ -1223,6 +1224,13 @@
     [NSCommon delayedRun:0 callback:^{
         [NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", cmd, nil]];
     }];
+}
+
+
+-(void)phpCommand:(id)sender
+{
+    NSString *str = [NSString stringWithFormat:@"file:///Applications/Utilities/Terminal.app"];
+    [[NSTask launchedTaskWithLaunchPath:@"/usr/bin/open" arguments:[NSArray arrayWithObjects:str, nil]] waitUntilExit];
 }
 
 
