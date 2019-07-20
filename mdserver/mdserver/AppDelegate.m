@@ -728,6 +728,15 @@
     }
 }
 
+#pragma mark 检查CMD是否启动进程
+-(BOOL)checkCmdStatus:(NSString *)name
+{
+    NSFileManager *fm = [NSFileManager defaultManager];
+    NSString *rootDir = [NSCommon getRootDir];
+    NSString *cmdFile = [NSString stringWithFormat:@"%@bin/tmp/cmd/%@.lock", rootDir, name];
+    return [fm fileExistsAtPath:cmdFile];
+}
+
 #pragma mark 设置界面UI
 -(void)setBarStatus
 {
@@ -739,9 +748,7 @@
     [statusBarItem setHighlightMode:YES];
 }
 
-
 #pragma mark - 初始化CMD列表 -
-
 -(NSMenu*)getCmdMenu:(NSString *)title
 {
     NSMenu *menu = [[NSMenu alloc] initWithTitle:title];
@@ -768,11 +775,14 @@
         if (!isDir){
             continue;
         }
-        
+
         NSMenu *vMenu = [self getCmdMenu:f];
         NSMenuItem *vItem = [[NSMenuItem alloc] initWithTitle:f
                                                        action:@selector(cmdStatusSet:)
                                                 keyEquivalent:@""];
+        if ( [self checkCmdStatus:f] ){
+            vItem.state = 1;
+        }
         [cmd.submenu addItem:vItem];
         [cmd.submenu setSubmenu:vMenu forItem:vItem];
         
