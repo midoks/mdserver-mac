@@ -758,7 +758,8 @@
     return menu;
 }
 
--(void)initCmdList{
+-(void)initCmdList
+{
     [cmd.submenu removeAllItems];
     
     NSFileManager *fm = [NSFileManager  defaultManager];
@@ -847,14 +848,14 @@
     NSString *rootDir           = [NSCommon getRootDir];
     NSFileManager *fm = [NSFileManager  defaultManager];
     
-    NSString *lock = [NSString stringWithFormat:@"%@bin/reinstall/cmd/%@/start.lock", rootDir, cMenu.title];
+    NSString *lock = [NSString stringWithFormat:@"%@bin/tmp/cmd/%@.lock", rootDir, cMenu.title];
     
     NSString *name = @"start";
     if ([NSCommon fileIsExists:lock]){
         name = @"stop";
     }
     
-    NSString *doSh = [NSString stringWithFormat:@"%@bin/reinstall/cmd/%@/%@.sh", rootDir, cMenu.title,name];
+    NSString *doSh = [NSString stringWithFormat:@"%@bin/reinstall/cmd/%@/start.sh", rootDir, cMenu.title];
     NSString *logDir = [NSString stringWithFormat:@"%@bin/logs/reinstall", rootDir];
     if ([NSCommon fileIsExists:logDir]){
         [fm createDirectoryAtPath:logDir withIntermediateDirectories:YES attributes:NULL error:NULL];
@@ -874,6 +875,8 @@
             [fm createFileAtPath:lock contents:NULL attributes:NULL];
         }
     }
+    
+    [self initCmdList];
 }
 
 #pragma mark - 初始化PHP版本列表 -
