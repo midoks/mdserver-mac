@@ -67,23 +67,23 @@ php54-73
 ### 相关链接
 
 - 3.2.0.0
-	* 百度:[3.2.0.0](https://pan.baidu.com/s/1OcfL3qvg2qada0bM8chvRQ)
+	* 百度云:[3.2.0.0](https://pan.baidu.com/s/1OcfL3qvg2qada0bM8chvRQ)
 
 - 3.1.0.3
-	* 百度:[3.1.0.3](https://pan.baidu.com/s/1W3OBhQ1UfTR1_Xx6i-Iinw)
+	* 百度云:[3.1.0.3](https://pan.baidu.com/s/1W3OBhQ1UfTR1_Xx6i-Iinw)
 	* 微云:[3.1.0.3](https://share.weiyun.com/5eOmW6v)
 
 - 3.0.2.2
 	* 微云:[3.0.2.2](https://share.weiyun.com/5CpRsYI)
-	* 百度提取码(waeh):[3.0.2.2](https://pan.baidu.com/s/1mSrM_yuqwEQ46zl8IO7IFw)
+	* 百度云提取码(waeh):[3.0.2.2](https://pan.baidu.com/s/1mSrM_yuqwEQ46zl8IO7IFw)
 
 - 3.0.1.2
 	* 微云:[3.0.1.2](https://share.weiyun.com/5tip6wD)
-	* 百度提取码(exsw):[3.0.1.2](https://pan.baidu.com/s/1oEq1GtPgKY6inbaXoNsmDg)
+	* 百度云提取码(exsw):[3.0.1.2](https://pan.baidu.com/s/1oEq1GtPgKY6inbaXoNsmDg)
 
 - 3.0.0.0
 	* 微云:[3.0.0.0](https://share.weiyun.com/5mDuEiO)
-	* 百度提取码(jf71):[3.0.0.0](https://pan.baidu.com/s/1RIox0w8Lplvwd4Nw8B-hwg)
+	* 百度云提取码(jf71):[3.0.0.0](https://pan.baidu.com/s/1RIox0w8Lplvwd4Nw8B-hwg)
 
 ### 相关链接 - 2.x
 - 旧版安装地址:[2.x](/README_2x.md)
