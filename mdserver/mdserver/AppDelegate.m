@@ -810,15 +810,12 @@
     [self cmdInAndUnin:@"install" version:pMenu.title];
 }
 
-
-
 -(void)cmdUninstall:(id)sender
 {
     NSMenuItem *cMenu = (NSMenuItem*)sender;
     NSMenuItem *pMenu=[cMenu parentItem];
     [self cmdInAndUnin:@"uninstall" version:pMenu.title];
 }
-
 
 -(void)cmdInAndUnin:(NSString *)sh version:(NSString *)version
 {
@@ -841,11 +838,10 @@
     }];
 }
 
-
 -(void)cmdStatusSet:(id)sender
 {
     NSMenuItem *cMenu = (NSMenuItem*)sender;
-    NSString *rootDir           = [NSCommon getRootDir];
+    NSString *rootDir = [NSCommon getRootDir];
     NSFileManager *fm = [NSFileManager  defaultManager];
     
     NSString *lock = [NSString stringWithFormat:@"%@bin/tmp/cmd/%@.lock", rootDir, cMenu.title];
@@ -855,7 +851,7 @@
         name = @"stop";
     }
     
-    NSString *doSh = [NSString stringWithFormat:@"%@bin/reinstall/cmd/%@/start.sh", rootDir, cMenu.title];
+    NSString *doSh = [NSString stringWithFormat:@"%@bin/reinstall/cmd/%@/%@.sh", rootDir, cMenu.title,name];
     NSString *logDir = [NSString stringWithFormat:@"%@bin/logs/reinstall", rootDir];
     if ([NSCommon fileIsExists:logDir]){
         [fm createDirectoryAtPath:logDir withIntermediateDirectories:YES attributes:NULL error:NULL];
@@ -875,6 +871,10 @@
             [fm createFileAtPath:lock contents:NULL attributes:NULL];
         }
     }
+    
+    [NSCommon delayedRun:1 callback:^{
+        [self openFile:log];
+    }];
     
     [self initCmdList];
 }
