@@ -1,6 +1,8 @@
 ## mdserver(mac版) 3.2.0.0
+
 mac上高度可定制的PHP开发环境,集成必要的扩展,方便使用。
 (pkg安装方式),安装方便,是你Mac上的PHP开发利器。
+
 - 支持80端口。
 - 配置memcached,redis,mongodb通用支持。
 - 配置MySQL5.6。
