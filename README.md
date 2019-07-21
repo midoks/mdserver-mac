@@ -67,8 +67,7 @@ php54-73
 ### 相关链接
 
 - 3.2.0.0
-	* 百度:[3.1.0.3](https://pan.baidu.com/s/1OcfL3qvg2qada0bM8chvRQ)
-	* 微云:[3.1.0.3](https://share.weiyun.com/5eOmW6v)
+	* 百度:[3.2.0.0](https://pan.baidu.com/s/1OcfL3qvg2qada0bM8chvRQ)
 
 - 3.1.0.3
 	* 百度:[3.1.0.3](https://pan.baidu.com/s/1W3OBhQ1UfTR1_Xx6i-Iinw)
