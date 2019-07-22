@@ -70,6 +70,7 @@ php54-73
 
 - 3.2.0.0
 	* 百度云:[3.2.0.0](https://pan.baidu.com/s/1OcfL3qvg2qada0bM8chvRQ)
+	* 微云:[3.2.0.0](https://share.weiyun.com/5NhPd9S)
 
 - 3.1.0.3
 	* 百度云:[3.1.0.3](https://pan.baidu.com/s/1W3OBhQ1UfTR1_Xx6i-Iinw)
