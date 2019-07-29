@@ -1177,6 +1177,7 @@
     [vMenu addItemWithTitle:@"UnInstall" action:@selector(phpUninstall:) keyEquivalent:@""];
     [vMenu addItemWithTitle:@"Command" action:@selector(phpCommand:) keyEquivalent:@""];
     [vMenu addItemWithTitle:@"DIR" action:@selector(phpDir:) keyEquivalent:@""];
+    [vMenu addItemWithTitle:@"Extends DIR" action:@selector(phpExtendsDir:) keyEquivalent:@""];
     
     NSMenu *extMenu = [self getPhpExtendsMenu:title];
     NSMenuItem *extItem = [[NSMenuItem alloc] initWithTitle:@"Extends"
@@ -1333,6 +1334,40 @@
             [[NSTask launchedTaskWithLaunchPath:@"/usr/bin/open" arguments:[NSArray arrayWithObjects:str, nil]] waitUntilExit];
         } else {
             [self userCenter:[NSString stringWithFormat:@"PHP%@目录不存在!",pMenu.title]];
+        }
+    }];
+}
+
+-(void)phpExtendsDir:(id)sender
+{
+    NSString *rootDir           = [NSCommon getRootDir];
+    NSFileManager *fm = [NSFileManager  defaultManager];
+    
+    NSMenuItem *cMenu = (NSMenuItem*)sender;
+    NSMenuItem *pMenu=[cMenu parentItem];
+    
+    [NSCommon delayedRun:0 callback:^{
+        NSString *str = [NSString stringWithFormat:@"%@bin/php/php%@/lib/php/extensions",rootDir,pMenu.title];
+        NSArray *findExt = [fm contentsOfDirectoryAtPath:str error:nil];
+       
+        NSString *findExtDir = @"";
+        for (NSString *f in findExt) {
+            if([f hasPrefix:@"no-debug-non-zts"]){
+                findExtDir = [NSString stringWithFormat:@"%@/%@", str, f];
+            }
+        }
+        
+        if ([findExtDir isEqualToString:@""]){
+            [self userCenter:[NSString stringWithFormat:@"PHP%@安装不正确,请重新安装!",pMenu.title]];
+            return;
+        }
+        
+        
+        BOOL isDir = YES;
+        if ([fm fileExistsAtPath:findExtDir isDirectory:&isDir]){
+            [[NSTask launchedTaskWithLaunchPath:@"/usr/bin/open" arguments:[NSArray arrayWithObjects:findExtDir, nil]] waitUntilExit];
+        } else {
+            [self userCenter:[NSString stringWithFormat:@"PHP扩展%@目录不存在!",pMenu.title]];
         }
     }];
 }
