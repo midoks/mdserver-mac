@@ -751,11 +751,21 @@
 #pragma mark - 初始化CMD列表 -
 -(NSMenu*)getCmdMenu:(NSString *)title
 {
+    NSString *rootDir           = [NSCommon getRootDir];
+    NSFileManager *fm = [NSFileManager  defaultManager];
+    
     NSMenu *menu = [[NSMenu alloc] initWithTitle:title];
     
     [menu addItemWithTitle:@"Install" action:@selector(cmdInstall:) keyEquivalent:@""];
     [menu addItemWithTitle:@"UnInstall" action:@selector(cmdUninstall:) keyEquivalent:@""];
-    [menu addItemWithTitle:@"DIR" action:@selector(cmdDir:) keyEquivalent:@""];
+    
+    NSString *reloadSh = [NSString stringWithFormat:@"%@bin/reinstall/cmd/%@/reload.sh", rootDir,title];
+    BOOL isDir = YES;
+    if([fm fileExistsAtPath:reloadSh isDirectory:&isDir]){
+        [menu addItemWithTitle:@"Reload" action:@selector(cmdReload:) keyEquivalent:@""];
+    }
+    
+    [menu addItemWithTitle:@"Dir" action:@selector(cmdDir:) keyEquivalent:@""];
     return menu;
 }
 
@@ -891,6 +901,36 @@
         [self openFile:log];
     }];
     
+    [self initCmdList];
+}
+
+
+-(void)cmdReload:(id)sender
+{
+    NSMenuItem *cMenu = (NSMenuItem*)sender;
+    NSString *rootDir = [NSCommon getRootDir];
+    NSMenuItem *pMenu=[cMenu parentItem];
+
+    NSString *name = @"reload";
+    NSString *doSh = [NSString stringWithFormat:@"%@bin/reinstall/cmd/%@/%@.sh", rootDir, pMenu.title,name];
+    NSString *log = [NSString stringWithFormat:@"%@bin/logs/reinstall/cmd_%@_%@.log", rootDir, pMenu.title, name];
+    NSString *cmd = [NSString stringWithFormat:@"%@ 1>> %@ 2>&1", doSh,log];
+    if ([NSCommon fileIsExists:doSh]){
+        
+        [NSCommon delayedRun:0 callback:^{
+            [NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", cmd, nil]];
+            [self userCenter:[NSString stringWithFormat:@"执行[%@服务%@脚本]成功!", pMenu.title,name]];
+        }];
+        
+        [NSCommon delayedRun:1 callback:^{
+            [self openFile:log];
+        }];
+        
+    } else {
+        [self userCenter:[NSString stringWithFormat:@"CMD[%@](%@)脚本不存在!",pMenu.title,name]];
+    }
+    
+
     [self initCmdList];
 }
 
@@ -1446,6 +1486,14 @@
 
 #pragma mark - 程序加载时执行 -
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
+    NSString *rootDir = [NSCommon getRootDir];
+    
+    NSFileManager *fm = [NSFileManager  defaultManager];
+    NSString *logDir = [NSString stringWithFormat:@"%@bin/logs/reinstall", rootDir];
+    if ([NSCommon fileIsExists:logDir]){
+        [fm createDirectoryAtPath:logDir withIntermediateDirectories:YES attributes:NULL error:NULL];
+    }
+    
     [self initCmdList];
     [self initPhpList];
 
