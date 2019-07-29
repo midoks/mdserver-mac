@@ -968,6 +968,7 @@
         NSMenu *extMenu = [[NSMenu alloc] initWithTitle:v];
         [extMenu addItemWithTitle:@"Install" action:@selector(phpExtInstall:) keyEquivalent:@""];
         [extMenu addItemWithTitle:@"UnInstall" action:@selector(phpExtUninstall:) keyEquivalent:@""];
+        [extMenu addItemWithTitle:@"DIR" action:@selector(phpExtDir:) keyEquivalent:@""];
         NSMenuItem *extItem = [[NSMenuItem alloc] initWithTitle:ee
                                                          action:@selector(phpExtStatusSet:)
                                                   keyEquivalent:@""];
@@ -1046,6 +1047,27 @@
     
     [NSCommon delayedRun:0 callback:^{
         [NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", cmd, nil]];
+    }];
+}
+
+-(void)phpExtDir:(id)sender
+{
+    NSString *rootDir           = [NSCommon getRootDir];
+    NSFileManager *fm = [NSFileManager  defaultManager];
+    
+    NSMenuItem *cMenu = (NSMenuItem*)sender;
+    NSMenuItem *pMenu=[cMenu parentItem];
+    NSMenuItem *ppMenu=[pMenu parentItem];
+    NSMenuItem *pppMenu=[ppMenu parentItem];
+    
+    [NSCommon delayedRun:0 callback:^{
+        NSString *str = [NSString stringWithFormat:@"%@bin/reinstall/php%@/%@",rootDir,pppMenu.title,pMenu.title];
+        BOOL isDir = YES;
+        if ([fm fileExistsAtPath:str isDirectory:&isDir]){
+            [[NSTask launchedTaskWithLaunchPath:@"/usr/bin/open" arguments:[NSArray arrayWithObjects:str, nil]] waitUntilExit];
+        } else {
+            [self userCenter:[NSString stringWithFormat:@"PHP扩展脚本%@目录不存在!",pMenu.title]];
+        }
     }];
 }
 
