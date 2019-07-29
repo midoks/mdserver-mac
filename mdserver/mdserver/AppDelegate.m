@@ -929,7 +929,6 @@
     } else {
         [self userCenter:[NSString stringWithFormat:@"CMD[%@](%@)脚本不存在!",pMenu.title,name]];
     }
-    
 
     [self initCmdList];
 }
@@ -964,7 +963,6 @@
     NSString *extDir = [NSString stringWithFormat:@"%@bin/reinstall/php%@", rootDir, v];
     NSArray *extList = [fm contentsOfDirectoryAtPath:extDir error:nil];
 
-    
     NSString *content = @"";
     NSString *phpDir = [NSString stringWithFormat:@"%@bin/php/php%@", rootDir, v];
     
@@ -1008,13 +1006,19 @@
         NSMenu *extMenu = [[NSMenu alloc] initWithTitle:v];
         [extMenu addItemWithTitle:@"Install" action:@selector(phpExtInstall:) keyEquivalent:@""];
         [extMenu addItemWithTitle:@"UnInstall" action:@selector(phpExtUninstall:) keyEquivalent:@""];
-        [extMenu addItemWithTitle:@"DIR" action:@selector(phpExtDir:) keyEquivalent:@""];
+        
         NSMenuItem *extItem = [[NSMenuItem alloc] initWithTitle:ee
                                                          action:@selector(phpExtStatusSet:)
                                                   keyEquivalent:@""];
         if ([self checkPhpExtIsLoadByContent:content extName:ee]){
             extItem.state = 1;
+            
+            NSString *reloadSh = [NSString stringWithFormat:@"%@bin/reinstall/php%@/%@/reload.sh", rootDir, v,ee];
+            if ([NSCommon fileIsExists:reloadSh]){
+                [extMenu addItemWithTitle:@"Reload" action:@selector(phpExtReload:) keyEquivalent:@""];
+            }
         }
+        [extMenu addItemWithTitle:@"Dir" action:@selector(phpExtDir:) keyEquivalent:@""];
         
         [extListMenu addItem:extItem];
         [extListMenu setSubmenu:extMenu forItem:extItem];
@@ -1089,7 +1093,35 @@
         [NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", cmd, nil]];
     }];
 }
+-(void)phpExtReload:(id)sender
+{
+    NSString *rootDir           = [NSCommon getRootDir];
+    
+    NSMenuItem *cMenu = (NSMenuItem*)sender;
+    NSMenuItem *pMenu=[cMenu parentItem];
+    NSMenuItem *ppMenu=[pMenu parentItem];
+    NSMenuItem *pppMenu=[ppMenu parentItem];
+    
+    NSString *reloadSh = [NSString stringWithFormat:@"%@bin/reinstall/php%@/%@/reload.sh", rootDir, pppMenu.title,pMenu.title];
+    
+    if (![NSCommon fileIsExists:reloadSh]){
+        [self userCenter:[NSString stringWithFormat:@"PHP%@-%@扩展reload脚本不存在!", pppMenu.title,pMenu.title]];
+        return;
+    }
+    
+    NSString *logDir = [NSString stringWithFormat:@"%@bin/logs/reinstall", rootDir];
+    NSString *log = [NSString stringWithFormat:@"%@/php%@_ext_%@_reload.log", logDir, pppMenu.title,pMenu.title];
+    NSString *cmd = [NSString stringWithFormat:@"%@ %@ 1> %@ 2>&1", reloadSh, pppMenu.title, log];
+    
+    [NSCommon delayedRun:1 callback:^{
+        [self openFile:log];
+    }];
+    
+    [NSCommon delayedRun:0 callback:^{
+        [NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", cmd, nil]];
+    }];
 
+}
 -(void)phpExtDir:(id)sender
 {
     NSString *rootDir           = [NSCommon getRootDir];
@@ -1216,8 +1248,11 @@
     [vMenu addItemWithTitle:@"Install" action:@selector(phpInstall:) keyEquivalent:@""];
     [vMenu addItemWithTitle:@"UnInstall" action:@selector(phpUninstall:) keyEquivalent:@""];
     [vMenu addItemWithTitle:@"Command" action:@selector(phpCommand:) keyEquivalent:@""];
-    [vMenu addItemWithTitle:@"DIR" action:@selector(phpDir:) keyEquivalent:@""];
-    [vMenu addItemWithTitle:@"Extends DIR" action:@selector(phpExtendsDir:) keyEquivalent:@""];
+    if ( [self checkWebPHP:title] ){
+        [vMenu addItemWithTitle:@"Reload" action:@selector(phpReload:) keyEquivalent:@""];
+    }
+    [vMenu addItemWithTitle:@"Dir" action:@selector(phpDir:) keyEquivalent:@""];
+    [vMenu addItemWithTitle:@"Extends Dir" action:@selector(phpExtendsDir:) keyEquivalent:@""];
     
     NSMenu *extMenu = [self getPhpExtendsMenu:title];
     NSMenuItem *extItem = [[NSMenuItem alloc] initWithTitle:@"Extends"
@@ -1356,6 +1391,16 @@
         sleep(1);
         NSString *unloadEnv = [NSString stringWithFormat:@"%@bin/reinstall/unload_env.sh %@", rootDir, pMenu.title];
         [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", unloadEnv, nil]] waitUntilExit];
+    }];
+}
+
+-(void)phpReload:(id)sender
+{
+    NSMenuItem *cMenu = (NSMenuItem*)sender;
+    NSMenuItem *pMenu=[cMenu parentItem];
+    
+    [NSCommon delayedRun:0 callback:^{
+        [self phpFpmReload:pMenu.title];
     }];
 }
 
