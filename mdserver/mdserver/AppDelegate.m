@@ -211,6 +211,7 @@
     [NSApp orderFrontStandardAboutPanel:sender];
 }
 
+#pragma mark  - 显示界面 -
 - (IBAction)showMain:(id)sender {
     [NSApp activateIgnoringOtherApps:YES];
     [self.window makeKeyAndOrderFront:sender];
@@ -1565,6 +1566,12 @@
     [NSCommon setCommonConfig:@"isOpenModMySQLPwdWindow" value:@"no"];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(selfReStart) name: @"reloadSVC" object:nil];
+}
+
+-(void) applicationWillBecomeActive:(NSNotification *)notification
+{
+    [self initCmdList];
+    [self initPhpList];
 }
 
 #pragma mark 程序退出时执行
