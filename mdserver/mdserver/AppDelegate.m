@@ -767,8 +767,23 @@
     
     NSString *cmdDir = [NSString stringWithFormat:@"%@bin/reinstall/cmd", rootDir];
     NSArray *cmdList = [fm contentsOfDirectoryAtPath:cmdDir error:nil];
-
+    
+    NSMutableArray *_cmdList = [[NSMutableArray alloc] init];
     for (NSString *f in cmdList) {
+        NSString *path =[NSString stringWithFormat:@"%@/%@", cmdDir,f];
+        BOOL isDir = YES;
+        [fm fileExistsAtPath:path isDirectory:&isDir];
+        if (!isDir){
+            continue;
+        }
+        [_cmdList addObject:f];
+    }
+    
+    [_cmdList sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+        return [obj1 localizedStandardCompare:obj2];
+    }];
+
+    for (NSString *f in _cmdList) {
         
         NSString *path =[NSString stringWithFormat:@"%@/%@", cmdDir,f];
         BOOL isDir = YES;
