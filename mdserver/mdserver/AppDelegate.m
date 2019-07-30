@@ -688,6 +688,16 @@
     return [fm fileExistsAtPath:path];
 }
 
+-(BOOL) rmPHPSockFile:(NSString *)ver
+{
+    NSFileManager *fm = [NSFileManager defaultManager];
+    NSString *path = [NSString stringWithFormat:@"/tmp/php%@-cgi.sock", ver];
+    if ([fm fileExistsAtPath:path]){
+        return [fm removeItemAtPath:path error:nil];
+    }
+    return NO;
+}
+
 #pragma mark 检查Nginx是否启动
 -(BOOL)checkWebNginx
 {
@@ -1492,6 +1502,7 @@
 {
     if ( [self checkWebPHP:version] ){
         [self phpFpmCmdStop:version];
+        [self rmPHPSockFile:version];
         [self userCenter:[NSString stringWithFormat:@"执行[PHP%@-FPM停止]成功!", version]];
     } else {
         [self phpFpmCmdStart:version];
@@ -1522,7 +1533,7 @@
         return;
     }
 
-    [NSCommon delayedRun:0.1 callback:^{
+    [NSCommon delayedRun:1 callback:^{
         [self phpFpmTrigger:cPhpVer];
         [NSCommon delayedRun:0.5 callback:^{
             [self phpRefresh:sender];
