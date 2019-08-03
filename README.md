@@ -1,4 +1,4 @@
-## mdserver(mac版) 3.2.0.0
+## mdserver(mac版) 3.2.1.8
 
 mac上高度可定制的PHP开发环境,集成必要的扩展,方便使用。
 (pkg安装方式),安装方便,是你Mac上的PHP开发利器。
@@ -31,6 +31,14 @@ php54-73
 ```
 
 ### 版本版本
+
+- 3.2.1.8
+``
+* 全面优化CMD、PHP及PHP扩展管理的菜单。
+* CMD、PHP及PHP扩展增加reload脚本判断。
+* 优化PHP停止功能。
+* 对reinstall部分脚本优化。
+``
 
 - 3.2.0.0
 
@@ -67,6 +75,9 @@ php54-73
 - Screenshot(截图)
 
 ### 相关链接
+
+- 3.2.1.8
+	* 百度云:[3.2.1.8](https://pan.baidu.com/s/1yggvA35E5AI98vOeZWg39w)
 
 - 3.2.0.0
 	* 百度云:[3.2.0.0](https://pan.baidu.com/s/1OcfL3qvg2qada0bM8chvRQ)
