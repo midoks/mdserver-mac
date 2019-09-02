@@ -767,10 +767,12 @@
     
     NSMenu *menu = [[NSMenu alloc] initWithTitle:title];
     
+
     [menu addItemWithTitle:@"Install" action:@selector(cmdInstall:) keyEquivalent:@""];
     [menu addItemWithTitle:@"UnInstall" action:@selector(cmdUninstall:) keyEquivalent:@""];
     
-    NSString *reloadSh = [NSString stringWithFormat:@"%@bin/reinstall/cmd/%@/reload.sh", rootDir,title];
+    
+    NSString *reloadSh = [NSString stringWithFormat:@"%@bin/reinstall/cmd/%@/reload.sh", rootDir, title];
     BOOL isDir = YES;
     if([fm fileExistsAtPath:reloadSh isDirectory:&isDir]){
         [menu addItemWithTitle:@"Reload" action:@selector(cmdReload:) keyEquivalent:@""];
@@ -778,6 +780,76 @@
     
     [menu addItemWithTitle:@"Dir" action:@selector(cmdDir:) keyEquivalent:@""];
     return menu;
+}
+
+#pragma mark - 递归生产菜单 -
+-(BOOL)checkMenuDir:(NSString *)name transmit:(NSString *)transmit path:(NSString *)path menu:(NSMenu *)menu
+{
+    NSString *dirPath = [NSString stringWithFormat:@"%@/dir", path];
+    NSFileManager *fm = [NSFileManager  defaultManager];
+
+    if (![fm fileExistsAtPath:dirPath]){
+        return TRUE;
+    }
+ 
+    NSArray *cmdList = [fm contentsOfDirectoryAtPath:dirPath error:nil];
+    NSMutableArray *_cmdList = [[NSMutableArray alloc] init];
+    
+    for (NSString *f in cmdList) {
+        NSString *path =[NSString stringWithFormat:@"%@/%@", dirPath,f];
+        BOOL isDir = YES;
+        [fm fileExistsAtPath:path isDirectory:&isDir];
+        if (!isDir){
+            continue;
+        }
+        [_cmdList addObject:f];
+    }
+    
+    [_cmdList sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+        return [obj1 localizedStandardCompare:obj2];
+    }];
+    
+    
+    NSMenu *menuList = [[NSMenu alloc] initWithTitle:name];
+    for (NSString *f in _cmdList) {
+        
+        NSString *path =[NSString stringWithFormat:@"%@/%@", dirPath,f];
+        BOOL isDir = YES;
+        [fm fileExistsAtPath:path isDirectory:&isDir];
+        if (!isDir){
+            continue;
+        }
+        NSString *titlePath = @"";
+        if ([transmit isEqualToString:@""]){
+            titlePath = [NSString stringWithFormat:@"%@/dir/%@",name,f];
+        } else {
+            titlePath =[NSString stringWithFormat:@"%@/dir/%@",transmit,f];
+        }
+        
+        if (![self checkMenuDir:f transmit:titlePath path:path menu:menuList])
+        {
+            continue;
+        }
+        
+        NSMenu *vMenu = [self getCmdMenu:titlePath];
+        NSMenuItem *vItem = [[NSMenuItem alloc] initWithTitle:f
+                                                       action:@selector(cmdStatusSet:)
+                                                keyEquivalent:@""];
+        NSString *titleLog = [titlePath stringByReplacingOccurrencesOfString:@"/" withString:@"_"];
+        if ( [self checkCmdStatus:titleLog] ){
+            vItem.state = 1;
+        }
+        [menuList addItem:vItem];
+        [menuList setSubmenu:vMenu forItem:vItem];
+    }
+
+    NSMenuItem *listItem = [[NSMenuItem alloc] initWithTitle:name
+                                                   action:NULL
+                                            keyEquivalent:@""];
+    [menu addItem:listItem];
+    [menu setSubmenu:menuList forItem:listItem];
+
+    return FALSE;
 }
 
 -(void)initCmdList
@@ -813,7 +885,11 @@
         if (!isDir){
             continue;
         }
-
+        if (![self checkMenuDir:f transmit:@"" path:path menu:cmd.submenu])
+        {
+            continue;
+        }
+        
         NSMenu *vMenu = [self getCmdMenu:f];
         NSMenuItem *vItem = [[NSMenuItem alloc] initWithTitle:f
                                                        action:@selector(cmdStatusSet:)
@@ -823,7 +899,6 @@
         }
         [cmd.submenu addItem:vItem];
         [cmd.submenu setSubmenu:vMenu forItem:vItem];
-        
     }
     
     [cmd.submenu addItem:[NSMenuItem separatorItem]];
@@ -842,28 +917,30 @@
 -(void)cmdInstall:(id)sender
 {
     NSMenuItem *cMenu = (NSMenuItem*)sender;
-    NSMenuItem *pMenu=[cMenu parentItem];
-    [self cmdInAndUnin:@"install" version:pMenu.title];
+    NSString *title = [self getMenuCmdPath:cMenu];
+    [self cmdInAndUnin:@"install" version:title];
 }
 
 -(void)cmdUninstall:(id)sender
 {
     NSMenuItem *cMenu = (NSMenuItem*)sender;
-    NSMenuItem *pMenu=[cMenu parentItem];
-    [self cmdInAndUnin:@"uninstall" version:pMenu.title];
+    NSString *title = [self getMenuCmdPath:cMenu];
+    [self cmdInAndUnin:@"uninstall" version:title];
 }
 
 -(void)cmdInAndUnin:(NSString *)sh version:(NSString *)version
 {
+    NSString *versionLog = [version stringByReplacingOccurrencesOfString:@"/" withString:@"_"];
     NSString *rootDir           = [NSCommon getRootDir];
     NSFileManager *fm = [NSFileManager  defaultManager];
+    
     NSString *installSh = [NSString stringWithFormat:@"%@bin/reinstall/cmd/%@/%@.sh", rootDir, version, sh];
     NSString *logDir = [NSString stringWithFormat:@"%@bin/logs/reinstall", rootDir];
     if ([NSCommon fileIsExists:logDir]){
          [fm createDirectoryAtPath:logDir withIntermediateDirectories:YES attributes:NULL error:NULL];
     }
     
-    NSString *log = [NSString stringWithFormat:@"%@bin/logs/reinstall/cmd_%@_%@.log", rootDir, version,sh];
+    NSString *log = [NSString stringWithFormat:@"%@bin/logs/reinstall/cmd_%@_%@.log", rootDir, versionLog,sh];
     NSString *cmd = [NSString stringWithFormat:@"%@ 1>> %@ 2>&1", installSh,log];
     [NSCommon delayedRun:0 callback:^{
         [self openFile:log];
@@ -877,23 +954,25 @@
 -(void)cmdStatusSet:(id)sender
 {
     NSMenuItem *cMenu = (NSMenuItem*)sender;
+    NSString *title =  [self getMenuCmdPath:cMenu];
+    NSString *tlog = [title stringByReplacingOccurrencesOfString:@"/" withString:@"_"];
     NSString *rootDir = [NSCommon getRootDir];
     NSFileManager *fm = [NSFileManager  defaultManager];
     
-    NSString *lock = [NSString stringWithFormat:@"%@bin/tmp/cmd/%@.lock", rootDir, cMenu.title];
+    NSString *lock = [NSString stringWithFormat:@"%@bin/tmp/cmd/%@.lock", rootDir, tlog];
     
     NSString *name = @"start";
     if ([NSCommon fileIsExists:lock]){
         name = @"stop";
     }
     
-    NSString *doSh = [NSString stringWithFormat:@"%@bin/reinstall/cmd/%@/%@.sh", rootDir, cMenu.title,name];
+    NSString *doSh = [NSString stringWithFormat:@"%@bin/reinstall/cmd/%@/%@.sh", rootDir, title,name];
     NSString *logDir = [NSString stringWithFormat:@"%@bin/logs/reinstall", rootDir];
     if ([NSCommon fileIsExists:logDir]){
         [fm createDirectoryAtPath:logDir withIntermediateDirectories:YES attributes:NULL error:NULL];
     }
     
-    NSString *log = [NSString stringWithFormat:@"%@bin/logs/reinstall/cmd_%@_%@.log", rootDir, cMenu.title, name];
+    NSString *log = [NSString stringWithFormat:@"%@bin/logs/reinstall/cmd_%@_%@.log", rootDir, tlog, name];
     NSString *cmd = [NSString stringWithFormat:@"%@ 1>> %@ 2>&1", doSh,log];
     if ([NSCommon fileIsExists:doSh]){
         [NSCommon delayedRun:1 callback:^{
@@ -920,17 +999,18 @@
 {
     NSMenuItem *cMenu = (NSMenuItem*)sender;
     NSString *rootDir = [NSCommon getRootDir];
-    NSMenuItem *pMenu=[cMenu parentItem];
+    NSString *title =  [self getMenuCmdPath:cMenu];
+    NSString *tlog = [title stringByReplacingOccurrencesOfString:@"/" withString:@"_"];
 
     NSString *name = @"reload";
-    NSString *doSh = [NSString stringWithFormat:@"%@bin/reinstall/cmd/%@/%@.sh", rootDir, pMenu.title,name];
-    NSString *log = [NSString stringWithFormat:@"%@bin/logs/reinstall/cmd_%@_%@.log", rootDir, pMenu.title, name];
+    NSString *doSh = [NSString stringWithFormat:@"%@bin/reinstall/cmd/%@/%@.sh", rootDir, title,name];
+    NSString *log = [NSString stringWithFormat:@"%@bin/logs/reinstall/cmd_%@_%@.log", rootDir, tlog, name];
     NSString *cmd = [NSString stringWithFormat:@"%@ 1>> %@ 2>&1", doSh,log];
     if ([NSCommon fileIsExists:doSh]){
         
         [NSCommon delayedRun:0 callback:^{
             [NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", cmd, nil]];
-            [self userCenter:[NSString stringWithFormat:@"执行[%@服务%@脚本]成功!", pMenu.title,name]];
+            [self userCenter:[NSString stringWithFormat:@"执行[%@服务%@脚本]成功!", title,name]];
         }];
         
         [NSCommon delayedRun:1 callback:^{
@@ -938,27 +1018,47 @@
         }];
         
     } else {
-        [self userCenter:[NSString stringWithFormat:@"CMD[%@](%@)脚本不存在!",pMenu.title,name]];
+        [self userCenter:[NSString stringWithFormat:@"CMD[%@](%@)脚本不存在!",title,name]];
     }
 
     [self initCmdList];
 }
 
+-(NSString *)getMenuCmdPath:(NSMenuItem *)menu
+{
+    NSMenuItem *pMenu=[menu parentItem];
+    NSString *path = pMenu.title;
+    
+    for (;;) {
+        pMenu = [pMenu parentItem];
+        if (!pMenu){
+            break;
+        }
+        
+        if ([pMenu.title isEqualToString:@"CMD"]){
+            break;
+        }
+        
+        path = [NSString stringWithFormat:@"%@/dir/%@",pMenu.title,path];
+    }
+    return path;
+}
+
 -(void)cmdDir:(id)sender
 {
     NSMenuItem *cMenu = (NSMenuItem*)sender;
-    NSMenuItem *pMenu=[cMenu parentItem];
+    NSString *pathTitle = [self getMenuCmdPath:cMenu];
     
     NSString *rootDir           = [NSCommon getRootDir];
     NSFileManager *fm = [NSFileManager  defaultManager];
     
     [NSCommon delayedRun:0 callback:^{
-        NSString *str = [NSString stringWithFormat:@"%@bin/reinstall/cmd/%@",rootDir,pMenu.title];
+        NSString *str = [NSString stringWithFormat:@"%@bin/reinstall/cmd/%@",rootDir,pathTitle];
         BOOL isDir = YES;
         if ([fm fileExistsAtPath:str isDirectory:&isDir]){
             [[NSTask launchedTaskWithLaunchPath:@"/usr/bin/open" arguments:[NSArray arrayWithObjects:str, nil]] waitUntilExit];
         } else {
-            [self userCenter:[NSString stringWithFormat:@"CMD%@目录不存在!",pMenu.title]];
+            [self userCenter:[NSString stringWithFormat:@"CMD%@目录不存在!",pathTitle]];
         }
     }];
 }
