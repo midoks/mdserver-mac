@@ -1024,7 +1024,6 @@
     } else {
         [self userCenter:[NSString stringWithFormat:@"CMD[%@](%@)脚本不存在!",title,name]];
     }
-
     [self initCmdList];
 }
 
