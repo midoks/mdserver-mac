@@ -1054,14 +1054,14 @@
     NSString *path = menu.title;
     
     for (;;) {
+        if ([pMenu.title isEqualToString:@"CMD"]){
+            break;
+        }
+        
         path = [NSString stringWithFormat:@"%@/dir/%@",pMenu.title,path];
         pMenu = [pMenu parentItem];
        
         if (!pMenu){
-            break;
-        }
-        
-        if ([pMenu.title isEqualToString:@"CMD"]){
             break;
         }
     }
