@@ -954,7 +954,7 @@
 -(void)cmdStatusSet:(id)sender
 {
     NSMenuItem *cMenu = (NSMenuItem*)sender;
-    NSString *title =  [self getMenuCmdPath:cMenu];
+    NSString *title =  [self getMenuMainCmdPath:cMenu];
     NSString *tlog = [title stringByReplacingOccurrencesOfString:@"/" withString:@"_"];
     NSString *rootDir = [NSCommon getRootDir];
     NSFileManager *fm = [NSFileManager  defaultManager];
@@ -973,11 +973,15 @@
     }
     
     NSString *log = [NSString stringWithFormat:@"%@bin/logs/reinstall/cmd_%@_%@.log", rootDir, tlog, name];
+    if (![fm fileExistsAtPath:log]){
+        [@"" writeToFile:log atomically:YES encoding:NSUTF8StringEncoding error:nil];
+    }
+
     NSString *cmd = [NSString stringWithFormat:@"%@ 1>> %@ 2>&1", doSh,log];
     if ([NSCommon fileIsExists:doSh]){
-        [NSCommon delayedRun:1 callback:^{
+        [NSCommon delayedRun:0 callback:^{
             [NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", cmd, nil]];
-            [self userCenter:[NSString stringWithFormat:@"执行[%@服务%@脚本]成功!", cMenu.title,name]];
+            [self userCenter:[NSString stringWithFormat:@"执行[%@服务%@脚本]成功!", title,name]];
         }];
         
         if ([NSCommon fileIsExists:lock]){
@@ -1040,6 +1044,27 @@
         }
         
         path = [NSString stringWithFormat:@"%@/dir/%@",pMenu.title,path];
+    }
+    
+    return path;
+}
+
+-(NSString *)getMenuMainCmdPath:(NSMenuItem *)menu
+{
+    NSMenuItem *pMenu=[menu parentItem];
+    NSString *path = menu.title;
+    
+    for (;;) {
+        path = [NSString stringWithFormat:@"%@/dir/%@",pMenu.title,path];
+        pMenu = [pMenu parentItem];
+       
+        if (!pMenu){
+            break;
+        }
+        
+        if ([pMenu.title isEqualToString:@"CMD"]){
+            break;
+        }
     }
     return path;
 }
