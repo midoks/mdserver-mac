@@ -117,5 +117,9 @@ php54-73
 - e-mail:midoks@163.com
 - https://t.me/midoks
 
+## Stargazers over time
+
+[![Stargazers over time](https://starchart.cc/midoks/mdserver-mac.svg)](https://starchart.cc/midoks/mdserver-mac)
+
 ### 访问统计，😊
 [![Visit tracker](http://www.clustrmaps.com/map_v2.png?d=WGjERIEklP1qbkyucGHB7tWPSBrRHY04mK1xZCft-rA&cl=ffffff)](https://clustrmaps.com/site/1ap6t)
