@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <Cocoa/Cocoa.h>
+#import "NSTextField+MDTextField.h"
 
 @interface HostNameController : NSDocument <NSTableViewDataSource, NSTableViewDelegate, NSPathControlDelegate, NSTextFieldDelegate>
 {
