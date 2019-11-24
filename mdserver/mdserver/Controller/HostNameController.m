@@ -125,7 +125,8 @@
             [_serverPHPVer selectItemAtIndex:cphp];
         }
         
-        if ([[serverinfo objectForKey:@"hostname"] isEqual:@"localhost"]) {
+        if ([[serverinfo objectForKey:@"hostname"] isEqual:@"localhost"]
+            && [[serverinfo objectForKey:@"port"] isEqual:@"8888"]) {
             _serverName.enabled = NO;
             _serverPort.enabled = NO;
             _serverPHPVer.enabled = NO;
@@ -173,7 +174,8 @@
         
         NSMutableDictionary *serverinfo = [_list objectAtIndex:row];
         
-        if ([[serverinfo objectForKey:@"hostname"] isEqual:@"localhost"]) {
+        if ([[serverinfo objectForKey:@"hostname"] isEqual:@"localhost"] &&
+            [[serverinfo objectForKey:@"port"] isEqual:@"8888"]) {
             return;
         }
         
@@ -218,7 +220,7 @@
         NSString *pos = [NSString stringWithFormat:@"%ld", i];
         NSMutableDictionary *t = [listContent objectForKey:pos];
         
-        if ([[t objectForKey:@"hostname"] isEqual:@"localhost"])
+        if ([[t objectForKey:@"hostname"] isEqual:@"localhost"] && [[t objectForKey:@"port"] isEqual:@"8888"] )
         {
             NSString *urlstr = [NSString stringWithFormat:@"%@htdocs/www/", str];
             [[listContent objectForKey:pos] setObject:urlstr forKey:@"path"];
@@ -365,6 +367,14 @@
 {
     NSInteger row = [_tableView selectedRow];
     if (row != -1) {
+        
+        NSString *hostname = [_serverName stringValue];
+        NSString *port = [_serverPort stringValue];
+        if([hostname isEqualToString:@"localhost"]
+           && [port isEqualToString:@"8888"]){
+            [_serverName setStringValue:@"youdomain.midoks"];
+            [NSCommon alert:@"localhost:8888是默认地址,不可使用!"];
+        }
         [[_list objectAtIndex:row] setObject:[_serverName stringValue] forKey:@"hostname"];
         [_tableView reloadData];
         [_tableView selectRowIndexes:[[NSIndexSet alloc] initWithIndex:row] byExtendingSelection:YES];
@@ -373,6 +383,7 @@
             [self save:sender];
         }
     }
+//    NSLog(@"changeServerName");
 }
 
 -(IBAction)changeServerPort:(id)sender
@@ -381,6 +392,16 @@
     if (row != -1) {
         
         NSInteger port = [_serverPort integerValue];
+        if (port == 8888){
+            NSString *hostname = [_serverName stringValue];
+            if([hostname isEqualToString:@"localhost"]){
+                port = 8000;
+                [_serverPort setStringValue:@"8000"];
+                [NSCommon alert:@"localhost:8888是默认地址,不可使用!"];
+            }
+        }
+//        NSLog(@"changeServerPort");
+        
         //默认0-1023是系统默认的端口,需要root权限才能开启。
         if (port < 80) {
             port = 80;
