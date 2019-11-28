@@ -143,6 +143,7 @@
     str = [self getDirName:str];
     
     str = [NSString stringWithFormat:@"%@/mdserver/", str];
+//    str = [NSString stringWithFormat:@"/Applications/mdserver/%@", @""];
     return str;
 }
 
@@ -164,21 +165,27 @@
     
     
     for (NSMutableDictionary *i in list) {
-        if ([[i objectForKey:@"path"] isNotEqualTo:@""] && [[i objectForKey:@"hostname"] isNotEqualTo:@"localhost"]) {
-            
-            //Check if there is a custom configuration
-            NSString *serverName = [[i objectForKey:@"hostname"] stringByReplacingOccurrencesOfString:@"." withString:@"_"];
-            NSString *own_host = [NSString stringWithFormat:@"%@%@", @"own_", serverName];
-            NSString *own_conf = [NSString stringWithFormat:@"%@/%@.conf", vhost, own_host];
-            
-            //NSLog(@"%@",own_conf);
-            if (![fm fileExistsAtPath:own_conf]){
-                [NSCommon setConfigWithServerName:[i objectForKey:@"hostname"]
-                                             port:[i objectForKey:@"port"]
-                                             path:[i objectForKey:@"path"]
-                                             php:[i objectForKey:@"php"]];
-            }
         
+        if ([[i objectForKey:@"path"] isEqualToString:@""]){
+            continue;
+        }
+        
+        if ([[i objectForKey:@"port"] isEqualToString:@"8888"] && [[i objectForKey:@"hostname"] isEqualToString:@"localhost"])
+        {
+            continue;
+        }
+        
+        //Check if there is a custom configuration
+        NSString *serverName = [[i objectForKey:@"hostname"] stringByReplacingOccurrencesOfString:@"." withString:@"_"];
+        NSString *own_host = [NSString stringWithFormat:@"%@%@", @"own_", serverName];
+        NSString *own_conf = [NSString stringWithFormat:@"%@/%@.conf", vhost, own_host];
+        
+        //NSLog(@"%@",own_conf);
+        if (![fm fileExistsAtPath:own_conf]){
+            [NSCommon setConfigWithServerName:[i objectForKey:@"hostname"]
+                                         port:[i objectForKey:@"port"]
+                                         path:[i objectForKey:@"path"]
+                                          php:[i objectForKey:@"php"]];
         }
     }
     return YES;
