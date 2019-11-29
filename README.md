@@ -1,12 +1,12 @@
-## mdserver(mac版) 3.2.1.8
+## mdserver(mac版) 3.3.0.0
 
-mac上高度可定制的PHP开发环境,集成必要的扩展,方便使用。
+Mac上高度可定制的PHP开发环境,集成必要的扩展,方便使用。
 (pkg安装方式),安装方便,是你Mac上的PHP开发利器。
 
 - 支持80端口。
-- 配置memcached,redis,mongodb通用支持。
-- 配置MySQL5.6。
-- openresty支持lua开发。
+- 配置Memcached,Redis,MongoDB通用支持。
+- 配置MySQL5.7。
+- OpenResty支持Lua开发。
 - **php-fpm以sock文件方式管理。多php进程共存,快速切换开发。**
 - **高效控制PHP扩展安装、启动、停止、卸载。**
 - **完美再现安装过程，利于学习**
@@ -16,7 +16,7 @@ mac上高度可定制的PHP开发环境,集成必要的扩展,方便使用。
 - 支持CMD菜单下应用的安装、启动、停止、卸载。
 
 ```
-php54-73
+php[55,56,71,72,73,74]
 [redis,memecached,mongo,yaf,swoole,xhprof,...]
 ```
 
@@ -30,44 +30,21 @@ php54-73
 菜单[CMD]->php-ext-init->install(解决大部分的依赖问题)
 ```
 
+### 软件版本说明[可能不一致]
+- 一个为软件开发版本。
+- 一个为打包版本。
+
 ### 版本版本
 
-- 3.2.1.8
+- 3.3.0.0
 
 ```
-* 全面优化CMD、PHP及PHP扩展管理的菜单。
-* CMD、PHP及PHP扩展增加reload脚本判断。
-* 优化PHP停止功能。
+* 优化CMD，可以设置二级菜单。
+* mysql有5.6更新至5.7。
 * 对reinstall部分脚本优化。
-```
-
-- 3.2.0.0
-
-```
-* 支持PHP版本菜单[Command]下直接进入命令行,并自动设置当前PHP变量。
-* 支持CMD菜单下应用的安装、启动、停止、卸载。
-```
-
-- 3.1.0.3
-
-```
-* 加入php74测试版
-* 解决PHP扩展intl,curl,swoole,openssl,yar,imagick依赖问题.
-```
-
-- 3.0.2.2
-
-```
-* 加入xdebug扩展[php73编译没有通过]
-* 升级php部分版本
-* 修复一些配置错误
-```
-
-- 3.0.1.2
-
-```
-* 减少php53的维护,但保留执行安装脚本
-* 加入pcntl扩展
+* 菜单[CMD]->php-ext-init->install脚本优化。
+* 减少维护PHP54,70。
+* 优化hostname,可以设置localhost名称`但是localhost:8888为保留设置,不可重复!`。
 ```
 
 ### 文件说明
@@ -77,29 +54,9 @@ php54-73
 
 ### 相关链接
 
-- 3.2.1.8
-	* 百度云:[3.2.1.8](https://pan.baidu.com/s/1yggvA35E5AI98vOeZWg39w)
-	* 微云:[3.2.1.8](https://share.weiyun.com/5sXlUxs)
-
-- 3.2.0.0
-	* 百度云:[3.2.0.0](https://pan.baidu.com/s/1OcfL3qvg2qada0bM8chvRQ)
-	* 微云:[3.2.0.0](https://share.weiyun.com/5NhPd9S)
-
-- 3.1.0.3
-	* 百度云:[3.1.0.3](https://pan.baidu.com/s/1W3OBhQ1UfTR1_Xx6i-Iinw)
-	* 微云:[3.1.0.3](https://share.weiyun.com/5eOmW6v)
-
-- 3.0.2.2
-	* 微云:[3.0.2.2](https://share.weiyun.com/5CpRsYI)
-	* 百度云提取码(waeh):[3.0.2.2](https://pan.baidu.com/s/1mSrM_yuqwEQ46zl8IO7IFw)
-
-- 3.0.1.2
-	* 微云:[3.0.1.2](https://share.weiyun.com/5tip6wD)
-	* 百度云提取码(exsw):[3.0.1.2](https://pan.baidu.com/s/1oEq1GtPgKY6inbaXoNsmDg)
-
-- 3.0.0.0
-	* 微云:[3.0.0.0](https://share.weiyun.com/5mDuEiO)
-	* 百度云提取码(jf71):[3.0.0.0](https://pan.baidu.com/s/1RIox0w8Lplvwd4Nw8B-hwg)
+- 3.3.0.0
+	* 百度云:[3.3.0.0](https://pan.baidu.com/s/1sBbp47eFEQc2T92Bpdl9bA)
+	* 微云:[3.3.0.0](https://share.weiyun.com/5oCFVfB)
 
 ### 相关链接 - 2.x
 - 旧版安装地址:[2.x](/README_2x.md)
@@ -107,18 +64,17 @@ php54-73
 ### 使用说明
 [说明](https://github.com/midoks/mdserver-mac/wiki/%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E-3.0)
 
-### 学习版本
-- 下载地址:[3.2.0.0](https://pan.baidu.com/s/1HGulhwtj71RWUNJ1yo9GwA)
 
 ### 最新版本截图
 [![Screenshot_3.png](/Screenshot/Screenshot_3.png)](/Screenshot/Screenshot_3.png)
+
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fmidoks%2Fmdserver-mac.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fmidoks%2Fmdserver-mac?ref=badge_shield)
 
 ### 联系我
 - e-mail:midoks@163.com
 - https://t.me/midoks
 
-## Stargazers over time
+### Stargazers over time
 
 [![Stargazers over time](https://starchart.cc/midoks/mdserver-mac.svg)](https://starchart.cc/midoks/mdserver-mac)
 
@@ -126,5 +82,5 @@ php54-73
 [![Visit tracker](http://www.clustrmaps.com/map_v2.png?d=WGjERIEklP1qbkyucGHB7tWPSBrRHY04mK1xZCft-rA&cl=ffffff)](https://clustrmaps.com/site/1ap6t)
 
 
-## License
+### License
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fmidoks%2Fmdserver-mac.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fmidoks%2Fmdserver-mac?ref=badge_large)
