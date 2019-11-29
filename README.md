@@ -45,6 +45,7 @@ php[55,56,71,72,73,74]
 * 菜单[CMD]->php-ext-init->install脚本优化。
 * 减少维护PHP54,70。
 * 优化hostname,可以设置localhost名称(但是localhost:8888为保留设置,不可重复!)。
+* 加入PHP74正式版。
 ```
 
 ### 文件说明
