@@ -59,7 +59,7 @@ sudo sh /Applications/mdserver/install.sh
 - mdserver(主功能)
 - Screenshot(截图)
 
-### 相关链接
+### 下载链接
 
 - 3.3.0.0
 	* 百度云:[3.3.0.0](https://pan.baidu.com/s/1sBbp47eFEQc2T92Bpdl9bA)
