@@ -20,6 +20,19 @@ php[55,56,71,72,73,74]
 [redis,memecached,mongo,yaf,swoole,xhprof,...]
 ```
 
+### 下载链接
+
+- 3.3.0.0
+	* 百度云:[3.3.0.0](https://pan.baidu.com/s/1sBbp47eFEQc2T92Bpdl9bA)
+	* 微云:[3.3.0.0](https://share.weiyun.com/5oCFVfB)
+
+### 相关链接 - 2.x
+- 旧版安装地址:[2.x](/README_2x.md)
+
+### 使用说明
+[说明](https://github.com/midoks/mdserver-mac/wiki/%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E-3.0)
+
+
 ### 相关项目
 
 - 最新的安装脚本[mdserver-mac-reinstall](https://github.com/midoks/mdserver-mac-reinstall)对应目录->[/Applications/mdserver/bin/reinstall]
@@ -58,18 +71,6 @@ sudo sh /Applications/mdserver/install.sh
 - host(修改hosts命令)
 - mdserver(主功能)
 - Screenshot(截图)
-
-### 下载链接
-
-- 3.3.0.0
-	* 百度云:[3.3.0.0](https://pan.baidu.com/s/1sBbp47eFEQc2T92Bpdl9bA)
-	* 微云:[3.3.0.0](https://share.weiyun.com/5oCFVfB)
-
-### 相关链接 - 2.x
-- 旧版安装地址:[2.x](/README_2x.md)
-
-### 使用说明
-[说明](https://github.com/midoks/mdserver-mac/wiki/%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E-3.0)
 
 
 ### 最新版本截图
