@@ -1709,7 +1709,17 @@
     [self initPhpList];
 }
 
-#pragma mark 程序退出时执行
+#pragma mark - 点击dock应用图标重新弹出主窗口
+-(BOOL)applicationShouldHandleReopen:(NSApplication *)theApplication
+                    hasVisibleWindows:(BOOL)flag{
+  if (!flag){
+    [NSApp activateIgnoringOtherApps:NO];
+    [self.window makeKeyAndOrderFront:self];
+  }
+  return YES;
+}
+
+#pragma mark - 程序退出时执行
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
     
     NSString *iseall = [NSCommon getCommonConfig:@"isExitAfterCloseAll"];
