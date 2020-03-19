@@ -74,7 +74,9 @@ sudo sh /Applications/mdserver/install.sh
 
 
 ### 最新版本截图
-[![Screenshot_3.png](/Screenshot/Screenshot_3.png)](/Screenshot/Screenshot_3.png)
+<p align="center">
+<img height="256" src="https://github.com/midoks/mdserver-mac/blob/master/Screenshot/Screenshot_3.png" />
+</p>
 
 
 ### 联系我
