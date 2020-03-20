@@ -152,7 +152,8 @@
     [NSCommon setRemoveAllConfig];
 
     NSMutableArray *list = [[NSMutableArray alloc] init];
-    NSString *pathplist = [[NSBundle mainBundle] pathForResource:@"server" ofType:@"plist"];
+    NSString *pathplist = [NSCommon getServerPlist];
+//    NSString *pathplist = [[NSBundle mainBundle] pathForResource:@"server" ofType:@"plist"];
     NSMutableDictionary *listContent = [[NSMutableDictionary alloc] initWithContentsOfFile:pathplist];
     
     for (NSMutableDictionary *k in listContent) {
@@ -244,7 +245,8 @@
 +(NSString *)getHostFileNeedContent{
     
     NSMutableArray *list = [[NSMutableArray alloc] init];
-    NSString *pathplist = [[NSBundle mainBundle] pathForResource:@"server" ofType:@"plist"];
+    NSString *pathplist = [self getServerPlist];
+//    NSString *pathplist = [[NSBundle mainBundle] pathForResource:@"server" ofType:@"plist"];
     NSMutableDictionary *listContent = [[NSMutableDictionary alloc] initWithContentsOfFile:pathplist];
     
     for (NSMutableDictionary *k in listContent) {
@@ -332,4 +334,17 @@
     return appAsUrl;
 }
 
+
++(NSString*)getServerPlist{
+    NSFileManager *fm = [NSFileManager defaultManager];
+    NSURL *dirUrl = [NSCommon appSupportDirURL];
+    NSURL *writeURL = [dirUrl URLByAppendingPathComponent:@"server.plist"];
+    
+    if (![fm fileExistsAtPath:[writeURL path]]){
+        NSString *serverList = [[NSBundle mainBundle] pathForResource:@"server" ofType:@"plist"];
+        NSString *content = [NSString stringWithContentsOfFile:serverList encoding:NSUTF8StringEncoding error:nil];
+        [content writeToURL:writeURL atomically:YES encoding:NSUTF8StringEncoding error:nil];
+    }
+    return  [writeURL path];
+}
 @end

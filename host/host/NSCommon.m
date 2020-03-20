@@ -36,14 +36,37 @@
     return str;
 }
 
+#pragma mark - 创建目录
++(void)createDirIfNoExist:(NSURL *)url{
+    NSFileManager *fm = [NSFileManager defaultManager];
+    NSString *path = [url path];
+    if (![fm fileExistsAtPath:path]){
+        [fm createDirectoryAtURL:url withIntermediateDirectories:YES attributes:nil error:nil];
+    }
+}
+
+
+#pragma mark - 获取App支持的目录,不存在就自动创建
++(NSURL *)appSupportDirURL {
+    NSFileManager *fm = [NSFileManager defaultManager];
+    NSArray<NSURL *> *asPath = [fm URLsForDirectory:NSApplicationSupportDirectory inDomains:NSUserDomainMask];
+    NSString *bundleID = @"com.midoks.mdserver";
+    NSURL * appAsUrl = [asPath.firstObject URLByAppendingPathComponent:bundleID];
+    
+    [self createDirIfNoExist:appAsUrl];
+    return appAsUrl;
+}
+
 
 #pragma mark - Host文件操作 -
 +(NSString *)getHostFileNeedContent{
+    NSURL *dirUrl = [NSCommon appSupportDirURL];
+    NSURL *pathplist = [dirUrl URLByAppendingPathComponent:@"server.plist"];
     
     NSMutableArray *list = [[NSMutableArray alloc] init];
     
-    NSString *pathplist = [[NSBundle mainBundle] pathForResource:@"server" ofType:@"plist"];
-    NSMutableDictionary *listContent = [[NSMutableDictionary alloc] initWithContentsOfFile:pathplist];
+//    NSString *pathplist = [[NSBundle mainBundle] pathForResource:@"server" ofType:@"plist"];
+    NSMutableDictionary *listContent = [[NSMutableDictionary alloc] initWithContentsOfFile:[pathplist path]];
     
     for (NSMutableDictionary *k in listContent) {
         [list addObject:[listContent objectForKey:k]];
