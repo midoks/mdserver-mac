@@ -312,4 +312,24 @@
     return rok;
 }
 
+#pragma mark - 创建目录
++(void)createDirIfNoExist:(NSURL *)url{
+    NSFileManager *fm = [NSFileManager defaultManager];
+    NSString *path = [url path];
+    if (![fm fileExistsAtPath:path]){
+        [fm createDirectoryAtURL:url withIntermediateDirectories:YES attributes:nil error:nil];
+    }
+}
+
+#pragma mark - 获取App支持的目录,不存在就自动创建
++(NSURL *)appSupportDirURL {
+    NSFileManager *fm = [NSFileManager defaultManager];
+    NSArray<NSURL *> *asPath = [fm URLsForDirectory:NSApplicationSupportDirectory inDomains:NSUserDomainMask];
+    NSString *bundleID = [NSBundle mainBundle].bundleIdentifier;
+    NSURL * appAsUrl = [asPath.firstObject URLByAppendingPathComponent:bundleID];
+    
+    [self createDirIfNoExist:appAsUrl];
+    return appAsUrl;
+}
+
 @end

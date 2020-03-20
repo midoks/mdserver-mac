@@ -58,5 +58,8 @@
 #pragma mark 创建info文件
 +(BOOL)makePhpInfo:(NSString *)path;
 
+#pragma mark - 获取App支持的目录,不存在就自动创建
++(NSURL *)appSupportDirURL;
+
 
 @end

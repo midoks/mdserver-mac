@@ -32,6 +32,7 @@
         _tableView.delegate = self;
         _tableView.dataSource = self;
         //plist操作
+        [self createServerFile];
         [self reloadListData];
         
         _phplist = [[NSMutableArray alloc] init];
@@ -62,6 +63,8 @@
     }
     return  self;
 }
+
+
 
 -(void)awakeFromNib
 {
@@ -209,12 +212,28 @@
     }
 }
 
+-(void)createServerFile{
+    NSFileManager *fm = [NSFileManager defaultManager];
+    NSURL *dirUrl = [NSCommon appSupportDirURL];
+    NSURL *writeURL = [dirUrl URLByAppendingPathComponent:@"server.plist"];
+    
+    NSLog(@"%@",dirUrl);
+    if ([fm fileExistsAtPath:[writeURL path]]){
+        return;
+    }
+    NSString *serverList = [[NSBundle mainBundle] pathForResource:@"server" ofType:@"plist"];
+    NSString *content = [NSString stringWithContentsOfFile:serverList encoding:NSUTF8StringEncoding error:nil];
+    [content writeToURL:writeURL atomically:YES encoding:NSUTF8StringEncoding error:nil];
+}
+
 -(void)reloadListData
 {
     _list = [[NSMutableArray alloc] init];
     NSString *str = [NSCommon getRootDir];
-    NSString *pathplist = [[NSBundle mainBundle] pathForResource:@"server" ofType:@"plist"];
-    NSMutableDictionary *listContent = [[NSMutableDictionary alloc] initWithContentsOfFile:pathplist];
+    NSURL *dirUrl = [NSCommon appSupportDirURL];
+    NSURL *pathplist = [dirUrl URLByAppendingPathComponent:@"server.plist"];
+//    NSString *pathplist = [[NSBundle mainBundle] pathForResource:@"server" ofType:@"plist"];
+    NSMutableDictionary *listContent = [[NSMutableDictionary alloc] initWithContentsOfFile:[pathplist path]];
     
     for (NSInteger i=0; i<[listContent count]; i++) {
         NSString *pos = [NSString stringWithFormat:@"%ld", i];
