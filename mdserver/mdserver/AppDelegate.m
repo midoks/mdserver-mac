@@ -1521,19 +1521,24 @@
     NSMenuItem *cMenu = (NSMenuItem*)sender;
     NSMenuItem *pMenu=[cMenu parentItem];
     
-    [NSCommon delayedRun:0 callback:^{
-        
-        NSString *loadEnv = [NSString stringWithFormat:@"%@bin/reinstall/load_env.sh %@", rootDir, pMenu.title];
-        [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", loadEnv, nil]] waitUntilExit];
-        
-        sleep(1);
-        NSString *str = [NSString stringWithFormat:@"file:///Applications/Utilities/Terminal.app"];
-        [[NSTask launchedTaskWithLaunchPath:@"/usr/bin/open" arguments:[NSArray arrayWithObjects:str, nil]] waitUntilExit];
-        
-        sleep(1);
-        NSString *unloadEnv = [NSString stringWithFormat:@"%@bin/reinstall/unload_env.sh %@", rootDir, pMenu.title];
-        [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", unloadEnv, nil]] waitUntilExit];
-    }];
+    
+    if (cMenu.state){
+        cMenu.state = 0;
+        [NSCommon delayedRun:0 callback:^{
+            NSString *unloadEnv = [NSString stringWithFormat:@"%@bin/reinstall/unload_env.sh %@ > %@bin/logs/reinstall/unload_env.log", rootDir, pMenu.title,rootDir];
+            [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", unloadEnv, nil]] waitUntilExit];
+        }];
+    } else{
+        cMenu.state = 1;
+        [NSCommon delayedRun:0 callback:^{
+            
+            NSString *loadEnv = [NSString stringWithFormat:@"%@bin/reinstall/load_env.sh %@ > %@bin/logs/reinstall/load_env.log", rootDir, pMenu.title, rootDir];
+            [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", loadEnv, nil]] waitUntilExit];
+            
+            sleep(1);
+            [[NSWorkspace sharedWorkspace] launchApplication:@"Terminal"];
+        }];
+    }
 }
 
 -(void)phpReload:(id)sender
