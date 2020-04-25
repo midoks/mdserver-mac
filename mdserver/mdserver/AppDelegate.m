@@ -1383,13 +1383,27 @@
 }
 
 
+-(BOOL)findEnv:(NSString *)title{
+
+    if ([[[NSUserDefaults standardUserDefaults] stringForKey:@"MD_PHP_VER"] isEqualToString:title]
+        && [[NSUserDefaults standardUserDefaults] boolForKey:@"MD_PHP_VER_LOAD"]
+        ){
+        return YES;
+    }
+    return NO;
+}
+
 -(NSMenu*)getPhpVerMenu:(NSString *)title
 {
     NSMenu *vMenu = [[NSMenu alloc] initWithTitle:title];
     
     [vMenu addItemWithTitle:@"Install" action:@selector(phpInstall:) keyEquivalent:@""];
     [vMenu addItemWithTitle:@"UnInstall" action:@selector(phpUninstall:) keyEquivalent:@""];
-    [vMenu addItemWithTitle:@"Command" action:@selector(phpCommand:) keyEquivalent:@""];
+    
+    NSMenuItem *phpCommand = [[NSMenuItem alloc] initWithTitle:@"Command" action:@selector(phpCommand:) keyEquivalent:@""];
+    phpCommand.state = (int)[self findEnv:title];
+    
+    [vMenu addItem:phpCommand];
     if ( [self checkWebPHP:title] ){
         [vMenu addItemWithTitle:@"Reload" action:@selector(phpReload:) keyEquivalent:@""];
     }
@@ -1521,15 +1535,17 @@
     NSMenuItem *cMenu = (NSMenuItem*)sender;
     NSMenuItem *pMenu=[cMenu parentItem];
     
-    
+    [[NSUserDefaults standardUserDefaults] setObject:pMenu.title forKey:@"MD_PHP_VER"];
     if (cMenu.state){
-        cMenu.state = 0;
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"MD_PHP_VER_LOAD"];
+             
         [NSCommon delayedRun:0 callback:^{
             NSString *unloadEnv = [NSString stringWithFormat:@"%@bin/reinstall/unload_env.sh %@ > %@bin/logs/reinstall/unload_env.log", rootDir, pMenu.title,rootDir];
             [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", unloadEnv, nil]] waitUntilExit];
         }];
     } else{
-        cMenu.state = 1;
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"MD_PHP_VER_LOAD"];
+        
         [NSCommon delayedRun:0 callback:^{
             
             NSString *loadEnv = [NSString stringWithFormat:@"%@bin/reinstall/load_env.sh %@ > %@bin/logs/reinstall/load_env.log", rootDir, pMenu.title, rootDir];
@@ -1539,6 +1555,8 @@
             [[NSWorkspace sharedWorkspace] launchApplication:@"Terminal"];
         }];
     }
+    
+    [self phpRefresh:sender];
 }
 
 -(void)phpReload:(id)sender
