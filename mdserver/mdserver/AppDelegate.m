@@ -380,13 +380,16 @@
         NSString *nginx = [NSString stringWithFormat:@"%@bin/stopNginx.sh", rootDir];
         [self AuthorizeExeCmd:nginx];
         
+        NSString *php_version = [NSCommon getCommonConfig:PHP_C_VER_KEY];
+        NSString *php = [NSString stringWithFormat:@"%@bin/php/status.sh %@ stop", rootDir, php_version];
+        [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", php, nil]] waitUntilExit];
+        
         NSString *removehost = [NSString stringWithFormat:@"%@Contents/Resources/removehost", appDir];
         [self AuthorizeExeCmd:removehost];
         
         [self stopConfReplaceString];
         [self userCenter:@"停止成功"];
     }
-    
 }
 
 #pragma mark - 重置服务 -
