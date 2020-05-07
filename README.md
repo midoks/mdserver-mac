@@ -25,7 +25,7 @@ php[55,56,71,72,73,74]
 ### 下载链接
 
 - 3.3.1.0
-	* 百度云-密码:ntvj:[3.3.1.0](链接:https://pan.baidu.com/s/1OIjnAH1hMM4ImWRP7eTJ-g)
+	* 百度云-密码:ntvj:[3.3.1.0](https://pan.baidu.com/s/1OIjnAH1hMM4ImWRP7eTJ-g)
 
 ### 相关链接 - 2.x
 - 旧版安装地址:[2.x](/README_2x.md)
