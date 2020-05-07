@@ -1,10 +1,12 @@
-## mdserver(mac版) 3.3.0.0
+## mdserver(mac版) 3.3.1.0
 
 Mac上高度可定制的PHP开发环境,集成必要的扩展,方便使用。
 (pkg安装方式),安装方便,是你Mac上的PHP开发利器。
 
 - 支持80端口。
-- 配置Memcached,Redis,MongoDB通用支持。
+- Redis(6.0.0)。
+- MongoDB(4.2.6)。
+- Memcached(1.6.5)。
 - 配置MySQL5.7。
 - OpenResty支持Lua开发。
 - **php-fpm以sock文件方式管理。多php进程共存,快速切换开发。**
@@ -22,9 +24,8 @@ php[55,56,71,72,73,74]
 
 ### 下载链接
 
-- 3.3.0.0
-	* 百度云:[3.3.0.0](https://pan.baidu.com/s/1sBbp47eFEQc2T92Bpdl9bA)
-	* 微云:[3.3.0.0](https://share.weiyun.com/5oCFVfB)
+- 3.3.1.0
+	* 百度云-密码:ntvj:[3.3.1.0](链接:https://pan.baidu.com/s/1OIjnAH1hMM4ImWRP7eTJ-g)
 
 ### 相关链接 - 2.x
 - 旧版安装地址:[2.x](/README_2x.md)
@@ -55,16 +56,15 @@ sudo sh /Applications/mdserver/install.sh
 
 ### 版本版本
 
-- 3.3.0.0
+- 3.3.1.0
 
 ```
-* 优化CMD，可以设置二级菜单。
-* mysql有5.6更新至5.7。
 * 对reinstall部分脚本优化。
 * 菜单[CMD]->php-ext-init->install脚本优化。
-* 减少维护PHP54,70。
-* 优化hostname,可以设置localhost名称(但是localhost:8888为保留设置,不可重复!)。
-* 加入PHP74正式版。
+* 72,73,74更新到最新。
+* HOSTS配置保存公共位置,下次跟新不回覆盖。
+* 更新redis,memcached,mongodb更新最新的稳定版。
+* reinstall目录安装脚本更新。
 ```
 
 ### 文件说明
