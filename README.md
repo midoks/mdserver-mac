@@ -26,7 +26,7 @@ php[55,56,71,72,73,74]
 
 - 3.3.1.0
     * [官方下载](https://github.com/midoks/mdserver-mac/releases/download/3.3.1.0/mdserver3.3.1.0.mpkg.zip)
-	* 百度云-密码:ntvj:[3.3.1.0](https://pan.baidu.com/s/1OIjnAH1hMM4ImWRP7eTJ-g)
+	* [百度云-密码:ntvj](https://pan.baidu.com/s/1OIjnAH1hMM4ImWRP7eTJ-g)
 	* [天翼云盘-下载速度快](https://cloud.189.cn/t/QzEJ3mAfQ3ui)
 
 ### 相关链接 - 2.x
