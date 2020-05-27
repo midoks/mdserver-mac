@@ -340,10 +340,9 @@
 			};
 			buildConfigurationList = 82F8CFED1A70E5FC00B9FD25 /* Build configuration list for PBXProject "mdserver" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				English,
 				en,
 				Base,
 			);
