@@ -1,14 +1,15 @@
-## mdserver(mac版) 3.3.1.1
+## mdserver(mac版) 3.3.2.0
 
 Mac上高度可定制的PHP开发环境,集成必要的扩展,方便使用。
 (pkg安装方式),安装方便,是你Mac上的PHP开发利器。
 
+- **PHP8 Alpha**
 - 支持80端口。
+- OpenResty(1.15.8.3)支持Lua开发。
 - Redis(6.0.0)。
 - MongoDB(4.2.6)。
 - Memcached(1.6.5)。
 - 配置MySQL5.7。
-- OpenResty支持Lua开发。
 - **php-fpm以sock文件方式管理。多php进程共存,快速切换开发。**
 - **高效控制PHP扩展安装、启动、停止、卸载。**
 - **完美再现安装过程，利于学习**
@@ -17,16 +18,18 @@ Mac上高度可定制的PHP开发环境,集成必要的扩展,方便使用。
 - 支持PHP版本菜单[Command]下直接进入命令行,并自动设置当前PHP变量。
 - 支持CMD菜单下应用的安装、启动、停止、卸载。
 
+
+
 ```
-php[55,56,71,72,73,74]
-[redis,memecached,mongo,yaf,swoole,xhprof,...]
+php[55,56,71,72,73,74,80]
+[redis,memecached,mongo,memcached,yaf,swoole,xhprof,...]
 ```
 
 ### 下载链接
 
-- 3.3.1.1
-    * [官方下载](https://github.com/midoks/mdserver-mac/releases/download/3.3.1.1/mdserver3.3.1.1.mpkg.zip)
-	* [天翼云盘-下载速度快](https://cloud.189.cn/t/ArqENfZNvIzm)
+- 3.3.2.0
+    * [官方下载](https://github.com/midoks/mdserver-mac/releases/download/3.3.2.0/mdserver3.3.2.0.mpkg.zip)
+	* [天翼云盘-下载速度快](https://cloud.189.cn/t/BNjeMbfYRfmq)
 
 ### 相关链接 - 2.x
 - 旧版安装地址:[2.x](/README_2x.md)
@@ -57,15 +60,13 @@ sudo sh /Applications/mdserver/install.sh
 
 ### 版本版本
 
-- 3.3.1.0
+- 3.3.2.0
 
 ```
 * 对reinstall部分脚本优化。
 * 菜单[CMD]->php-ext-init->install脚本优化。
-* 72,73,74更新到最新。
-* HOSTS配置保存公共位置,下次跟新不回覆盖。
-* 更新redis,memcached,mongodb更新最新的稳定版。
-* reinstall目录安装脚本更新。
+* OpenResty更新到1.15.8.3版本。
+* PHP8Alpha版本添加。
 ```
 
 ### 文件说明
