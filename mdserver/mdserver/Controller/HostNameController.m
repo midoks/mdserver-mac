@@ -212,6 +212,12 @@
     }
 }
 
+-(IBAction)openConfigDir:(id)sender{
+    
+    NSString *dir = [[NSCommon appSupportDirURL] path];    
+    [[NSTask launchedTaskWithLaunchPath:@"/usr/bin/open" arguments:[NSArray arrayWithObjects:dir, nil]] waitUntilExit];
+}
+
 -(void)reloadListData
 {
     _list = [[NSMutableArray alloc] init];
