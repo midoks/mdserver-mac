@@ -1,4 +1,4 @@
-## mdserver(mac版) 3.3.2.0
+## mdserver(mac版) 3.3.2.1
 
 Mac上高度可定制的PHP开发环境,集成必要的扩展,方便使用。
 (pkg安装方式),安装方便,是你Mac上的PHP开发利器。
@@ -27,15 +27,9 @@ php[55,56,71,72,73,74,80]
 
 ### 下载链接
 
-- 3.3.2.0
-    * [官方下载](https://github.com/midoks/mdserver-mac/releases/download/3.3.2.0/mdserver3.3.2.0.mpkg.zip)
-	* [天翼云盘-下载速度快](https://cloud.189.cn/t/BNjeMbfYRfmq)
-
-### 相关链接 - 2.x
-- 旧版安装地址:[2.x](/README_2x.md)
-
-### 使用说明
-[说明](https://github.com/midoks/mdserver-mac/wiki/%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E-3.0)
+- 3.3.2.1
+    * [官方下载](https://github.com/midoks/mdserver-mac/releases/download/3.3.2.1/mdserver3.3.2.1.mpkg.zip)
+    * [天翼云盘-下载速度快](https://cloud.189.cn/t/qANzUbEfM3ma)
 
 
 ### 相关项目
@@ -60,13 +54,14 @@ sudo sh /Applications/mdserver/install.sh
 
 ### 版本版本
 
-- 3.3.2.0
+- 3.3.2.1
 
 ```
 * 对reinstall部分脚本优化。
 * 菜单[CMD]->php-ext-init->install脚本优化。
 * OpenResty更新到1.15.8.3版本。
 * PHP8Alpha版本添加。
+* 优化HOSTS功能,可以配置文件。
 ```
 
 ### 文件说明
@@ -86,10 +81,6 @@ sudo sh /Applications/mdserver/install.sh
 ### Stargazers over time
 
 [![Stargazers over time](https://starchart.cc/midoks/mdserver-mac.svg)](https://starchart.cc/midoks/mdserver-mac)
-
-### 访问统计，😊
-[![Visit tracker](http://www.clustrmaps.com/map_v2.png?d=WGjERIEklP1qbkyucGHB7tWPSBrRHY04mK1xZCft-rA&cl=ffffff)](https://clustrmaps.com/site/1ap6t)
-
 
 ### License
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fmidoks%2Fmdserver-mac.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fmidoks%2Fmdserver-mac?ref=badge_large)
