@@ -104,7 +104,7 @@
 -(IBAction)setSpecialPort:(id)sender
 {
     NSString *httpPort = @"8888";
-    NSString *mysqlPort = @"3307";
+    NSString *mysqlPort = @"3306";
     [self setHttpPort:httpPort mysqlPort:mysqlPort];
 }
 
