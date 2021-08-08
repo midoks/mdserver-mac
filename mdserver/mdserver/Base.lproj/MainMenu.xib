@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="16097" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="17701" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="16097"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17701"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -114,6 +114,10 @@
                 <menuItem title="PHP" id="U5T-o3-HhE" userLabel="Php">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <menu key="submenu" title="PHP" id="Qbf-RL-G3C"/>
+                </menuItem>
+                <menuItem title="MYSQL" id="Obj-oA-QwR">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <menu key="submenu" title="MYSQL" id="yR3-pB-Yj4"/>
                 </menuItem>
                 <menuItem title="Help" id="wpr-3q-Mcd">
                     <modifierMask key="keyEquivalentModifierMask"/>
@@ -460,11 +464,11 @@
                                             <rect key="frame" x="7" y="35" width="240" height="297"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="0RZ-5f-Xjz">
-                                                <rect key="frame" x="1" y="0.0" width="238" height="281"/>
-                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                <rect key="frame" x="1" y="0.0" width="238" height="296"/>
+                                                <autoresizingMask key="autoresizingMask"/>
                                                 <subviews>
                                                     <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="20" rowSizeStyle="automatic" headerView="B9H-aO-DLa" viewBased="YES" id="tNs-DA-7w6">
-                                                        <rect key="frame" x="0.0" y="0.0" width="244" height="264"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="244" height="279"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         <size key="intercellSpacing" width="3" height="2"/>
                                                         <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -576,7 +580,7 @@
                                                 <nil key="backgroundColor"/>
                                             </clipView>
                                             <scroller key="horizontalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="A7A-Su-Dgr">
-                                                <rect key="frame" x="1" y="281" width="238" height="15"/>
+                                                <rect key="frame" x="1" y="280" width="238" height="16"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                             </scroller>
                                             <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="33F-Hx-qfL">
@@ -680,7 +684,7 @@
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <popUpButtonCell key="cell" type="push" title="Item 2" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="border" inset="2" preferredEdge="maxY" selectedItem="fJ0-Fm-7Kb" id="If9-kF-DLb">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                <font key="font" metaFont="system"/>
+                                                <font key="font" metaFont="menu"/>
                                                 <menu key="menu" id="c3H-rX-HVx">
                                                     <items>
                                                         <menuItem title="Item 2" state="on" id="fJ0-Fm-7Kb"/>
@@ -924,7 +928,7 @@
                         <rect key="frame" x="378" y="439" width="32" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="start" id="Xl8-Cv-kMZ">
-                            <font key="font" metaFont="label" size="12"/>
+                            <font key="font" metaFont="cellTitle"/>
                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
@@ -944,7 +948,7 @@
                         <rect key="frame" x="421" y="439" width="42" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="restart" id="AWd-XG-kCQ">
-                            <font key="font" metaFont="label" size="12"/>
+                            <font key="font" metaFont="cellTitle"/>
                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
@@ -1151,6 +1155,9 @@
             </connections>
         </customObject>
         <menuItem title="开发" id="IeQ-bd-r4M">
+            <modifierMask key="keyEquivalentModifierMask"/>
+        </menuItem>
+        <menuItem title="Item" id="JWe-EY-tHU">
             <modifierMask key="keyEquivalentModifierMask"/>
         </menuItem>
     </objects>
