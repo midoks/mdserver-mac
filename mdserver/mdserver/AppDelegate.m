@@ -1786,7 +1786,7 @@
     
     [NSCommon delayedRun:1 callback:^{
         [self mysqlTrigger:myVer];
-        [NSCommon delayedRun:0.5 callback:^{
+        [NSCommon delayedRun:1 callback:^{
             [self mysqlRefresh:sender];
         }];
     }];
@@ -1844,6 +1844,7 @@
         [self mysqlCmdStart:version];
         [self userCenter:[NSString stringWithFormat:@"启动MYSQL%@成功!", version]];
     }
+
 }
 
 #pragma 启动当前MYSQL
