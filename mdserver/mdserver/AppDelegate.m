@@ -12,6 +12,7 @@
 #include <mach-o/dyld.h>
 
 #define PHP_C_VER_KEY @"php_version"
+#define MYSQL_C_VER_KEY @"mysql_version"
 
 @interface AppDelegate () <NSUserNotificationCenterDelegate>
 
@@ -605,15 +606,19 @@
 
 -(IBAction)MySQLStart:(id)sender
 {
-    NSString *rootDir   = [NSCommon getRootDir];
-    if (_mMySQLButton.state == 1) {
-        NSString *mysql = [NSString stringWithFormat:@"%@bin/start.sh mysql", rootDir];
-        [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", mysql, nil]] waitUntilExit];
-        sleep(3);
-    } else {
-        NSString *mysql = [NSString stringWithFormat:@"%@bin/stop.sh mysql", rootDir];
-        [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", mysql, nil]] waitUntilExit];
-    }
+//    NSString *rootDir   = [NSCommon getRootDir];
+//    if (_mMySQLButton.state == 1) {
+//        NSString *mysql = [NSString stringWithFormat:@"%@bin/mysql/mysql80/start.sh", rootDir];
+//        [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", mysql, nil]] waitUntilExit];
+//    } else {
+//        NSString *mysql = [NSString stringWithFormat:@"%@bin/mysql/mysql80/stop.sh", rootDir];
+//        [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", mysql, nil]] waitUntilExit];
+//    }
+    
+    NSString *myVer = [NSCommon getCommonConfig:MYSQL_C_VER_KEY];
+    [self mysqlTrigger:myVer];
+    sleep(3);
+
     
     [self checkMySQLStatus];
 }
@@ -673,18 +678,16 @@
 #pragma mark 检查MySQL是否启动
 -(BOOL)checkMySQLStatus
 {
-    NSString *path = [NSCommon getRootDir];
-    NSFileManager *fm = [NSFileManager defaultManager];
-    path = [NSString stringWithFormat:@"%@bin/mysql/data/mysql.pid", path];
-    BOOL isStart =  [fm fileExistsAtPath:path];
-    
-    if(isStart){
+    NSString *myVer = [NSCommon getCommonConfig:MYSQL_C_VER_KEY];
+    BOOL isStart =[self checkMysqlStatus:myVer];
+    if (isStart){
         _mMySQLTool.enabled = TRUE;
         _mMySQLButton.state = 1;
     } else {
         _mMySQLTool.enabled = FALSE;
         _mMySQLButton.state = 0;
     }
+ 
     return isStart;
 }
 
@@ -1697,6 +1700,240 @@
         }];
     }];
 }
+#pragma mark - 初始化PHP版本列表-END -
+
+#pragma mark - 初始化MYSQL版本列表 -
+-(void)initMySQLList
+{
+    [mysqlVer.submenu removeAllItems];
+    
+    NSFileManager *fm = [NSFileManager  defaultManager];
+    NSString *rootDir           = [NSCommon getRootDir];
+    
+    NSString *mysqlDir = [NSString stringWithFormat:@"%@bin/reinstall/cmd/mysql", rootDir];
+    
+    NSArray *mysqlVlist = [fm contentsOfDirectoryAtPath:mysqlDir error:nil];
+    NSInteger i = 1;
+    
+    NSArray *letter = @[@"0",@"a",@"b",@"c",@"d",@"e",@"f",@"g",@"h",@"j",@"k",@"m",@"q",@"x",@"y",@"z"];
+    
+    
+    NSMutableArray *_mysqlVlist = [[NSMutableArray alloc] init];
+    for (NSString *f in mysqlVlist) {
+        
+        NSString *path =[NSString stringWithFormat:@"%@/%@", mysqlDir,f];
+        BOOL isDir;
+        [fm fileExistsAtPath:path isDirectory:&isDir];
+        if (!isDir){
+            continue;
+        }
+        
+        if([f hasPrefix:@"mysql"]){
+            NSString *v = [f stringByReplacingOccurrencesOfString:@"mysql" withString:@""];
+            [_mysqlVlist addObject:v];
+        }
+    }
+
+    [_mysqlVlist sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+        if ([obj1 intValue]>[obj2 intValue]){
+            return YES;
+        }
+        return NO;
+    }];
+    
+    for (NSString *f in _mysqlVlist) {
+        NSMenu *vMenu = [self getMysqlVerMenu:f];
+        
+        NSMenuItem *vItem = [[NSMenuItem alloc] initWithTitle:f
+                                                       action:@selector(mysqlStatusSet:)
+                                                keyEquivalent:[NSString stringWithFormat:@"%@", [letter objectAtIndex:i]]];
+        if ( [self checkMysqlStatus:f] ){
+            vItem.state = 1;
+        }
+        [mysqlVer.submenu addItem:vItem];
+        [mysqlVer.submenu setSubmenu:vMenu forItem:vItem];
+        i++;
+    }
+    
+    [mysqlVer.submenu addItem:[NSMenuItem separatorItem]];
+    NSMenuItem *refresh = [[NSMenuItem alloc] initWithTitle:@"refresh"
+                                                     action:@selector(mysqlRefresh:)
+                                              keyEquivalent:@"!"];
+    refresh.state = 1;
+    [mysqlVer.submenu addItem:refresh];
+    
+}
+
+-(void)mysqlRefresh:(id)sender
+{
+    [self initMySQLList];
+}
+
+-(void)mysqlStatusSet:(id)sender {
+    
+    NSString *rootDir = [NSCommon getRootDir];
+    NSFileManager *fm = [NSFileManager  defaultManager];
+    NSMenuItem *cItem = (NSMenuItem *)sender;
+    
+    NSString *myVer = [cItem title];
+    NSString *phpDir = [NSString stringWithFormat:@"%@bin/mysql/mysql%@", rootDir, myVer];
+    
+    if (![fm fileExistsAtPath:phpDir]){
+        NSString *notice = [NSString stringWithFormat:@"MYSQL-%@没有安装,请先安装再使用!!", myVer];
+        [self userCenter:notice];
+        return;
+    }
+    
+    [NSCommon delayedRun:1 callback:^{
+        [self mysqlTrigger:myVer];
+        [NSCommon delayedRun:0.5 callback:^{
+            [self mysqlRefresh:sender];
+        }];
+    }];
+}
+
+-(NSMenu*)getMysqlVerMenu:(NSString *)title
+{
+    NSMenu *vMenu = [[NSMenu alloc] initWithTitle:title];
+    
+    [vMenu addItemWithTitle:@"Install" action:@selector(mysqlInstall:) keyEquivalent:@""];
+    [vMenu addItemWithTitle:@"UnInstall" action:@selector(mysqlUninstall:) keyEquivalent:@""];
+
+    if ( [self checkMysqlStatus:title] ){
+        [vMenu addItemWithTitle:@"Reload" action:@selector(mysqlReload:) keyEquivalent:@""];
+    }
+    [vMenu addItemWithTitle:@"Dir" action:@selector(mysqlDir:) keyEquivalent:@""];
+    return vMenu;
+}
+
+
+-(void)mysqlDir:(id)sender
+{
+    NSString *rootDir           = [NSCommon getRootDir];
+    NSFileManager *fm = [NSFileManager  defaultManager];
+    
+    NSMenuItem *cMenu = (NSMenuItem*)sender;
+    NSMenuItem *pMenu=[cMenu parentItem];
+    
+    [NSCommon delayedRun:0 callback:^{
+        NSString *str = [NSString stringWithFormat:@"%@bin/mysql/mysql%@",rootDir,pMenu.title];
+        BOOL isDir = YES;
+        if ([fm fileExistsAtPath:str isDirectory:&isDir]){
+            [[NSTask launchedTaskWithLaunchPath:@"/usr/bin/open" arguments:[NSArray arrayWithObjects:str, nil]] waitUntilExit];
+        } else {
+            [self userCenter:[NSString stringWithFormat:@"MYSQL%@目录不存在!",pMenu.title]];
+        }
+    }];
+}
+
+-(BOOL)checkMysqlStatus:(NSString *)ver
+{
+    NSString *rootDir           = [NSCommon getRootDir];
+    NSFileManager *fm = [NSFileManager defaultManager];
+    
+    NSString *path = [NSString stringWithFormat:@"%@bin/mysql/mysql%@/data/mysql.pid", rootDir,ver];
+    return [fm fileExistsAtPath:path];
+}
+
+-(void)mysqlTrigger:(NSString *)version
+{
+    if ( [self checkMysqlStatus:version] ){
+        [self mysqlCmdStop:version];
+        [self userCenter:[NSString stringWithFormat:@"停止MYSQL%@成功!", version]];
+    } else {
+        [self mysqlCmdStart:version];
+        [self userCenter:[NSString stringWithFormat:@"启动MYSQL%@成功!", version]];
+    }
+}
+
+#pragma 启动当前MYSQL
+-(void)mysqlCmdStart:(NSString *)version
+{
+    NSString *rootDir = [NSCommon getRootDir];
+    NSString *cmd = [NSString stringWithFormat:@"%@bin/reinstall/cmd/mysql/mysql%@/start.sh", rootDir, version];
+    [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", cmd, nil]] waitUntilExit];
+}
+
+#pragma 停止当前MYSQL
+-(void)mysqlCmdStop:(NSString *)version
+{
+    NSString *rootDir = [NSCommon getRootDir];
+    NSString *cmd = [NSString stringWithFormat:@"%@bin/reinstall/cmd/mysql/mysql%@/stop.sh", rootDir, version];
+    [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", cmd, nil]] waitUntilExit];
+}
+
+-(void)mysqlReload:(id)sender
+{
+    NSMenuItem *cMenu = (NSMenuItem*)sender;
+    NSMenuItem *pMenu=[cMenu parentItem];
+    NSString *myVer = [pMenu title];
+    
+    
+    NSString *rootDir = [NSCommon getRootDir];
+    NSFileManager *fm = [NSFileManager  defaultManager];
+    NSString *cmd = [NSString stringWithFormat:@"%@bin/reinstall/cmd/mysql/mysql%@/reload.sh", rootDir, myVer];
+    
+    if ([fm fileExistsAtPath:cmd]){
+        [self userCenter:[NSString stringWithFormat:@"执行重启MYSQL%@成功!", myVer]];
+        [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", cmd, nil]] waitUntilExit];
+    } else {
+        [self userCenter:[NSString stringWithFormat:@"重启MYSQL%@文件不存在!", myVer]];
+    }
+}
+
+-(void)mysqlInstall:(id)sender
+{
+    NSString *rootDir           = [NSCommon getRootDir];
+    NSFileManager *fm = [NSFileManager  defaultManager];
+    
+    NSMenuItem *cMenu = (NSMenuItem*)sender;
+    NSMenuItem *pMenu=[cMenu parentItem];
+    
+    NSString *installSh = [NSString stringWithFormat:@"%@bin/reinstall/cmd/mysql/mysql%@/install.sh", rootDir, pMenu.title];
+    NSString *logDir = [NSString stringWithFormat:@"%@bin/logs/reinstall", rootDir];
+    
+    if (![fm fileExistsAtPath:logDir]){
+        [fm createDirectoryAtPath:logDir withIntermediateDirectories:YES attributes:NULL error:NULL];
+    }
+    
+    NSString *log = [NSString stringWithFormat:@"%@/mysql_%@_install.log", logDir, pMenu.title];
+    
+    NSString *cmd = [NSString stringWithFormat:@"%@ 1> %@ 2>&1", installSh,log];
+    [NSCommon delayedRun:2 callback:^{
+        [self openFile:log];
+    }];
+    
+    [NSCommon delayedRun:0 callback:^{
+        [NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", cmd, nil]];
+    }];
+}
+
+-(void)mysqlUninstall:(id)sender
+{
+    NSString *rootDir           = [NSCommon getRootDir];
+    NSFileManager *fm = [NSFileManager  defaultManager];
+    
+    NSMenuItem *cMenu = (NSMenuItem*)sender;
+    NSMenuItem *pMenu=[cMenu parentItem];
+    
+    NSString *installSh = [NSString stringWithFormat:@"%@bin/reinstall/cmd/mysql/mysql%@/uninstall.sh", rootDir, pMenu.title];
+    NSString *logDir = [NSString stringWithFormat:@"%@bin/logs/reinstall", rootDir];
+    
+    NSString *log = [NSString stringWithFormat:@"%@bin/logs/reinstall/mysql_%@_uninstall.log", rootDir, pMenu.title];
+    [fm createDirectoryAtPath:logDir withIntermediateDirectories:YES attributes:NULL error:NULL];
+    
+    NSString *cmd = [NSString stringWithFormat:@"%@ 1>> %@ 2>&1", installSh,log];
+    [NSCommon delayedRun:1 callback:^{
+        [self openFile:log];
+    }];
+    
+    [NSCommon delayedRun:0 callback:^{
+        [NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", cmd, nil]];
+    }];
+}
+
+
+#pragma mark - 初始化MYSQL版本列表-END -
 
 #pragma mark - 程序加载时执行 -
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
@@ -1710,6 +1947,7 @@
     
     [self initCmdList];
     [self initPhpList];
+    [self initMySQLList];
     
     [self checkWebStatus];
     
@@ -1729,6 +1967,7 @@
     //初始化php版本信息
     //    NSString *php_version = [NSCommon getCommonConfig:PHP_C_VER_KEY];
     [NSCommon setCommonConfig:PHP_C_VER_KEY value:@"55"];
+    [NSCommon setCommonConfig:MYSQL_C_VER_KEY value:@"80"];
     
     
     [NSCommon setCommonConfig:@"isOpenModMySQLPwdWindow" value:@"no"];
@@ -1740,6 +1979,7 @@
 {
     [self initCmdList];
     [self initPhpList];
+    [self initMySQLList];
 }
 
 #pragma mark - 点击dock应用图标重新弹出主窗口

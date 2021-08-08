@@ -3,7 +3,7 @@
 //  mdserver
 //
 //  Created by midoks on 15/1/26.
-//  Copyright (c) 2015年 midoks.cachecha.com. All rights reserved.
+//  Copyright (c) 2015年 midoks All rights reserved.
 //
 
 #import "NSCommon.h"
@@ -142,8 +142,8 @@
     str = [self getDirName:str];
     str = [self getDirName:str];
     
-    str = [NSString stringWithFormat:@"%@/mdserver/", str];
-//    str = [NSString stringWithFormat:@"/Applications/mdserver/%@", @""];
+//    str = [NSString stringWithFormat:@"%@/mdserver/", str];
+    str = [NSString stringWithFormat:@"/Applications/mdserver/%@", @""];
     return str;
 }
 

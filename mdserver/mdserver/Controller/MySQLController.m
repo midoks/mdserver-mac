@@ -32,7 +32,7 @@
 //    NSLog(@"MySQLController");
     
     NSString *str           = [NSCommon getRootDir];
-    str = [NSString stringWithFormat:@"file://%@bin/mysql/data", str];
+    str = [NSString stringWithFormat:@"file://%@bin/mysql/mysql80/data", str];
     [_mysqlLogPath setURL:[NSURL URLWithString:str]];
     
     

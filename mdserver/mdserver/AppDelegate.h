@@ -14,6 +14,7 @@
     NSStatusItem        *statusBarItem;
     IBOutlet NSMenu     *statusBarItemMenu;
     IBOutlet NSMenuItem *phpVer;
+    IBOutlet NSMenuItem *mysqlVer;
     IBOutlet NSMenuItem *cmd;
 //    NSMutableArray <NSMenuItem *> *phpList;
 
