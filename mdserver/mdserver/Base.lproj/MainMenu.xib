@@ -24,6 +24,7 @@
                 <outlet property="mMySQLTool" destination="JJV-kP-Bb3" id="PCg-ZL-yHB"/>
                 <outlet property="mRedisButton" destination="RKy-kT-jP0" id="0Ev-QT-zY3"/>
                 <outlet property="mRedisTool" destination="FW6-8l-zZa" id="aKJ-vo-M7k"/>
+                <outlet property="mysqlVer" destination="Obj-oA-QwR" id="3Zj-2e-DtJ"/>
                 <outlet property="pNginxStatus" destination="iCn-DW-pu3" id="Snf-r4-mQN"/>
                 <outlet property="pPHPStatus" destination="eq2-P5-dYn" id="O5h-bl-SRb"/>
                 <outlet property="pProgress" destination="XYp-dI-Cdf" id="XsF-0U-mPu"/>
