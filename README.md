@@ -75,7 +75,7 @@ sudo sh /Applications/mdserver/install.sh
 
 
 ### 最新版本截图
-[![最新版本截图](/Screenshot/Screenshot_3.png)](/Screenshot/Screenshot_3.png)
+[![界面](/Screenshot/Screenshot_3.png)](/Screenshot/Screenshot_3.png)
 [![菜单](/Screenshot/Screenshot_menu.png)](/Screenshot/Screenshot_menu.png)
 
 
