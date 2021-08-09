@@ -33,6 +33,10 @@ MySQL[51,55,56,57,80]
 
 - 4.0.0.0 - [官方下载](https://github.com/midoks/mdserver-mac/releases/download/4.0.0.0/mdserver4.0.0.0.mpkg.zip)
 
+```
+下载版本中，mysql57,mysql80集成。其他皆需要现在执行Install,再执行。
+```
+
 
 ### 相关项目
 
