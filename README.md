@@ -56,11 +56,11 @@ sudo sh /Applications/mdserver/install.sh
 - 4.0.0.0
 
 ```
-* 对reinstall部分脚本优化。
-* 菜单[CMD]->php-ext-init->install脚本优化。
-* OpenResty更新到1.15.8.3版本。
-* PHP8Alpha版本添加。
-* 优化HOSTS功能,可以配置文件。
+* mysql51-80版本集成。
+* mysql{57,80}版本打包集成,其他需要手动Install。
+* redis,memcached,mongodb版本更新。
+* PHP8正式版。
+* PHP8扩展更新。
 ```
 
 ### 文件说明
