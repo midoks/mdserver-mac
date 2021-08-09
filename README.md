@@ -31,8 +31,7 @@ MySQL[51,55,56,57,80]
 
 ### 下载链接
 
-- 4.0.0.0
-    * [官方下载](https://github.com/midoks/mdserver-mac/releases/download/4.0.0.0/mdserver4.0.0.0.mpkg.zip)
+- 4.0.0.0 - [官方下载](https://github.com/midoks/mdserver-mac/releases/download/4.0.0.0/mdserver4.0.0.0.mpkg.zip)
 
 
 ### 相关项目
