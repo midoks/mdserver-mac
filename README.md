@@ -3,6 +3,7 @@
 Mac上高度可定制的PHP开发环境,集成必要的扩展,方便使用。
 (pkg安装方式),安装方便,是你Mac上的PHP开发利器。
 
+
 - 支持80端口。
 - OpenResty(1.15.8.3)支持Lua开发。
 - Redis(6.2.5),MongoDB(5.0.0),Memcached(1.6.10)。
