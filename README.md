@@ -37,6 +37,12 @@ MySQL[51,55,56,57,80]
 
 ```
 下载版本中，mysql57,mysql80集成。其他皆需要现在执行Install,再执行。
+为了全版本兼容，可同时开始开启。
+MySQL51 - port:3351
+MySQL55 - port:3355
+MySQL56 - port:3356
+MySQL57 - port:3357
+MySQL80 - port:3306
 ```
 
 
