@@ -8,7 +8,7 @@
 
 #import "NSCommon.h"
 
-@interface NSCommon()
+@interface NSCommon()<NSUserNotificationCenterDelegate>
 
 @end
 
@@ -142,8 +142,8 @@
     str = [self getDirName:str];
     str = [self getDirName:str];
     
-    str = [NSString stringWithFormat:@"%@/mdserver/", str];
-//    str = [NSString stringWithFormat:@"/Applications/mdserver/%@", @""];
+//    str = [NSString stringWithFormat:@"%@/mdserver/", str];
+    str = [NSString stringWithFormat:@"/Applications/mdserver/%@", @""];
     return str;
 }
 
@@ -346,5 +346,38 @@
         [content writeToURL:writeURL atomically:YES encoding:NSUTF8StringEncoding error:nil];
     }
     return  [writeURL path];
+}
+
++(NSArray *)getAllPhpVer{
+    NSMutableArray *tmp =[[NSMutableArray alloc] init];
+    
+    NSMutableDictionary *listContent = [[NSMutableDictionary alloc] initWithContentsOfFile:[self getServerPlist]];
+    for (id key in listContent){
+        
+        id obj = [listContent objectForKey:key];
+        NSString *php     = [obj objectForKey:@"php"];
+        [tmp addObject:php];
+    }
+    NSArray *data = [[NSSet setWithArray:tmp] allObjects];
+    return  data;
+}
+
+
++(void)userCenter:(NSString *)content
+{
+    [[NSUserNotificationCenter defaultUserNotificationCenter] removeAllDeliveredNotifications];
+    for (NSUserNotification *notify in [[NSUserNotificationCenter defaultUserNotificationCenter] scheduledNotifications])
+    {
+        [[NSUserNotificationCenter defaultUserNotificationCenter] removeScheduledNotification:notify];
+    }
+    
+    
+    NSUserNotification *notification = [[NSUserNotification alloc] init];
+    notification.title = @"通知中心";
+    notification.informativeText = content;
+    
+    //设置通知的代理
+    [[NSUserNotificationCenter defaultUserNotificationCenter] setDelegate:self];
+    [[NSUserNotificationCenter defaultUserNotificationCenter] scheduleNotification:notification];
 }
 @end

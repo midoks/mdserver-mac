@@ -12,6 +12,7 @@
 #include <mach-o/dyld.h>
 
 #define PHP_C_VER_KEY @"php_version"
+#define PHP_S_VER_KEY @"php_S_version"
 #define MYSQL_C_VER_KEY @"mysql_version"
 
 @interface AppDelegate () <NSUserNotificationCenterDelegate>
@@ -365,6 +366,17 @@
         NSString *php = [NSString stringWithFormat:@"%@bin/php/status.sh %@ start", rootDir, php_version];
         [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", php, nil]] waitUntilExit];
         
+        [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", [NSString stringWithFormat:@"%@bin/php/status.sh %@ start", rootDir, [NSCommon getCommonConfig:PHP_S_VER_KEY]], nil]] waitUntilExit];
+        
+        
+        NSArray* list = [NSCommon getAllPhpVer];
+        for (NSString* php_ver in list) {
+            if ([php_ver isEqualTo:[NSCommon getCommonConfig:PHP_C_VER_KEY]]
+                || [php_ver isEqualTo:[NSCommon getCommonConfig:PHP_S_VER_KEY]] ){
+            }else{
+                [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", [NSString stringWithFormat:@"%@bin/php/status.sh %@ start", rootDir, php_ver], nil]] waitUntilExit];
+            }
+        }
         [self userCenter:@"启动成功"];
     }
 }
@@ -384,6 +396,8 @@
         NSString *php_version = [NSCommon getCommonConfig:PHP_C_VER_KEY];
         NSString *php = [NSString stringWithFormat:@"%@bin/php/status.sh %@ stop", rootDir, php_version];
         [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", php, nil]] waitUntilExit];
+        
+        [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", [NSString stringWithFormat:@"%@bin/php/status.sh %@ stop", rootDir, [NSCommon getCommonConfig:PHP_S_VER_KEY]], nil]] waitUntilExit];
         
         NSString *removehost = [NSString stringWithFormat:@"%@Contents/Resources/removehost", appDir];
         [self AuthorizeExeCmd:removehost];
@@ -548,7 +562,15 @@
 {
     NSString *title = [pStartTitle stringValue];
     if ([title isEqual:@"stop"]) {
-        [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://localhost:8888/phpMyAdmin/"]];
+        
+        NSString *phpVer = [NSCommon getCommonConfig:@"selectPhpVer"];
+        
+        if ([phpVer intValue]>70){
+            [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://localhost:8888/phpMyAdmin7/"]];
+        }  else {
+            [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://localhost:8888/phpMyAdmin/"]];
+        }
+        
     }else{
         [self alert:@"web服务未启动"];
     }
@@ -620,7 +642,7 @@
     sleep(3);
 
     
-    [self checkMySQLStatus];
+    [self checkMySQLOnStatus];
 }
 
 -(BOOL)checkRedisStatus
@@ -676,10 +698,11 @@
 }
 
 #pragma mark 检查MySQL是否启动
--(BOOL)checkMySQLStatus
+-(BOOL)checkMySQLOnStatus
 {
     NSString *myVer = [NSCommon getCommonConfig:MYSQL_C_VER_KEY];
     BOOL isStart =[self checkMysqlStatus:myVer];
+
     if (isStart){
         _mMySQLTool.enabled = TRUE;
         _mMySQLButton.state = 1;
@@ -1832,6 +1855,7 @@
     NSFileManager *fm = [NSFileManager defaultManager];
     
     NSString *path = [NSString stringWithFormat:@"%@bin/mysql/mysql%@/data/mysql.pid", rootDir,ver];
+//    NSLog(@"mysql:%@",path);
     return [fm fileExistsAtPath:path];
 }
 
@@ -1936,8 +1960,22 @@
 
 #pragma mark - 初始化MYSQL版本列表-END -
 
+-(void)selfphpMsgStart:(NSNotification *)sender {
+    NSDictionary *dic = sender.userInfo;
+    NSString *ver =[dic objectForKey:@"ver"];
+    [self userCenter:[NSString stringWithFormat:@"PHP%@检测未启动，已执行启动!",ver]];
+}
+
 #pragma mark - 程序加载时执行 -
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
+    
+    //初始化php版本信息
+    //    NSString *php_version = [NSCommon getCommonConfig:PHP_C_VER_KEY];
+    [NSCommon setCommonConfig:PHP_C_VER_KEY value:@"55"];
+    [NSCommon setCommonConfig:PHP_S_VER_KEY value:@"71"];
+    [NSCommon setCommonConfig:MYSQL_C_VER_KEY value:@"80"];
+    [NSCommon setCommonConfig:@"isOpenModMySQLPwdWindow" value:@"no"];
+    
     NSString *rootDir = [NSCommon getRootDir];
     
     NSFileManager *fm = [NSFileManager  defaultManager];
@@ -1955,7 +1993,7 @@
     [self checkRedisStatus];
     [self checkMongoStatus];
     [self checkMemcachedStatus];
-    [self checkMySQLStatus];
+    [self checkMySQLOnStatus];
     
     [self setBarStatus];
     
@@ -1965,15 +2003,9 @@
         [self startWebService];
     }
     
-    //初始化php版本信息
-    //    NSString *php_version = [NSCommon getCommonConfig:PHP_C_VER_KEY];
-    [NSCommon setCommonConfig:PHP_C_VER_KEY value:@"55"];
-    [NSCommon setCommonConfig:MYSQL_C_VER_KEY value:@"80"];
-    
-    
-    [NSCommon setCommonConfig:@"isOpenModMySQLPwdWindow" value:@"no"];
-    
+    //消息
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(selfReStart) name: @"reloadSVC" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(selfphpMsgStart:) name: @"startPhpVerInChange" object:nil];
 }
 
 -(void) applicationWillBecomeActive:(NSNotification *)notification
@@ -1981,6 +2013,14 @@
     [self initCmdList];
     [self initPhpList];
     [self initMySQLList];
+    
+    [self checkWebStatus];
+    
+    [self checkRedisStatus];
+    [self checkMongoStatus];
+    [self checkMemcachedStatus];
+    [self checkMySQLOnStatus];
+    
 }
 
 #pragma mark - 点击dock应用图标重新弹出主窗口

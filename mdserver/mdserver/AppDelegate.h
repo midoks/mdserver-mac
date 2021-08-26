@@ -55,5 +55,6 @@
 - (IBAction)goMySQL:(id)sender;
 //- (IBAction)goNeo4j:(id)sender;
 
+-(void)userCenter:(NSString *)content;
 @end
 

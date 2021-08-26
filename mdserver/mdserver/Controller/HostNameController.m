@@ -148,6 +148,8 @@
             [_serverPath setURL:[NSURL URLWithString:urlstr]];
             _emptyPath.hidden = YES;
         }
+        
+        [NSCommon setCommonConfig:@"selectPhpVer" value:[serverinfo objectForKey:@"php"]];
     }
 }
 
@@ -328,6 +330,21 @@
         if (1001 == r) {
             return;
         }
+
+        
+        NSString *changeAfterPhpVer =[NSCommon getCommonConfig:@"selectPhpVer"];
+        
+        NSFileManager *fm = [NSFileManager defaultManager];
+        NSString *path = [NSString stringWithFormat:@"/tmp/php%@-cgi.sock", changeAfterPhpVer];
+        if(![fm fileExistsAtPath:path]){
+            NSString *rootDir   = [NSCommon getRootDir];
+            [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", [NSString stringWithFormat:@"%@bin/php/status.sh %@ start", rootDir, changeAfterPhpVer], nil]] waitUntilExit];
+            
+            NSDictionary *dict =[[NSDictionary alloc] initWithObjectsAndKeys:changeAfterPhpVer,@"ver", nil];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"startPhpVerInChange" object:nil userInfo:dict];
+            
+        }
+        
         [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadSVC" object:nil];
     }
 }

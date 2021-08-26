@@ -61,5 +61,9 @@
 #pragma mark - 获取App支持的目录,不存在就自动创建
 +(NSURL *)appSupportDirURL;
 +(NSString*)getServerPlist;
++(NSMutableArray *)getAllPhpVer;
+
+
++(void)userCenter:(NSString *)content;
 
 @end
