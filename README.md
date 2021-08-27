@@ -76,8 +76,8 @@ sudo sh /Applications/mdserver/install.sh
 - 4.0.0.6
 
 ```
-* mysql50-80版本集成。
-* mysql80版本打包集成,其他需要手动Install。
+* mysql50-80版本集成，mysql80版本打包集成,其他需要手动Install。
+* 解决mysql{57,80}初始化问题。
 * redis,memcached,mongodb版本更新。
 * 加入PHP81测试版本。
 * 打开界面细节优化。
