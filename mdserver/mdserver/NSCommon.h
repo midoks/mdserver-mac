@@ -63,7 +63,4 @@
 +(NSString*)getServerPlist;
 +(NSMutableArray *)getAllPhpVer;
 
-
-+(void)userCenter:(NSString *)content;
-
 @end

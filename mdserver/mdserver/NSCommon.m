@@ -362,22 +362,4 @@
     return  data;
 }
 
-
-+(void)userCenter:(NSString *)content
-{
-    [[NSUserNotificationCenter defaultUserNotificationCenter] removeAllDeliveredNotifications];
-    for (NSUserNotification *notify in [[NSUserNotificationCenter defaultUserNotificationCenter] scheduledNotifications])
-    {
-        [[NSUserNotificationCenter defaultUserNotificationCenter] removeScheduledNotification:notify];
-    }
-    
-    
-    NSUserNotification *notification = [[NSUserNotification alloc] init];
-    notification.title = @"通知中心";
-    notification.informativeText = content;
-    
-    //设置通知的代理
-    [[NSUserNotificationCenter defaultUserNotificationCenter] setDelegate:self];
-    [[NSUserNotificationCenter defaultUserNotificationCenter] scheduleNotification:notification];
-}
 @end

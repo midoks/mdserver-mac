@@ -1868,6 +1868,17 @@
 
 -(void)mysqlTrigger:(NSString *)version
 {
+    NSFileManager *fm = [NSFileManager defaultManager];
+    
+    NSString *rootDir           = [NSCommon getRootDir];
+    NSString *phpDir = [NSString stringWithFormat:@"%@bin/mysql/mysql%@", rootDir, version];
+    
+    if (![fm fileExistsAtPath:phpDir]){
+        NSString *notice = [NSString stringWithFormat:@"MYSQL-%@没有安装,请先安装再使用!!", version];
+        [self userCenter:notice];
+        return;
+    }
+    
     if ( [self checkMysqlStatus:version] ){
         [self mysqlCmdStop:version];
         [self userCenter:[NSString stringWithFormat:@"停止MYSQL%@成功!", version]];
