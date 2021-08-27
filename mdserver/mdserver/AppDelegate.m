@@ -348,36 +348,39 @@
     
     if ([title isEqual:@"start"]) {
         
-        NSString *isflog = [NSCommon getCommonConfig:@"isStartAfterFlushLog"];
-        if ([isflog isEqualTo:@"1"]) {
-            [self startFlushLogContent];
-        }
-        
-        NSString *addhost = [NSString stringWithFormat:@"%@Contents/Resources/addhost", appDir];
-        [self AuthorizeExeCmd:addhost];
-        
-        [self startConfReplaceString];
-        sleep(0.5);
-        
-        NSString *nginx = [NSString stringWithFormat:@"%@bin/startNginx.sh", rootDir];
-        [self AuthorizeExeCmd:nginx];
-        
-        NSString *php_version = [NSCommon getCommonConfig:PHP_C_VER_KEY];
-        NSString *php = [NSString stringWithFormat:@"%@bin/php/status.sh %@ start", rootDir, php_version];
-        [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", php, nil]] waitUntilExit];
-        
-        [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", [NSString stringWithFormat:@"%@bin/php/status.sh %@ start", rootDir, [NSCommon getCommonConfig:PHP_S_VER_KEY]], nil]] waitUntilExit];
-        
-        
-        NSArray* list = [NSCommon getAllPhpVer];
-        for (NSString* php_ver in list) {
-            if ([php_ver isEqualTo:[NSCommon getCommonConfig:PHP_C_VER_KEY]]
-                || [php_ver isEqualTo:[NSCommon getCommonConfig:PHP_S_VER_KEY]] ){
-            }else{
-                [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", [NSString stringWithFormat:@"%@bin/php/status.sh %@ start", rootDir, php_ver], nil]] waitUntilExit];
+        [NSCommon delayedRun:0 callback:^{
+            NSString *isflog = [NSCommon getCommonConfig:@"isStartAfterFlushLog"];
+            if ([isflog isEqualTo:@"1"]) {
+                [self startFlushLogContent];
             }
-        }
-        [self userCenter:@"启动成功"];
+            
+            NSString *addhost = [NSString stringWithFormat:@"%@Contents/Resources/addhost", appDir];
+            [self AuthorizeExeCmd:addhost];
+            
+            [self startConfReplaceString];
+            sleep(0.1);
+            
+            NSString *nginx = [NSString stringWithFormat:@"%@bin/startNginx.sh", rootDir];
+            [self AuthorizeExeCmd:nginx];
+            
+            NSString *php_version = [NSCommon getCommonConfig:PHP_C_VER_KEY];
+            NSString *php = [NSString stringWithFormat:@"%@bin/php/status.sh %@ start", rootDir, php_version];
+            [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", php, nil]] waitUntilExit];
+            
+            [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", [NSString stringWithFormat:@"%@bin/php/status.sh %@ start", rootDir, [NSCommon getCommonConfig:PHP_S_VER_KEY]], nil]] waitUntilExit];
+            
+            
+            NSArray* list = [NSCommon getAllPhpVer];
+            for (NSString* php_ver in list) {
+                if ([php_ver isEqualTo:[NSCommon getCommonConfig:PHP_C_VER_KEY]]
+                    || [php_ver isEqualTo:[NSCommon getCommonConfig:PHP_S_VER_KEY]] ){
+                }else{
+                    [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", [NSString stringWithFormat:@"%@bin/php/status.sh %@ start", rootDir, php_ver], nil]] waitUntilExit];
+                }
+            }
+            [self userCenter:@"启动成功"];
+        }];
+
     }
 }
 
@@ -390,20 +393,24 @@
     
     if([title isEqual:@"stop"]){
         
-        NSString *nginx = [NSString stringWithFormat:@"%@bin/stopNginx.sh", rootDir];
-        [self AuthorizeExeCmd:nginx];
-        
-        NSString *php_version = [NSCommon getCommonConfig:PHP_C_VER_KEY];
-        NSString *php = [NSString stringWithFormat:@"%@bin/php/status.sh %@ stop", rootDir, php_version];
-        [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", php, nil]] waitUntilExit];
-        
-        [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", [NSString stringWithFormat:@"%@bin/php/status.sh %@ stop", rootDir, [NSCommon getCommonConfig:PHP_S_VER_KEY]], nil]] waitUntilExit];
-        
-        NSString *removehost = [NSString stringWithFormat:@"%@Contents/Resources/removehost", appDir];
-        [self AuthorizeExeCmd:removehost];
-        
-        [self stopConfReplaceString];
-        [self userCenter:@"停止成功"];
+        [NSCommon delayedRun:0 callback:^{
+            
+            NSString *nginx = [NSString stringWithFormat:@"%@bin/stopNginx.sh", rootDir];
+            [self AuthorizeExeCmd:nginx];
+            
+            NSString *php_version = [NSCommon getCommonConfig:PHP_C_VER_KEY];
+            NSString *php = [NSString stringWithFormat:@"%@bin/php/status.sh %@ stop", rootDir, php_version];
+            [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", php, nil]] waitUntilExit];
+            
+            [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", [NSString stringWithFormat:@"%@bin/php/status.sh %@ stop", rootDir, [NSCommon getCommonConfig:PHP_S_VER_KEY]], nil]] waitUntilExit];
+            
+            NSString *removehost = [NSString stringWithFormat:@"%@Contents/Resources/removehost", appDir];
+            [self AuthorizeExeCmd:removehost];
+            
+            [self stopConfReplaceString];
+            [self userCenter:@"停止成功"];
+        }];
+    
     }
 }
 
