@@ -46,7 +46,7 @@ version 5.1.1 , 能登入mysql{55-80}, 需要php>70 , 默认mysql80 , 端口:330
 - 4.0.0.6(b3)[288MB] - 不包括MySQL - [官方下载](https://github.com/midoks/mdserver-mac/releases/download/4.0.0.6/mdserver4.0.0.6.b3.mpkg.zip)
 
 ```
-下载版本中，mysql57,mysql80集成。其他皆需要现在执行Install,再执行。
+下载版本中，mysql80集成。其他皆需要现在执行Install,再执行。
 为了全版本兼容，可同时开始开启。端口默认如下,也可以自定义。
 MySQL51 - port:3351
 MySQL55 - port:3355
