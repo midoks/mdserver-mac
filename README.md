@@ -100,7 +100,6 @@ sudo sh /Applications/mdserver/install.sh
 
 ### 联系我
 - e-mail:midoks@163.com
-- https://t.me/midoks
 
 ### Stargazers over time
 
