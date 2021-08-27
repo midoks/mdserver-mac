@@ -33,7 +33,7 @@ MySQL[50,51,55,56,57,80]
 
 ### ***phpMyAdmin***
 
-根据选中php版本，自动识别打开版本。需要试用mysql默认以外的版本，需要修改phpMysql相应配置问题。
+根据选中php版本，自动识别打开版本。需要试用mysql默认以外的版本，需要修改phpMyAdmin相应配置问题。
 
 ```
 version 4.1.9 , 能登入mysql{50-57}, 需要php<70 , 默认mysql56 , 端口:3356 | http://localhost:8888/phpMyAdmin/
