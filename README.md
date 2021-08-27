@@ -21,14 +21,14 @@ Mac上高度可定制的PHP开发环境,集成必要的扩展,方便使用。
 - ***PHP版本集成***
 
 ```
-php[55,56,71,72,73,74,80]
+php[55,56,71,72,73,74,80,81]
 [redis,memecached,mongo,memcached,yaf,swoole,xhprof,...]
 ```
 
 - ***MYSQL版本集成***
 
 ```
-MySQL[51,55,56,57,80]
+MySQL[50,51,55,56,57,80]
 ```
 
 ### 下载链接
@@ -45,6 +45,14 @@ MySQL57 - port:3357
 MySQL80 - port:3306
 ```
 
+- ***phpMyAdmin***
+
+根据选中php版本，自动识别打开版本。需要试用mysql默认以外的版本，需要修改phpMysql相应配置问题。
+
+```
+version 4.1.9 , 能登入mysql{50-57}, 需要php<70 , 默认mysql56 , 端口:3356
+version 5.1.1 , 能登入mysql{55-80}, 需要php>70 , 默认mysql80 , 端口:3306
+```
 
 ### 相关项目
 
@@ -67,11 +75,14 @@ sudo sh /Applications/mdserver/install.sh
 - 4.0.0.0
 
 ```
-* mysql51-80版本集成。
+* mysql50-80版本集成。
 * mysql{57,80}版本打包集成,其他需要手动Install。
 * redis,memcached,mongodb版本更新。
-* PHP8正式版。
-* PHP8扩展更新。
+* 加入PHP81测试版本。
+* 打开界面细节优化。
+* phpMyAdmin多版本集成。
+* 切换PHP版本时，自动开启相应未启动的版本。
+* 启动[Start]，开启所有配置的PHP版本。
 ```
 
 ### 文件说明

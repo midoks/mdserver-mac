@@ -1967,10 +1967,13 @@
 }
 
 #pragma mark - 程序加载时执行 -
+- (void)applicationWillUpdate:(NSNotification *)notification{
+    [self initCmdList];
+}
+
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     
     //初始化php版本信息
-    //    NSString *php_version = [NSCommon getCommonConfig:PHP_C_VER_KEY];
     [NSCommon setCommonConfig:PHP_C_VER_KEY value:@"55"];
     [NSCommon setCommonConfig:PHP_S_VER_KEY value:@"71"];
     [NSCommon setCommonConfig:MYSQL_C_VER_KEY value:@"80"];
