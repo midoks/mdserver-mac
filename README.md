@@ -72,7 +72,7 @@ sudo sh /Applications/mdserver/install.sh
 
 ### 版本版本
 
-- 4.0.0.0
+- 4.0.0.6
 
 ```
 * mysql50-80版本集成。
