@@ -1675,7 +1675,7 @@
 -(void)phpFpmCmdStop:(NSString *)version
 {
     NSString *rootDir = [NSCommon getRootDir];
-    NSString *cmd = [NSString stringWithFormat:@"%@bin/php/status.sh %@ stop", rootDir, version];
+    NSString *cmd = [NSString stringWithFormat:@"%@bin/php/status.sh %@ stopone", rootDir, version];
     [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", cmd, nil]] waitUntilExit];
 }
 
