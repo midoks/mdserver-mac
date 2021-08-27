@@ -31,6 +31,15 @@ php[55,56,71,72,73,74,80,81]
 MySQL[50,51,55,56,57,80]
 ```
 
+- ***phpMyAdmin***
+
+根据选中php版本，自动识别打开版本。需要试用mysql默认以外的版本，需要修改phpMysql相应配置问题。
+
+```
+version 4.1.9 , 能登入mysql{50-57}, 需要php<70 , 默认mysql56 , 端口:3356
+version 5.1.1 , 能登入mysql{55-80}, 需要php>70 , 默认mysql80 , 端口:3306
+```
+
 ### 下载链接
 
 - 4.0.0.0 - [官方下载](https://github.com/midoks/mdserver-mac/releases/download/4.0.0.0/mdserver4.0.0.0.mpkg.zip)
@@ -43,15 +52,6 @@ MySQL55 - port:3355
 MySQL56 - port:3356
 MySQL57 - port:3357
 MySQL80 - port:3306
-```
-
-- ***phpMyAdmin***
-
-根据选中php版本，自动识别打开版本。需要试用mysql默认以外的版本，需要修改phpMysql相应配置问题。
-
-```
-version 4.1.9 , 能登入mysql{50-57}, 需要php<70 , 默认mysql56 , 端口:3356
-version 5.1.1 , 能登入mysql{55-80}, 需要php>70 , 默认mysql80 , 端口:3306
 ```
 
 ### 相关项目
