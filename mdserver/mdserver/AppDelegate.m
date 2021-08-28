@@ -123,8 +123,10 @@
     NSString *ss = [NSString stringWithFormat:@"%@Contents/Resources/ss", app_dir];
     NSString *root_dir = [NSCommon getRootDir];
     
+    NSString *startNginx = [NSString stringWithFormat:@"%@bin/startNginx.sh", root_dir];
+    NSString *stopNginx = [NSString stringWithFormat:@"%@bin/stopNginx.sh", root_dir];
     NSString *redis = [NSString stringWithFormat:@"%@bin/redis.sh", root_dir];
-    NSArray *list = [[NSArray alloc] initWithObjects:addhost, removehost, ss, redis, nil];
+    NSArray *list = [[NSArray alloc] initWithObjects:addhost, removehost, ss, startNginx,stopNginx,redis, nil];
     
     if (self->_authRef) {
         //NSLog(@"ok");
@@ -174,7 +176,7 @@
     OSStatus  status_exe = AuthorizationExecuteWithPrivileges(self->_authRef, (void *)[file cStringUsingEncoding:NSASCIIStringEncoding], kAuthorizationFlagDefaults, args, nil);
     if (status_exe != 0)//errAuthorizationSuccess
     {
-        NSLog(@"AuthorizationExecuteWithPrivileges failed!:%d", status_exe);
+        NSLog(@"AuthorizationExecuteWithPrivileges failed!:%d:%@", status_exe,file);
         return;
     }
 #pragma clang diagnostic pop
