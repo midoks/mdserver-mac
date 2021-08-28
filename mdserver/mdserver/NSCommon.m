@@ -356,7 +356,9 @@
         
         id obj = [listContent objectForKey:key];
         NSString *php     = [obj objectForKey:@"php"];
-        [tmp addObject:php];
+        if ([php intValue]>50){
+            [tmp addObject:php];
+        }
     }
     NSArray *data = [[NSSet setWithArray:tmp] allObjects];
     return  data;
