@@ -135,10 +135,12 @@
         UInt32 count = (UInt32)[list count];
         AuthorizationItem authItem[count];
         AuthorizationRights authRights;
-        AuthorizationFlags flags  = kAuthorizationFlagDefaults |
-        kAuthorizationFlagInteractionAllowed    |
-        kAuthorizationFlagPreAuthorize          |
-        kAuthorizationFlagExtendRights;
+        AuthorizationFlags flags  = kAuthorizationFlagDefaults|
+        kAuthorizationFlagInteractionAllowed |
+        kAuthorizationFlagPreAuthorize |
+        kAuthorizationFlagExtendRights |
+        kAuthorizationFlagPartialRights |
+        kAuthorizationFlagPreAuthorize;
         
         authRights.count = (UInt32)count;
         //NSLog(@"count:%d", count);
