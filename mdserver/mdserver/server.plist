@@ -7,7 +7,7 @@
 		<key>hostname</key>
 		<string>localhost</string>
 		<key>path</key>
-		<string>/Users/midoks/Desktop/www/yii/</string>
+		<string>/Applications/mdserver/htdocs/www</string>
 		<key>php</key>
 		<string>55</string>
 		<key>port</key>
