@@ -41,7 +41,7 @@ version 5.1.1 , 能登入mysql{55-80}, 需要php>70 , 默认mysql80 , 端口:330
 
 ### 下载链接
 
-- 4.0.1.0[445MB] - [官方下载](https://github.com/midoks/mdserver-mac/releases/download/4.0.1.0/mdserver4.0.1.0.mpkg.zip)
+- 4.0.1.0[447MB] - [官方下载](https://github.com/midoks/mdserver-mac/releases/download/4.0.1.0/mdserver4.0.1.0.mpkg.zip)
 
 ```
 下载版本中，mysql80集成。其他皆需要现在执行Install,再执行。
