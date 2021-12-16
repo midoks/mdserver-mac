@@ -367,7 +367,7 @@
             NSString *addhost = [NSString stringWithFormat:@"cd %@ && ./addhost", supportDir];
 //采用新的授权的方式
 //          [self AuthorizeExeCmd:addhost];
-            NSLog(@"addhost:%@",addhost);
+            
             [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", addhost, nil]] waitUntilExit];
             [self startConfReplaceString];
             sleep(0.1);
