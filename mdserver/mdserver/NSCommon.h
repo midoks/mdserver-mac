@@ -36,6 +36,7 @@
 
 #pragma mark 获取app目录
 +(NSString *)getAppDir;
++ (NSString *)getSupportDir;
 
 
 #pragma mark HostCofig

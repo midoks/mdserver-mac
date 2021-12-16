@@ -147,6 +147,20 @@
     return str;
 }
 
++(NSString *)getBundleName{
+    NSDictionary *dir = [[NSBundle mainBundle] infoDictionary];
+    return [dir objectForKey:@"CFBundleName"];
+}
+
++ (NSString *)getSupportDir
+{
+//    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
+//    NSString *appSupportDirectory = [paths objectAtIndex:0];
+//    appSupportDirectory = [appSupportDirectory stringByAppendingFormat:@"/%@",@"mdserver"];
+//    return appSupportDirectory;
+    return @"/Library/Application\\ Support/mdserver";
+}
+
 +(BOOL)saveNginxConfig {
     
     [NSCommon setRemoveAllConfig];

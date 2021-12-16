@@ -15,6 +15,8 @@
 #define PHP_S_VER_KEY @"php_S_version"
 #define MYSQL_C_VER_KEY @"mysql_version"
 
+#define kMDHelper @"/Library/Application Support/mdserver/addhost"
+
 @interface AppDelegate () <NSUserNotificationCenterDelegate>
 
 @property IBOutlet NSWindow *window;
@@ -118,15 +120,18 @@
 -(BOOL)AuthorizeCreate
 {
     NSString *app_dir = [NSCommon getAppDir];
-    NSString *addhost = [NSString stringWithFormat:@"%@Contents/Resources/addhost", app_dir];
-    NSString *removehost = [NSString stringWithFormat:@"%@Contents/Resources/removehost", app_dir];
+//    NSString *addhost = [NSString stringWithFormat:@"%@Contents/Resources/addhost", app_dir];
+//    NSString *removehost = [NSString stringWithFormat:@"%@Contents/Resources/removehost", app_dir];
     NSString *ss = [NSString stringWithFormat:@"%@Contents/Resources/ss", app_dir];
     NSString *root_dir = [NSCommon getRootDir];
     
     NSString *startNginx = [NSString stringWithFormat:@"%@bin/startNginx.sh", root_dir];
     NSString *stopNginx = [NSString stringWithFormat:@"%@bin/stopNginx.sh", root_dir];
     NSString *redis = [NSString stringWithFormat:@"%@bin/redis.sh", root_dir];
-    NSArray *list = [[NSArray alloc] initWithObjects:addhost, removehost, ss, startNginx,stopNginx,redis, nil];
+    NSArray *list = [[NSArray alloc] initWithObjects:
+//采用新的授权方式
+//                     addhost, removehost,
+                     ss, startNginx,stopNginx,redis, nil];
     
     if (self->_authRef) {
         //NSLog(@"ok");
@@ -346,8 +351,9 @@
 #pragma mark - 启动服务 -
 - (void)startWebService
 {
-    NSString *appDir  = [NSCommon getAppDir];
+//    NSString *appDir  = [NSCommon getAppDir];
     NSString *rootDir   = [NSCommon getRootDir];
+    NSString *supportDir = [NSCommon getSupportDir];
     NSString *title = pStartTitle.stringValue;
     
     if ([title isEqual:@"start"]) {
@@ -358,9 +364,11 @@
                 [self startFlushLogContent];
             }
             
-            NSString *addhost = [NSString stringWithFormat:@"%@Contents/Resources/addhost", appDir];
-            [self AuthorizeExeCmd:addhost];
-            
+            NSString *addhost = [NSString stringWithFormat:@"cd %@ && ./addhost", supportDir];
+//采用新的授权的方式
+//          [self AuthorizeExeCmd:addhost];
+            NSLog(@"addhost:%@",addhost);
+            [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", addhost, nil]] waitUntilExit];
             [self startConfReplaceString];
             sleep(0.1);
             
@@ -392,7 +400,8 @@
 - (void)stopWebService
 {
     NSString *rootDir = [NSCommon getRootDir];
-    NSString *appDir = [NSCommon getAppDir];
+//    NSString *appDir = [NSCommon getAppDir];
+    NSString *supportDir = [NSCommon getSupportDir];
     NSString *title = pStartTitle.stringValue;
     
     if([title isEqual:@"stop"]){
@@ -408,8 +417,10 @@
             
             [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", [NSString stringWithFormat:@"%@bin/php/status.sh %@ stop", rootDir, [NSCommon getCommonConfig:PHP_S_VER_KEY]], nil]] waitUntilExit];
             
-            NSString *removehost = [NSString stringWithFormat:@"%@Contents/Resources/removehost", appDir];
-            [self AuthorizeExeCmd:removehost];
+            NSString *removehost = [NSString stringWithFormat:@"cd %@ && ./removehost", supportDir];
+            [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", removehost, nil]] waitUntilExit];
+//采用新的授权的方式
+//            [self AuthorizeExeCmd:removehost];
             
             [self stopConfReplaceString];
             [self userCenter:@"停止成功"];
@@ -461,6 +472,23 @@
         [self->pProgress setHidden:YES];
         [self->pProgress stopAnimation:nil];
     }];
+}
+
+#pragma mark - 一次性授权方式 -
+- (void)installHelp {
+    NSFileManager *fm = [NSFileManager defaultManager];
+    if (![fm fileExistsAtPath:kMDHelper]) {
+        NSString *helperPath = [NSString stringWithFormat:@"%@/%@", [[NSBundle mainBundle] resourcePath], @"install_helper.sh"];
+        NSLog(@"run install script: %@", helperPath);
+        NSDictionary *error;
+        NSString *script = [NSString stringWithFormat:@"do shell script \"/bin/bash \\\"%@\\\"\" with administrator privileges", helperPath];
+        NSAppleScript *appleScript = [[NSAppleScript new] initWithSource:script];
+        if ([appleScript executeAndReturnError:&error]) {
+            NSLog(@"installation success");
+        } else {
+            NSLog(@"installation failure: %@", error);
+        }
+    }
 }
 
 #pragma mark - 按钮启动 -
@@ -1994,6 +2022,7 @@
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
+    [self installHelp];
     
     //初始化php版本信息
     [NSCommon setCommonConfig:PHP_C_VER_KEY value:@"55"];
