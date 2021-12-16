@@ -1,8 +1,7 @@
-## mdserver(mac版) 4.0.0.6
+## mdserver(mac版) 4.0.1.0
 
 Mac上高度可定制的PHP开发环境,集成必要的扩展,方便使用。
 (pkg安装方式),安装方便,是你Mac上的PHP开发利器。
-
 
 
 - 支持80端口。
@@ -42,8 +41,7 @@ version 5.1.1 , 能登入mysql{55-80}, 需要php>70 , 默认mysql80 , 端口:330
 
 ### 下载链接
 
-- 4.0.0.6[445MB] - [官方下载](https://github.com/midoks/mdserver-mac/releases/download/4.0.0.6/mdserver4.0.0.6.mpkg.zip)
-- 4.0.0.6(b3)[275MB] - 不包括MySQL - [官方下载](https://github.com/midoks/mdserver-mac/releases/download/4.0.0.6/mdserver4.0.0.6.b3.mpkg.zip)
+- 4.0.1.0[445MB] - [官方下载](https://github.com/midoks/mdserver-mac/releases/download/4.0.1.0/mdserver4.0.1.0.mpkg.zip)
 
 ```
 下载版本中，mysql80集成。其他皆需要现在执行Install,再执行。
@@ -73,17 +71,12 @@ sudo sh /Applications/mdserver/install.sh
 
 ### 版本版本
 
-- 4.0.0.6
+- 4.0.1.0
 
 ```
-* mysql50-80版本集成，mysql80版本打包集成,其他需要手动Install。
-* 解决mysql{57,80}初始化问题。
-* redis,memcached,mongodb版本更新。
-* 加入PHP81测试版本。
-* 打开界面细节优化。
-* phpMyAdmin多版本集成。
-* 切换PHP版本时，自动开启相应未启动的版本。
-* 启动[Start]，开启所有配置的PHP版本。
+* 启动,停止优化(不再重复输入密码)。
+* 加入PHP81正式版本。
+* 细节优化。
 ```
 
 ### 文件说明
