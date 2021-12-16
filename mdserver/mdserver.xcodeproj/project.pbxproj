@@ -44,6 +44,7 @@
 		828B76101A860DEF0040DA32 /* stop@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 828B760E1A860DEF0040DA32 /* stop@2x.png */; };
 		828B76671A874C2D0040DA32 /* MySQLController.m in Sources */ = {isa = PBXBuildFile; fileRef = 828B76661A874C2D0040DA32 /* MySQLController.m */; };
 		829C3C25276B63EC00181B11 /* install_helper.sh in Resources */ = {isa = PBXBuildFile; fileRef = 829C3C24276B63EB00181B11 /* install_helper.sh */; };
+		829C3C27276B78E100181B11 /* script.sh in Resources */ = {isa = PBXBuildFile; fileRef = 829C3C26276B78E000181B11 /* script.sh */; };
 		82C366621D313DE80044B58C /* tool.png in Resources */ = {isa = PBXBuildFile; fileRef = 82C366611D313DE80044B58C /* tool.png */; };
 		82D9208E1A9C4D0800AFF5B1 /* weibo.png in Resources */ = {isa = PBXBuildFile; fileRef = 82D9208D1A9C4D0800AFF5B1 /* weibo.png */; };
 		82DDD0EE1A88B2A5002FFD4D /* common.plist in Resources */ = {isa = PBXBuildFile; fileRef = 82DDD0ED1A88B2A5002FFD4D /* common.plist */; };
@@ -114,6 +115,7 @@
 		828B76651A874C2D0040DA32 /* MySQLController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MySQLController.h; sourceTree = "<group>"; };
 		828B76661A874C2D0040DA32 /* MySQLController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MySQLController.m; sourceTree = "<group>"; };
 		829C3C24276B63EB00181B11 /* install_helper.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = install_helper.sh; sourceTree = "<group>"; };
+		829C3C26276B78E000181B11 /* script.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = script.sh; sourceTree = "<group>"; };
 		82C366611D313DE80044B58C /* tool.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tool.png; sourceTree = "<group>"; };
 		82D9208D1A9C4D0800AFF5B1 /* weibo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = weibo.png; sourceTree = "<group>"; };
 		82DDD0ED1A88B2A5002FFD4D /* common.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = common.plist; sourceTree = "<group>"; };
@@ -156,6 +158,7 @@
 		824CD7C41A7265E400668E6F /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				829C3C26276B78E000181B11 /* script.sh */,
 				829C3C24276B63EB00181B11 /* install_helper.sh */,
 				8255B51B1E7ECEC20068D35F /* restart.png */,
 				8255B51C1E7ECEC20068D35F /* restart@2x.png */,
@@ -381,6 +384,7 @@
 				82FDBB691A9ADAA80086E89B /* weixin.jpg in Resources */,
 				828B759F1A823AE10040DA32 /* webstart.png in Resources */,
 				828B75921A8239780040DA32 /* goto@2x.png in Resources */,
+				829C3C27276B78E100181B11 /* script.sh in Resources */,
 				828B75951A8239780040DA32 /* info.png in Resources */,
 				82D9208E1A9C4D0800AFF5B1 /* weibo.png in Resources */,
 				82409EEE1A90451700CE78F9 /* modMysqlPwd.sh in Resources */,

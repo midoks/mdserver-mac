@@ -17,4 +17,9 @@ sudo chown {$USER}:admin "/Library/Application Support/mdserver/removehost"
 sudo chmod a+rx "/Library/Application Support/mdserver/removehost"
 sudo chmod +s "/Library/Application Support/mdserver/removehost"
 
+sudo cp script.sh "/Library/Application Support/mdserver/"
+sudo chown {$USER}:admin "/Library/Application Support/mdserver/script.sh"
+sudo chmod a+rx "/Library/Application Support/mdserver/script.sh"
+sudo chmod +s "/Library/Application Support/mdserver/script.sh"
+
 echo done

@@ -372,8 +372,9 @@
             [self startConfReplaceString];
             sleep(0.1);
             
-            NSString *nginx = [NSString stringWithFormat:@"%@bin/startNginx.sh", rootDir];
-            [self AuthorizeExeCmd:nginx];
+            NSString *nginx = [NSString stringWithFormat:@"cd %@ && ./script.sh start", supportDir];
+//            [self AuthorizeExeCmd:nginx];
+            [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", nginx, nil]] waitUntilExit];
             
             NSString *php_version = [NSCommon getCommonConfig:PHP_C_VER_KEY];
             NSString *php = [NSString stringWithFormat:@"%@bin/php/status.sh %@ start", rootDir, php_version];
@@ -408,8 +409,9 @@
         
         [NSCommon delayedRun:0 callback:^{
             
-            NSString *nginx = [NSString stringWithFormat:@"%@bin/stopNginx.sh", rootDir];
-            [self AuthorizeExeCmd:nginx];
+            NSString *nginx = [NSString stringWithFormat:@"cd %@ && ./script.sh stop", supportDir];
+            [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", nginx, nil]] waitUntilExit];
+//            [self AuthorizeExeCmd:nginx];
             
             NSString *php_version = [NSCommon getCommonConfig:PHP_C_VER_KEY];
             NSString *php = [NSString stringWithFormat:@"%@bin/php/status.sh %@ stop", rootDir, php_version];
@@ -493,58 +495,55 @@
 
 #pragma mark - 按钮启动 -
 - (IBAction)start:(id)sender {
-    if ([self AuthorizeCreate]){
-        [self selfStart];
-    }
+//    if ([self AuthorizeCreate]){
+    [self selfStart];
+//    }
 }
 
 #pragma mark - 重新启动 -
 -(void)selfReStart
 {
-    if ([self AuthorizeCreate]){
-        if ([_StartServerStatus isEqual:@"starting"]) {
-            [NSCommon alert:@"正在启动或停止中,勿再点击!!!"];
-            return;
-        }
-        _StartServerStatus = @"starting";
-        NSString *title = pStartTitle.stringValue;
-        
-        [pProgress setHidden:NO];
-        [pProgress startAnimation:nil];
-        
-        if ([title isEqual:@"start"]) {
-            
-            _StartServerStatus = @"ended";
-            [pProgress setHidden:YES];
-            [pProgress stopAnimation:nil];
-            [self checkWebStatus];
-            [self alert:@"启动后,才能重启!!!"];
-            
-        }else if([title isEqual:@"stop"]){
-            
-            NSString *rootDir = [NSCommon getRootDir];
-            NSString *appDir  = [NSCommon getAppDir];
-            
-            NSString *removehost = [NSString stringWithFormat:@"%@Contents/Resources/removehost", appDir];
-            [self AuthorizeExeCmd:removehost];
-            NSString *addhost = [NSString stringWithFormat:@"%@Contents/Resources/addhost", appDir];
-            [self AuthorizeExeCmd:addhost];
-            
-            [self stopConfReplaceString];
-            [self startConfReplaceString];
-            
-            //NSLog(@"rootDir:%@",rootDir);
-            NSString *reload = [NSString stringWithFormat:@"%@bin/reloadSVC.sh", rootDir];
-            [self AuthorizeExeCmd:reload];
-        }
-        
-        [self delayedRun:1.0f callback:^{
-            self->_StartServerStatus = @"ended";
-            [self checkWebStatus];
-            [self->pProgress setHidden:YES];
-            [self->pProgress stopAnimation:nil];
-        }];
+    if ([_StartServerStatus isEqual:@"starting"]) {
+        [NSCommon alert:@"正在启动或停止中,勿再点击!!!"];
+        return;
     }
+    _StartServerStatus = @"starting";
+    NSString *title = pStartTitle.stringValue;
+    
+    [pProgress setHidden:NO];
+    [pProgress startAnimation:nil];
+    
+    if ([title isEqual:@"start"]) {
+        
+        _StartServerStatus = @"ended";
+        [pProgress setHidden:YES];
+        [pProgress stopAnimation:nil];
+        [self checkWebStatus];
+        [self alert:@"启动后,才能重启!!!"];
+        
+    }else if([title isEqual:@"stop"]){
+        
+        NSString *supportDir = [NSCommon getSupportDir];
+        
+        NSString *removehost = [NSString stringWithFormat:@"cd %@ && ./removehost", supportDir];
+        [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", removehost, nil]] waitUntilExit];
+        NSString *addhost = [NSString stringWithFormat:@"cd %@ && ./addhost", supportDir];
+        [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", addhost, nil]] waitUntilExit];
+        
+        [self stopConfReplaceString];
+        [self startConfReplaceString];
+        
+        //NSLog(@"rootDir:%@",rootDir);
+        NSString *reload = [NSString stringWithFormat:@"cd %@ && ./script.sh reload", supportDir];
+        [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", reload, nil]] waitUntilExit];
+    }
+    
+    [self delayedRun:1.0f callback:^{
+        self->_StartServerStatus = @"ended";
+        [self checkWebStatus];
+        [self->pProgress setHidden:YES];
+        [self->pProgress stopAnimation:nil];
+    }];
 }
 
 #pragma mark - 重启启动 -
