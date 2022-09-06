@@ -4,3 +4,6 @@ mdserver/mdserver.xcodeproj/project.xcworkspace/xcuserdata/midoks.xcuserdatad/Us
 .DS_Store
 build/release
 build/release.xcarchive
+build/debug
+build/debug.xcarchive
+build/debug/mdserver.app/Contents/Resources/ss

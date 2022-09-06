@@ -143,6 +143,7 @@
     str = [self getDirName:str];
     
 //    str = [NSString stringWithFormat:@"%@/mdserver/", str];
+//    NSLog(@"debug:%@", str);
     str = [NSString stringWithFormat:@"/Applications/mdserver/%@", @""];
     return str;
 }

@@ -95,7 +95,7 @@
 -(IBAction)goSequelPro:(id)sender
 {
     NSString *str           = [NSCommon getRootDir];
-    str = [NSString stringWithFormat:@"file://%@bin/Sequel Pro.app", str];
+    str = [NSString stringWithFormat:@"%@bin/Sequel Pro.app", str];
     [[NSTask launchedTaskWithLaunchPath:@"/usr/bin/open" arguments:[NSArray arrayWithObjects:str, nil]] waitUntilExit];
 
 }
