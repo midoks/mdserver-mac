@@ -1,4 +1,4 @@
-## mdserver(mac版) 4.0.1.0
+## mdserver(mac版) 4.0.2.0
 
 Mac上高度可定制的PHP开发环境,集成必要的扩展,方便使用。
 (pkg安装方式),安装方便,是你Mac上的PHP开发利器。
@@ -6,7 +6,7 @@ Mac上高度可定制的PHP开发环境,集成必要的扩展,方便使用。
 
 - 支持80端口。
 - OpenResty(1.15.8.3)支持Lua开发。
-- Redis(6.2.5),MongoDB(5.0.0),Memcached(1.6.10)。
+- Redis(7.0.4),MongoDB(5.0.0),Memcached(1.6.17)。
 - **php-fpm以sock文件方式管理。多php进程共存,快速切换开发。**
 - **高效控制PHP扩展安装、启动、停止、卸载。**
 - **完美再现安装过程，利于学习。**
@@ -20,7 +20,7 @@ Mac上高度可定制的PHP开发环境,集成必要的扩展,方便使用。
 - ***PHP版本集成***
 
 ```
-php[55,56,71,72,73,74,80,81]
+php[55,56,71,72,73,74,80,81,82]
 [redis,memecached,mongo,memcached,yaf,swoole,xhprof,...]
 ```
 
@@ -41,7 +41,7 @@ version 5.1.1 , 能登入mysql{55-80}, 需要php>70 , 默认mysql80 , 端口:330
 
 ### 下载链接
 
-- 4.0.1.0[447MB] - [官方下载](https://github.com/midoks/mdserver-mac/releases/download/4.0.1.0/mdserver4.0.1.0.mpkg.zip)
+- 4.0.2.0[500+MB] - [官方下载](https://github.com/midoks/mdserver-mac/releases/download/4.0.2.0/mdserver4.0.2.0.mpkg.zip)
 
 ```
 下载版本中，mysql80集成。其他皆需要现在执行Install,再执行。
@@ -71,12 +71,12 @@ sudo sh /Applications/mdserver/install.sh
 
 ### 版本版本
 
-- 4.0.1.0
+- 4.0.2.0
 
 ```
-* 启动,停止优化(不再重复输入密码)。
-* 加入PHP81正式版本。
-* 细节优化。
+* 修复Sequel Pro打开问题。
+* 加入PHP82版本。
+* 更新memcached,redis。
 ```
 
 ### 文件说明
@@ -93,7 +93,7 @@ sudo sh /Applications/mdserver/install.sh
 
 
 ### 联系我
-- e-mail:midoks@163.com
+- email:midoks@163.com
 
 ### Stargazers over time
 
