@@ -45,7 +45,7 @@
     NSAlert *alert = [[NSAlert alloc] init];
     [alert setMessageText:@"提示"];
     [alert setInformativeText:content];
-    [alert setAlertStyle:NSInformationalAlertStyle];
+    [alert setAlertStyle:NSAlertStyleInformational];
     [alert runModal];
 }
 

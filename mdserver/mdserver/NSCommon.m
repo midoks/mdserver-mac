@@ -20,7 +20,7 @@
     NSAlert *alert = [[NSAlert alloc] init];
     [alert setMessageText:@"提示"];
     [alert setInformativeText:content];
-    [alert setAlertStyle:NSInformationalAlertStyle];
+    [alert setAlertStyle:NSAlertStyleInformational];
     [alert runModal];
 }
 
@@ -29,7 +29,7 @@
     NSAlert *alert = [[NSAlert alloc] init];
     [alert setMessageText:@"提示"];
     [alert setInformativeText:content];
-    [alert setAlertStyle:NSInformationalAlertStyle];
+    [alert setAlertStyle:NSAlertStyleInformational];
     [alert runModal];
     
     //[alert cl];
@@ -130,22 +130,23 @@
 #pragma mark 获取运行根目录
 + (NSString *)getRootDir
 {
-    char path[1024];
-    unsigned size = 1024;
-    
-    _NSGetExecutablePath(path, &size);
-    path[size] = '\0';
-    
-    NSString *str = [NSString stringWithFormat:@"%s", path];
-    str = [self getDirName:str];
-    str = [self getDirName:str];
-    str = [self getDirName:str];
-    str = [self getDirName:str];
+//    char path[1024];
+//    unsigned size = 1024;
+//    
+//    _NSGetExecutablePath(path, &size);
+//    path[size] = '\0';
+//    
+//    NSString *str = [NSString stringWithFormat:@"%s", path];
+//    str = [self getDirName:str];
+//    str = [self getDirName:str];
+//    str = [self getDirName:str];
+//    str = [self getDirName:str];
     
 //    str = [NSString stringWithFormat:@"%@/mdserver/", str];
 //    NSLog(@"debug:%@", str);
-    str = [NSString stringWithFormat:@"/Applications/mdserver/%@", @""];
-    return str;
+//    return str;
+    NSString *root_path = [NSString stringWithFormat:@"/Applications/mdserver/%@", @""];
+    return root_path;
 }
 
 +(NSString *)getBundleName{

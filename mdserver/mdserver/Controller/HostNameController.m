@@ -191,7 +191,7 @@
             [alert setInformativeText:@"你是否确认删除有设置路径的配置"];
             [alert addButtonWithTitle:@"确定"];
             [alert addButtonWithTitle:@"取消"];
-            [alert setAlertStyle:NSInformationalAlertStyle];
+            [alert setAlertStyle:NSAlertStyleInformational];
             NSModalResponse r = [alert runModal];
             
             if (r != 1000) {
@@ -324,7 +324,7 @@
         [alert setInformativeText:@"你是否重新启动服务?"];
         [alert addButtonWithTitle:@"确定"];
         [alert addButtonWithTitle:@"取消"];
-        [alert setAlertStyle:NSInformationalAlertStyle];
+        [alert setAlertStyle:NSAlertStyleInformational];
         NSModalResponse r = [alert runModal];
         
         if (1001 == r) {
