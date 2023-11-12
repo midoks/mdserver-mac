@@ -1163,13 +1163,14 @@
 
 #pragma mark - 初始化PHP版本列表 -
 
--(NSMenu*)getPhpExtendsMenu:(NSString *) v
+-(NSMenu*)getPhpExtendsMenu:(NSString *) v extlib:(NSMutableDictionary *)extlib
 {
+//    NSLog(@"---log %@", v);
     NSFileManager *fm = [NSFileManager  defaultManager];
     NSMenu *extListMenu = [[NSMenu alloc] initWithTitle:v];
     
     NSString *rootDir           = [NSCommon getRootDir];
-    NSString *extDir = [NSString stringWithFormat:@"%@bin/reinstall/php%@", rootDir, v];
+    NSString *extDir = [NSString stringWithFormat:@"%@bin/reinstall/extensions", rootDir];
     NSArray *extList = [fm contentsOfDirectoryAtPath:extDir error:nil];
     
     NSString *content = @"";
@@ -1211,6 +1212,18 @@
     }];
     
     for (NSString *ee in __extList) {
+        //判断是否在支持的列表中 start
+        if (![[extlib allKeys] containsObject:ee]) {
+            continue;
+        }
+        
+        NSArray *lib_version = [extlib objectForKey:ee];
+        
+        if (![lib_version containsObject:v]) {
+            continue;
+        }
+        // NSLog(@"ext:%@:%@:%@", v,ee,lib_version);
+        //判断是否在支持的列表中 end
         
         NSMenu *extMenu = [[NSMenu alloc] initWithTitle:v];
         [extMenu addItemWithTitle:@"Install" action:@selector(phpExtInstall:) keyEquivalent:@""];
@@ -1245,7 +1258,7 @@
     NSMenuItem *ppMenu=[pMenu parentItem];
     NSMenuItem *pppMenu=[ppMenu parentItem];
     
-    NSString *installSh = [NSString stringWithFormat:@"%@bin/reinstall/php%@/%@/install.sh", rootDir, pppMenu.title,pMenu.title];
+    NSString *installSh = [NSString stringWithFormat:@"%@bin/reinstall/extensions/%@/install.sh", rootDir,pMenu.title];
     
     if (![NSCommon fileIsExists:installSh]){
         [self userCenter:[NSString stringWithFormat:@"PHP%@-%@扩展install脚本不存在!", pppMenu.title,pMenu.title]];
@@ -1279,7 +1292,7 @@
     NSMenuItem *ppMenu=[pMenu parentItem];
     NSMenuItem *pppMenu=[ppMenu parentItem];
     
-    NSString *installSh = [NSString stringWithFormat:@"%@bin/reinstall/php%@/%@/uninstall.sh", rootDir, pppMenu.title,pMenu.title];
+    NSString *installSh = [NSString stringWithFormat:@"%@bin/reinstall/extensions/%@/uninstall.sh", rootDir,pMenu.title];
     
     if (![NSCommon fileIsExists:installSh]){
         [self userCenter:[NSString stringWithFormat:@"PHP%@-%@扩展uninstall脚本不存在!", pppMenu.title,pMenu.title]];
@@ -1311,7 +1324,7 @@
     NSMenuItem *ppMenu=[pMenu parentItem];
     NSMenuItem *pppMenu=[ppMenu parentItem];
     
-    NSString *reloadSh = [NSString stringWithFormat:@"%@bin/reinstall/php%@/%@/reload.sh", rootDir, pppMenu.title,pMenu.title];
+    NSString *reloadSh = [NSString stringWithFormat:@"%@bin/reinstall/extensions/%@/reload.sh", rootDir,pMenu.title];
     
     if (![NSCommon fileIsExists:reloadSh]){
         [self userCenter:[NSString stringWithFormat:@"PHP%@-%@扩展reload脚本不存在!", pppMenu.title,pMenu.title]];
@@ -1338,11 +1351,11 @@
     
     NSMenuItem *cMenu = (NSMenuItem*)sender;
     NSMenuItem *pMenu=[cMenu parentItem];
-    NSMenuItem *ppMenu=[pMenu parentItem];
-    NSMenuItem *pppMenu=[ppMenu parentItem];
+//    NSMenuItem *ppMenu=[pMenu parentItem];
+//    NSMenuItem *pppMenu=[ppMenu parentItem];
     
     [NSCommon delayedRun:0 callback:^{
-        NSString *str = [NSString stringWithFormat:@"%@bin/reinstall/php%@/%@",rootDir,pppMenu.title,pMenu.title];
+        NSString *str = [NSString stringWithFormat:@"%@bin/reinstall/extensions/%@",rootDir,pMenu.title];
         BOOL isDir = YES;
         if ([fm fileExistsAtPath:str isDirectory:&isDir]){
             [[NSTask launchedTaskWithLaunchPath:@"/usr/bin/open" arguments:[NSArray arrayWithObjects:str, nil]] waitUntilExit];
@@ -1460,7 +1473,7 @@
     return NO;
 }
 
--(NSMenu*)getPhpVerMenu:(NSString *)title
+-(NSMenu*)getPhpVerMenu:(NSString *)title extlib:(NSMutableDictionary *)extlib
 {
     NSMenu *vMenu = [[NSMenu alloc] initWithTitle:title];
     
@@ -1477,13 +1490,58 @@
     [vMenu addItemWithTitle:@"Dir" action:@selector(phpDir:) keyEquivalent:@""];
     [vMenu addItemWithTitle:@"Extends Dir" action:@selector(phpExtendsDir:) keyEquivalent:@""];
     
-    NSMenu *extMenu = [self getPhpExtendsMenu:title];
+//    NSLog(@"init %@", @"ddd");
+    NSMenu *extMenu = [self getPhpExtendsMenu:title extlib:extlib];
     NSMenuItem *extItem = [[NSMenuItem alloc] initWithTitle:@"Extends"
                                                      action:NULL
                                               keyEquivalent:@""];
     [vMenu addItem:extItem];
     [vMenu setSubmenu:extMenu forItem:extItem];
     return vMenu;
+}
+
+#pragma mark - 读取PHP依赖关系 -
+-(NSMutableDictionary *)readPhpExtLib {
+    NSString *rootDir           = [NSCommon getRootDir];
+    NSString *extensionsLibFile = [NSString stringWithFormat:@"%@bin/reinstall/extensions/lib.md", rootDir];
+    NSMutableDictionary *result = [[NSMutableDictionary alloc] init];
+    NSFileManager *fm = [NSFileManager  defaultManager];
+    
+    if (![fm fileExistsAtPath:extensionsLibFile]){
+        return result;
+    }
+
+    NSString *content = [NSString stringWithContentsOfFile:extensionsLibFile encoding:NSUTF8StringEncoding error:nil];
+    content = [content stringByTrimmingCharactersInSet:
+               [NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    NSArray *list = [content componentsSeparatedByString:@"\n"];
+    
+
+    for (int i=0; i<list.count; i++) {
+        NSString *dep =  [list[i] stringByTrimmingCharactersInSet:
+                   [NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        
+        NSArray *dep_list = [dep componentsSeparatedByString:@"|"];
+        if (dep_list.count < 2){
+            continue;
+        }
+        NSMutableArray *dep_version = [[NSMutableArray alloc] init];
+        
+        NSString *libname = [dep_list[0] stringByTrimmingCharactersInSet:
+                            [NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    
+        NSString *version =[dep_list[1] stringByTrimmingCharactersInSet:
+                            [NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        NSArray *dep_version_t = [version componentsSeparatedByString:@","];
+
+        for (int i=0; i<dep_version_t.count; i++) {
+            NSString *version_t = [dep_version_t[i] stringByTrimmingCharactersInSet:
+                              [NSCharacterSet whitespaceAndNewlineCharacterSet]];
+            [dep_version addObject:version_t];
+        }
+        [result setObject:dep_version forKey:libname];
+    }
+    return result;
 }
 
 -(void)initPhpList
@@ -1522,8 +1580,10 @@
         return NO;
     }];
     
+    
+    NSMutableDictionary *extlib = [self readPhpExtLib];
     for (NSString *f in _phpVlist) {
-        NSMenu *vMenu = [self getPhpVerMenu:f];
+        NSMenu *vMenu = [self getPhpVerMenu:f extlib:extlib];
         
         NSMenuItem *vItem = [[NSMenuItem alloc] initWithTitle:f
                                                        action:@selector(phpStatusSet:)

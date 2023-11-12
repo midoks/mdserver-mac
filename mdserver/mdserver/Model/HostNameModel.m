@@ -17,7 +17,7 @@
         _hostname = @"localhost";
         _port = @"8888";
         _path = @"";
-        _php = @"55";
+        _php = @"56";
     }
     return self;
 }
