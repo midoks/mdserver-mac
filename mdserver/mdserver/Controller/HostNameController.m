@@ -160,7 +160,7 @@
 {
     NSString *hostname = [NSString stringWithFormat:@"host-%ld", [_list count]+1];
     NSString *port = _gPort.stringValue;
-    NSString *php = @"55";
+    NSString *php = @"71";
     [_serverName setStringValue:hostname];
     [_serverPort setStringValue:port];
     [_serverPHPVer setStringValue:php];
@@ -236,11 +236,11 @@
         {
             NSString *urlstr = [NSString stringWithFormat:@"%@htdocs/www/", str];
             [[listContent objectForKey:pos] setObject:urlstr forKey:@"path"];
-            [[listContent objectForKey:pos] setObject:@"55" forKey:@"php"];
+            [[listContent objectForKey:pos] setObject:@"71" forKey:@"php"];
         }
         
         if (![[listContent objectForKey:pos] objectForKey:@"php"]){
-             [[listContent objectForKey:pos] setObject:@"55" forKey:@"php"];
+             [[listContent objectForKey:pos] setObject:@"71" forKey:@"php"];
         }
         
         [_list addObject:t];

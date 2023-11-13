@@ -141,10 +141,11 @@
 //    str = [self getDirName:str];
 //    str = [self getDirName:str];
 //    str = [self getDirName:str];
-    
+//    
 //    str = [NSString stringWithFormat:@"%@/mdserver/", str];
 //    NSLog(@"debug:%@", str);
 //    return str;
+//    /Users/midoks/Library/Developer/Xcode/DerivedData
     NSString *root_path = [NSString stringWithFormat:@"/Applications/mdserver/%@", @""];
     return root_path;
 }

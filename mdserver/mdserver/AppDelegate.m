@@ -600,15 +600,8 @@
 {
     NSString *title = [pStartTitle stringValue];
     if ([title isEqual:@"stop"]) {
-        
-        NSString *phpVer = [NSCommon getCommonConfig:@"selectPhpVer"];
-        
-        if ([phpVer intValue]>70){
-            [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://localhost:8888/phpMyAdmin7/"]];
-        }  else {
-            [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://localhost:8888/phpMyAdmin/"]];
-        }
-        
+//        NSString *phpVer = [NSCommon getCommonConfig:@"selectPhpVer"];
+        [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://localhost:8888/phpMyAdmin/"]];
     }else{
         [self alert:@"web服务未启动"];
     }
@@ -1436,7 +1429,7 @@
         shName = @"unload";
     }
     
-    NSString *installSh = [NSString stringWithFormat:@"%@bin/reinstall/php%@/%@/%@.sh", rootDir, ppMenu.title,cMenu.title, shName];
+    NSString *installSh = [NSString stringWithFormat:@"%@bin/reinstall/extensions/%@/%@.sh", rootDir,cMenu.title, shName];
     if (![NSCommon fileIsExists:installSh]){
         [self userCenter:[NSString stringWithFormat:@"PHP%@-%@扩展%@脚本不存在!", ppMenu.title,cMenu.title,shName]];
         return;
@@ -2084,8 +2077,8 @@
     [self installHelp];
     
     //初始化php版本信息
-    [NSCommon setCommonConfig:PHP_C_VER_KEY value:@"55"];
-    [NSCommon setCommonConfig:PHP_S_VER_KEY value:@"71"];
+    [NSCommon setCommonConfig:PHP_C_VER_KEY value:@"71"];
+    [NSCommon setCommonConfig:PHP_S_VER_KEY value:@"81"];
     [NSCommon setCommonConfig:MYSQL_C_VER_KEY value:@"80"];
     [NSCommon setCommonConfig:@"isOpenModMySQLPwdWindow" value:@"no"];
     
