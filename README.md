@@ -49,7 +49,7 @@ MySQL[50,51,55,56,57,80]
 
 ### 下载链接
 
-- 4.0.2.0[500+MB] - [官方下载](https://github.com/midoks/mdserver-mac/releases/download/4.0.2.0/mdserver4.0.2.0.mpkg.zip)
+- 5.0[500+MB] - [官方下载](https://github.com/midoks/mdserver-mac/releases/download/5.0/mdserver5.0.arm64.mpkg.zip)
 
 ```
 下载版本中，mysql80集成。其他皆需要现在执行Install,再执行。
@@ -86,6 +86,7 @@ sudo sh /Applications/mdserver/install.sh
 - 5.0
 
 ```
+* mac m2编译(arm64)架构。
 * 重新调整php扩展管理方式,减少维护成本。
 * 加入PHP83版本。
 * 调整了phpmysqladmin访问方式。
