@@ -579,7 +579,17 @@
 {
     NSString *title = [pStartTitle stringValue];
     if ([title isEqual:@"stop"]) {
-        [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://localhost:8888/rockmongo/"]];
+        
+        // 放弃治疗,推荐使用官方管理管理
+        NSFileManager *fm = [NSFileManager defaultManager];
+        NSString *root = [NSCommon getRootDir];
+        NSString *webDir = [NSString stringWithFormat:@"%@htdocs/mongoadmin", root];
+        
+        if ([fm fileExistsAtPath:webDir]){
+            [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://localhost:8888/mongoadmin/"]];
+        } else{
+            [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://www.mongodb.com/try/download/compass"]];
+        }
     }else{
         [self alert:@"web服务未启动"];
     }
@@ -2078,7 +2088,7 @@
     
     //初始化php版本信息
     [NSCommon setCommonConfig:PHP_C_VER_KEY value:@"71"];
-    [NSCommon setCommonConfig:PHP_S_VER_KEY value:@"81"];
+    [NSCommon setCommonConfig:PHP_S_VER_KEY value:@"56"];
     [NSCommon setCommonConfig:MYSQL_C_VER_KEY value:@"80"];
     [NSCommon setCommonConfig:@"isOpenModMySQLPwdWindow" value:@"no"];
     
