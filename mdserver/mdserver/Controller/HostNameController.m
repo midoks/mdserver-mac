@@ -35,7 +35,7 @@
         
         [self reloadListData];
         
-        _phplist = [[NSMutableArray alloc] init];
+        _phplist = [NSMutableArray array];
         NSFileManager *fm = [NSFileManager  defaultManager];
         NSString *rootDir           = [NSCommon getRootDir];
         NSString *phpDir = [NSString stringWithFormat:@"%@bin/php", rootDir];
@@ -263,11 +263,11 @@
 {
 //    NSString *pathplist = [[NSBundle mainBundle] pathForResource:@"server" ofType:@"plist"];
     NSString *pathplist = [NSCommon getServerPlist];
-    NSMutableDictionary *dictplist  = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *dictplist = [NSMutableDictionary dictionary];
     NSUInteger c = 0;
     for (NSDictionary *i in _list)
     {
-        NSMutableDictionary *serverinfo = [[NSMutableDictionary alloc] init];
+        NSMutableDictionary *serverinfo = [NSMutableDictionary dictionary];
         [serverinfo setObject:[i objectForKey:@"hostname"] forKey:@"hostname"];
         [serverinfo setObject:[i objectForKey:@"port"] forKey:@"port"];
         [serverinfo setObject:[i objectForKey:@"path"] forKey:@"path"];

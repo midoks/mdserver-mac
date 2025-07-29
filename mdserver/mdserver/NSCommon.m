@@ -52,12 +52,17 @@
 #pragma mark 只执行一次方法
 +(void)runOneTime:(NSString *)sign run:(void(^)(void))run
 {
-    NSMutableDictionary *s = [[NSMutableDictionary alloc] init];
-    if(![s objectForKey:sign]){
+    static NSMutableSet *executedSigns = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        executedSigns = [NSMutableSet set];
+    });
+    
+    if (![executedSigns containsObject:sign]) {
         run();
-        [s setObject:sign forKey:sign];
+        [executedSigns addObject:sign];
     }
-    NSLog(@"ok:%@", s);
+    NSLog(@"Executed signs: %@", executedSigns);
 }
 
 #pragma mark 判断文件是否存在
@@ -71,30 +76,28 @@
 +(void)openFile:(NSString *)file
 {
     NSTask *task = [[NSTask alloc] init];
-    [task setLaunchPath:@"/usr/bin/open"];
-    [task setArguments:[NSArray arrayWithObject:file]];
+    task.launchPath = @"/usr/bin/open";
+    task.arguments = @[file];
     [task launch];
 }
 
 #pragma mark 获取进程执行结构
 +(void)getProcessReturn:(NSString *)pathsh
 {
-    NSTask *task= [[NSTask alloc] init];
-    [task setLaunchPath: @"/bin/sh"];
-    
-    NSArray *arguments = [NSArray arrayWithObjects: @"-c", pathsh, nil];
-    [task setArguments: arguments];
+    NSTask *task = [[NSTask alloc] init];
+    task.launchPath = @"/bin/sh";
+    task.arguments = @[@"-c", pathsh];
     
     NSPipe *pipe = [NSPipe pipe];
-    [task setStandardOutput:pipe];
+    task.standardOutput = pipe;
     
-    NSFileHandle *file = [pipe fileHandleForReading];
+    NSFileHandle *file = pipe.fileHandleForReading;
     [task launch];
     
     NSData *data = [file readDataToEndOfFile];
     NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-    NSLog (@"got:%@|dd\n", string);
-    NSLog(@"%d", task.terminationStatus);
+    NSLog(@"Process output: %@", string);
+    NSLog(@"Exit status: %d", task.terminationStatus);
 }
 
 
@@ -168,10 +171,10 @@
     
     [NSCommon setRemoveAllConfig];
 
-    NSMutableArray *list = [[NSMutableArray alloc] init];
+    NSMutableArray *list = [NSMutableArray array];
     NSString *pathplist = [NSCommon getServerPlist];
 //    NSString *pathplist = [[NSBundle mainBundle] pathForResource:@"server" ofType:@"plist"];
-    NSMutableDictionary *listContent = [[NSMutableDictionary alloc] initWithContentsOfFile:pathplist];
+    NSMutableDictionary *listContent = [NSMutableDictionary dictionaryWithContentsOfFile:pathplist];
     
     for (NSMutableDictionary *k in listContent) {
         [list addObject:[listContent objectForKey:k]];

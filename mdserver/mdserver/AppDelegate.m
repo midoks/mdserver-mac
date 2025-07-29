@@ -83,20 +83,20 @@
     });
 }
 
-#pragma mark 如果你希望调用系统命
+#pragma mark 如果你希望调用系统命令
 - (void)runSystemCommand:(NSString *)cmd
 {
-    [[NSTask launchedTaskWithLaunchPath:@"/bin/sh"
-                              arguments:[NSArray arrayWithObjects:@"-c", cmd, nil]]
-     waitUntilExit];
+    NSTask *task = [NSTask launchedTaskWithLaunchPath:@"/bin/sh"
+                                            arguments:@[@"-c", cmd]];
+    [task waitUntilExit];
 }
 
 #pragma mark 打开文件
 -(void)openFile:(NSString *)file
 {
     NSTask *task = [[NSTask alloc] init];
-    [task setLaunchPath:@"/usr/bin/open"];
-    [task setArguments:[NSArray arrayWithObject:file]];
+    task.launchPath = @"/usr/bin/open";
+    task.arguments = @[file];
     [task launch];
 }
 
@@ -128,10 +128,11 @@
     NSString *startNginx = [NSString stringWithFormat:@"%@bin/startNginx.sh", root_dir];
     NSString *stopNginx = [NSString stringWithFormat:@"%@bin/stopNginx.sh", root_dir];
     NSString *redis = [NSString stringWithFormat:@"%@bin/redis.sh", root_dir];
-    NSArray *list = [[NSArray alloc] initWithObjects:
+    NSArray *list = @[
 //采用新的授权方式
 //                     addhost, removehost,
-                     ss, startNginx,stopNginx,redis, nil];
+                     ss, startNginx, stopNginx, redis
+    ];
     
     if (self->_authRef) {
         //NSLog(@"ok");
@@ -193,26 +194,20 @@
 #pragma mark 获取进程
 -(void)getProcess
 {
-    NSTask *task= [[NSTask alloc] init];
-    [task setLaunchPath: @"/bin/ps"];
+    NSTask *task = [[NSTask alloc] init];
+    task.launchPath = @"/bin/ps";
+    task.arguments = @[@"-ef", @"", @"grep php"];
     
-    NSArray *arguments;
-    arguments = [NSArray arrayWithObjects: @"-ef", @"", @"grep php", nil];
-    [task setArguments: arguments];
+    NSPipe *pipe = [NSPipe pipe];
+    task.standardOutput = pipe;
     
-    NSPipe *pipe;
-    pipe = [NSPipe pipe];
-    [task setStandardOutput: pipe];
-    
-    NSFileHandle *file;
-    file = [pipe fileHandleForReading];
+    NSFileHandle *file = pipe.fileHandleForReading;
     [task launch];
     
-    NSData *data;
-    data = [file readDataToEndOfFile];
+    NSData *data = [file readDataToEndOfFile];
     NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-    NSLog (@"got\n%@", string);
-    NSLog(@"%@", task);
+    NSLog(@"Process list:\n%@", string);
+    NSLog(@"Task: %@", task);
 }
 
 
