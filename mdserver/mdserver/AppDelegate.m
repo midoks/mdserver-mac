@@ -926,7 +926,7 @@
 
 -(void)initCmdList
 {
-    [cmd.submenu removeAllItems];
+    NSMenu *newMenu = [[NSMenu alloc] initWithTitle:@"CMD"];
     
     NSFileManager *fm = [NSFileManager  defaultManager];
     NSString *rootDir           = [NSCommon getRootDir];
@@ -957,7 +957,7 @@
         if (!isDir){
             continue;
         }
-        if (![self checkMenuDir:f transmit:@"" path:path menu:cmd.submenu])
+        if (![self checkMenuDir:f transmit:@"" path:path menu:newMenu])
         {
             continue;
         }
@@ -969,16 +969,17 @@
         if ( [self checkCmdStatus:f] ){
             vItem.state = 1;
         }
-        [cmd.submenu addItem:vItem];
-        [cmd.submenu setSubmenu:vMenu forItem:vItem];
+        [newMenu addItem:vItem];
+        [newMenu setSubmenu:vMenu forItem:vItem];
     }
     
-    [cmd.submenu addItem:[NSMenuItem separatorItem]];
+    [newMenu addItem:[NSMenuItem separatorItem]];
     NSMenuItem *refresh = [[NSMenuItem alloc] initWithTitle:@"refresh"
                                                      action:@selector(cmdRefresh:)
                                               keyEquivalent:@""];
     refresh.state = 1;
-    [cmd.submenu addItem:refresh];
+    [newMenu addItem:refresh];
+    [cmd setSubmenu:newMenu];
 }
 
 -(void)cmdRefresh:(id)sender
@@ -1544,7 +1545,7 @@
 
 -(void)initPhpList
 {
-    [phpVer.submenu removeAllItems];
+    NSMenu *newMenu = [[NSMenu alloc] initWithTitle:@"PHP"];
     
     NSFileManager *fm = [NSFileManager  defaultManager];
     NSString *rootDir           = [NSCommon getRootDir];
@@ -1589,17 +1590,18 @@
         if ( [self checkWebPHP:f] ){
             vItem.state = 1;
         }
-        [phpVer.submenu addItem:vItem];
-        [phpVer.submenu setSubmenu:vMenu forItem:vItem];
+        [newMenu addItem:vItem];
+        [newMenu setSubmenu:vMenu forItem:vItem];
         i++;
     }
     
-    [phpVer.submenu addItem:[NSMenuItem separatorItem]];
+    [newMenu addItem:[NSMenuItem separatorItem]];
     NSMenuItem *refresh = [[NSMenuItem alloc] initWithTitle:@"refresh"
                                                      action:@selector(phpRefresh:)
                                               keyEquivalent:[NSString stringWithFormat:@"%d", 0]];
     refresh.state = 1;
-    [phpVer.submenu addItem:refresh];
+    [newMenu addItem:refresh];
+    [phpVer setSubmenu:newMenu];
 }
 
 -(void)phpInstall:(id)sender
@@ -1824,7 +1826,7 @@
 #pragma mark - 初始化MYSQL版本列表 -
 -(void)initMySQLList
 {
-    [mysqlVer.submenu removeAllItems];
+    NSMenu *newMenu = [[NSMenu alloc] initWithTitle:@"MYSQL"];
     
     NSFileManager *fm = [NSFileManager  defaultManager];
     NSString *rootDir           = [NSCommon getRootDir];
@@ -1869,18 +1871,25 @@
         if ( [self checkMysqlStatus:f] ){
             vItem.state = 1;
         }
-        [mysqlVer.submenu addItem:vItem];
-        [mysqlVer.submenu setSubmenu:vMenu forItem:vItem];
+        [newMenu addItem:vItem];
+        [newMenu setSubmenu:vMenu forItem:vItem];
         i++;
     }
     
-    [mysqlVer.submenu addItem:[NSMenuItem separatorItem]];
+    [newMenu addItem:[NSMenuItem separatorItem]];
     NSMenuItem *refresh = [[NSMenuItem alloc] initWithTitle:@"refresh"
                                                      action:@selector(mysqlRefresh:)
                                               keyEquivalent:@"!"];
     refresh.state = 1;
-    [mysqlVer.submenu addItem:refresh];
+    [newMenu addItem:refresh];
+    [mysqlVer setSubmenu:newMenu];
     
+}
+
+// Opt-in to secure restorable state to silence warnings on supported macOS versions
+- (BOOL)applicationSupportsSecureRestorableState:(NSApplication *)app
+{
+    return YES;
 }
 
 -(void)mysqlRefresh:(id)sender

@@ -110,7 +110,7 @@
                 </menuItem>
                 <menuItem title="CMD" id="0qH-Mk-cQl">
                     <modifierMask key="keyEquivalentModifierMask"/>
-                    <menu key="submenu" title="CMD" systemMenu="window" id="IwK-hp-vvF"/>
+                    <menu key="submenu" title="CMD" id="IwK-hp-vvF"/>
                 </menuItem>
                 <menuItem title="PHP" id="U5T-o3-HhE" userLabel="Php">
                     <modifierMask key="keyEquivalentModifierMask"/>
