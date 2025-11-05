@@ -78,7 +78,12 @@
 #pragma mark 跳到mysql日志
 -(IBAction)goMysqlLogPath:(id)sender
 {
-    [[NSTask launchedTaskWithLaunchPath:@"/usr/bin/open" arguments:[NSArray arrayWithObjects:[_mysqlLogPath URL], nil]] waitUntilExit];
+    NSString *logDir = [[_mysqlLogPath URL] path];
+    if (logDir.length == 0) {
+        NSString *abs = [[_mysqlLogPath URL] absoluteString];
+        logDir = [abs stringByReplacingOccurrencesOfString:@"file://" withString:@""];
+    }
+    [[NSTask launchedTaskWithLaunchPath:@"/usr/bin/open" arguments:@[logDir]] waitUntilExit];
 }
 
 #pragma mark - 辅助工具 -

@@ -80,8 +80,14 @@
 
 -(IBAction)goNginxErrorLog:(id)sender
 {
-    NSTask *task = [NSTask launchedTaskWithLaunchPath:@"/usr/bin/open" 
-                                            arguments:@[[_nginxLogPath URL]]];
+    NSString *logPath = [[_nginxLogPath URL] path];
+    if (logPath.length == 0) {
+        // Fallback: use absoluteString minus scheme if path is unavailable
+        NSString *abs = [[_nginxLogPath URL] absoluteString];
+        logPath = [abs stringByReplacingOccurrencesOfString:@"file://" withString:@""];
+    }
+    NSTask *task = [NSTask launchedTaskWithLaunchPath:@"/usr/bin/open"
+                                            arguments:@[logPath]];
     [task waitUntilExit];
 }
 

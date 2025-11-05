@@ -384,9 +384,15 @@
 #pragma mark NSPathControlDelegate
 - (IBAction)openCellDir:(id)sender
 {
-    NSURL *pathstring = [[_serverPath clickedPathComponentCell] URL];
-    NSString *dir = [[pathstring absoluteString] stringByReplacingOccurrencesOfString:@"file://" withString:@""];
-    [[NSTask launchedTaskWithLaunchPath:@"/usr/bin/open" arguments:[NSArray arrayWithObjects:dir, nil]] waitUntilExit];
+    NSPathControlItem *clickedItem = _serverPath.clickedPathItem;
+    NSURL *pathURL = clickedItem.URL;
+    NSString *dir = pathURL.path;
+    if (dir.length == 0) {
+        dir = [[pathURL absoluteString] stringByReplacingOccurrencesOfString:@"file://" withString:@""];
+    }
+    if (dir.length > 0) {
+        [[NSTask launchedTaskWithLaunchPath:@"/usr/bin/open" arguments:@[dir]] waitUntilExit];
+    }
 }
 
 -(IBAction)changeServerName:(id)sender

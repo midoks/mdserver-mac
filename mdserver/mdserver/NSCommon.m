@@ -8,7 +8,7 @@
 
 #import "NSCommon.h"
 
-@interface NSCommon()<NSUserNotificationCenterDelegate>
+@interface NSCommon()
 
 @end
 

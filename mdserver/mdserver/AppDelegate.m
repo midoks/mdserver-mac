@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import <ServiceManagement/ServiceManagement.h>
 #import <Security/Authorization.h>
+#import <UserNotifications/UserNotifications.h>
 #include <mach-o/dyld.h>
 
 #define PHP_C_VER_KEY @"php_version"
@@ -17,7 +18,7 @@
 
 #define kMDHelper @"/Library/Application Support/mdserver/addhost"
 
-@interface AppDelegate () <NSUserNotificationCenterDelegate>
+@interface AppDelegate ()
 
 @property IBOutlet NSWindow *window;
 @property (nonatomic, strong) NSString *StartServerStatus;
@@ -49,28 +50,27 @@
     [alert runModal];
 }
 
-#pragma mark 用户通知中心
-- (BOOL)userNotificationCenter:(NSUserNotificationCenter *)center shouldPresentNotification:(NSUserNotification *)notification
-{
-    return YES;
-}
-
 -(void)userCenter:(NSString *)content
 {
-    [[NSUserNotificationCenter defaultUserNotificationCenter] removeAllDeliveredNotifications];
-    for (NSUserNotification *notify in [[NSUserNotificationCenter defaultUserNotificationCenter] scheduledNotifications])
-    {
-        [[NSUserNotificationCenter defaultUserNotificationCenter] removeScheduledNotification:notify];
+    if (@available(macOS 10.14, *)) {
+        UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
+        UNAuthorizationOptions options = (UNAuthorizationOptionAlert | UNAuthorizationOptionSound);
+        [center requestAuthorizationWithOptions:options completionHandler:^(BOOL granted, NSError * _Nullable error) {
+            UNMutableNotificationContent *c = [[UNMutableNotificationContent alloc] init];
+            c.title = @"通知中心";
+            c.body = content ?: @"";
+            UNTimeIntervalNotificationTrigger *trigger = [UNTimeIntervalNotificationTrigger triggerWithTimeInterval:0.1 repeats:NO];
+            UNNotificationRequest *request = [UNNotificationRequest requestWithIdentifier:@"mdserver.local" content:c trigger:trigger];
+            [center addNotificationRequest:request withCompletionHandler:nil];
+        }];
+    } else {
+#if __MAC_OS_X_VERSION_MAX_ALLOWED < 101400
+        NSUserNotification *notification = [[NSUserNotification alloc] init];
+        notification.title = @"通知中心";
+        notification.informativeText = content;
+        [[NSUserNotificationCenter defaultUserNotificationCenter] scheduleNotification:notification];
+#endif
     }
-    
-    
-    NSUserNotification *notification = [[NSUserNotification alloc] init];
-    notification.title = @"通知中心";
-    notification.informativeText = content;
-    
-    //设置通知的代理
-    [[NSUserNotificationCenter defaultUserNotificationCenter] setDelegate:self];
-    [[NSUserNotificationCenter defaultUserNotificationCenter] scheduleNotification:notification];
 }
 
 #pragma mark 延迟执行
@@ -824,11 +824,23 @@
 -(void)setBarStatus
 {
     statusBarItem = [[NSStatusBar systemStatusBar] statusItemWithLength:23.0];
-    statusBarItem.image = [NSImage imageNamed:@"mIcon"];
-    statusBarItem.alternateImage = [NSImage imageNamed:@"mIcon"];
+    if (statusBarItem.button != nil) {
+        statusBarItem.button.image = [NSImage imageNamed:@"mIcon"];
+        statusBarItem.button.alternateImage = [NSImage imageNamed:@"mIcon"];
+        statusBarItem.button.toolTip = @"mdserver is NOT Running";
+        [statusBarItem.button.cell setHighlightsBy:(NSPushInCellMask | NSChangeBackgroundCellMask)];
+    }
+#if __MAC_OS_X_VERSION_MAX_ALLOWED < 101400
+    else {
+        statusBarItem.image = [NSImage imageNamed:@"mIcon"];
+        statusBarItem.alternateImage = [NSImage imageNamed:@"mIcon"];
+        statusBarItem.toolTip = @"mdserver is NOT Running";
+    }
+#endif
     statusBarItem.menu = statusBarItemMenu;
-    statusBarItem.toolTip = @"mdserver is NOT Running";
+#if __MAC_OS_X_VERSION_MAX_ALLOWED < 101400
     [statusBarItem setHighlightMode:YES];
+#endif
 }
 
 #pragma mark - 初始化CMD列表 -
@@ -926,7 +938,10 @@
 
 -(void)initCmdList
 {
-    NSMenu *newMenu = [[NSMenu alloc] initWithTitle:@"CMD"];
+    NSMenu *newMenu = [cmd submenu];
+    for (NSInteger i = newMenu.numberOfItems - 1; i >= 0; i--) {
+        [newMenu removeItemAtIndex:i];
+    }
     
     NSFileManager *fm = [NSFileManager  defaultManager];
     NSString *rootDir           = [NSCommon getRootDir];
@@ -979,7 +994,7 @@
                                               keyEquivalent:@""];
     refresh.state = 1;
     [newMenu addItem:refresh];
-    [cmd setSubmenu:newMenu];
+    // Submenu already attached via XIB; avoid reassigning to prevent inconsistencies
 }
 
 -(void)cmdRefresh:(id)sender
@@ -1545,7 +1560,10 @@
 
 -(void)initPhpList
 {
-    NSMenu *newMenu = [[NSMenu alloc] initWithTitle:@"PHP"];
+    NSMenu *newMenu = [phpVer submenu];
+    for (NSInteger i = newMenu.numberOfItems - 1; i >= 0; i--) {
+        [newMenu removeItemAtIndex:i];
+    }
     
     NSFileManager *fm = [NSFileManager  defaultManager];
     NSString *rootDir           = [NSCommon getRootDir];
@@ -1601,7 +1619,7 @@
                                               keyEquivalent:[NSString stringWithFormat:@"%d", 0]];
     refresh.state = 1;
     [newMenu addItem:refresh];
-    [phpVer setSubmenu:newMenu];
+    // Submenu already attached in XIB
 }
 
 -(void)phpInstall:(id)sender
@@ -1679,7 +1697,21 @@
             [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", loadEnv, nil]] waitUntilExit];
             
             sleep(1);
-            [[NSWorkspace sharedWorkspace] launchApplication:@"Terminal"];
+            if (@available(macOS 10.15, *)) {
+                NSURL *terminalURL = [NSURL fileURLWithPath:@"/System/Applications/Utilities/Terminal.app" isDirectory:YES];
+                NSWorkspaceOpenConfiguration *config = [NSWorkspaceOpenConfiguration configuration];
+                config.activates = YES;
+                [[NSWorkspace sharedWorkspace] openApplicationAtURL:terminalURL configuration:config completionHandler:^(NSRunningApplication * _Nullable app, NSError * _Nullable error) {
+                    if (error) {
+                        // Fallback: open the Terminal app bundle URL directly
+                        [[NSWorkspace sharedWorkspace] openURL:terminalURL];
+                    }
+                }];
+            } else {
+#if __MAC_OS_X_VERSION_MAX_ALLOWED < 110000
+                [[NSWorkspace sharedWorkspace] launchApplication:@"Terminal"];
+#endif
+            }
         }];
     }
     
@@ -1826,7 +1858,10 @@
 #pragma mark - 初始化MYSQL版本列表 -
 -(void)initMySQLList
 {
-    NSMenu *newMenu = [[NSMenu alloc] initWithTitle:@"MYSQL"];
+    NSMenu *newMenu = [mysqlVer submenu];
+    for (NSInteger i = newMenu.numberOfItems - 1; i >= 0; i--) {
+        [newMenu removeItemAtIndex:i];
+    }
     
     NSFileManager *fm = [NSFileManager  defaultManager];
     NSString *rootDir           = [NSCommon getRootDir];
@@ -1882,8 +1917,8 @@
                                               keyEquivalent:@"!"];
     refresh.state = 1;
     [newMenu addItem:refresh];
-    [mysqlVer setSubmenu:newMenu];
-    
+    // Submenu already attached in XIB
+
 }
 
 // Opt-in to secure restorable state to silence warnings on supported macOS versions
@@ -2083,9 +2118,12 @@
 }
 
 #pragma mark - 程序加载时执行 -
-- (void)applicationWillUpdate:(NSNotification *)notification{
-    [self initCmdList];
-}
+ // Avoid rebuilding menus during AppKit update cycles to prevent menu inconsistencies
+ // - Remove eager rebuild from applicationWillUpdate
+ // - We now rebuild in applicationDidFinishLaunching and applicationDidBecomeActive
+ //- (void)applicationWillUpdate:(NSNotification *)notification{
+ //    [self initCmdList];
+ //}
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     [self installHelp];
@@ -2128,20 +2166,22 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(selfphpMsgStart:) name: @"startPhpVerInChange" object:nil];
 }
 
--(void) applicationWillBecomeActive:(NSNotification *)notification
-{
-    [self initCmdList];
-    [self initPhpList];
-    [self initMySQLList];
-    
-    [self checkWebStatus];
-    
-    [self checkRedisStatus];
-    [self checkMongoStatus];
-    [self checkMemcachedStatus];
-    [self checkMySQLOnStatus];
-    
-}
+ -(void) applicationDidBecomeActive:(NSNotification *)notification
+ {
+     // Defer menu rebuild slightly to avoid racing with system Services population
+     [NSCommon delayedRun:0.05 callback:^{
+         [self initCmdList];
+         [self initPhpList];
+         [self initMySQLList];
+         
+         [self checkWebStatus];
+         
+         [self checkRedisStatus];
+         [self checkMongoStatus];
+         [self checkMemcachedStatus];
+         [self checkMySQLOnStatus];
+     }];
+ }
 
 #pragma mark - 点击dock应用图标重新弹出主窗口
 -(BOOL)applicationShouldHandleReopen:(NSApplication *)theApplication
